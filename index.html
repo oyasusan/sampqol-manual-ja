@@ -1,0 +1,1502 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>SampQOL OS マニュアル（日本語訳）</title>
+<meta name="description" content="MPC Sample 用 Mod「SampQOL OS 0.2.0」のマニュアル非公式日本語訳。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+:root{
+  --bg:#fbfaf7;--fg:#1d1d1f;--muted:#5f6368;--line:#dedbd3;--card:#ffffff;
+  --accent:#c2410c;--accent-soft:#fdeee4;--link:#0b5cad;
+  --tip-bg:#eef6ee;--tip-bar:#2e7d32;--imp-bg:#fdeeee;--imp-bar:#c62828;--note-bg:#fff6e0;--note-bar:#b7791f;
+  --th:#f0ede6;--code:#f0ede6;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121316;--fg:#e6e6e8;--muted:#9aa0a6;--line:#2c2f36;--card:#1a1c21;
+    --accent:#ff9a62;--accent-soft:#2a1e16;--link:#7db8ff;
+    --tip-bg:#16241a;--tip-bar:#5fb865;--imp-bg:#2a1717;--imp-bar:#ef6b6b;--note-bg:#2a2314;--note-bar:#e0b04a;
+    --th:#23262d;--code:#23262d;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121316;--fg:#e6e6e8;--muted:#9aa0a6;--line:#2c2f36;--card:#1a1c21;
+  --accent:#ff9a62;--accent-soft:#2a1e16;--link:#7db8ff;
+  --tip-bg:#16241a;--tip-bar:#5fb865;--imp-bg:#2a1717;--imp-bar:#ef6b6b;--note-bg:#2a2314;--note-bar:#e0b04a;
+  --th:#23262d;--code:#23262d;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,system-ui,sans-serif;
+  font-size:16px;line-height:1.85;letter-spacing:.01em;word-break:break-word;overflow-wrap:anywhere;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:8px 16px}
+.bar b{font-size:.9rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar a,.bar button{font:inherit;font-size:.85rem;color:var(--link);background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;min-height:36px;text-decoration:none;cursor:pointer}
+.wrap{max-width:860px;margin:0 auto;padding:16px 16px 72px}
+h1{font-size:1.65rem;line-height:1.35;margin:.6em 0 .3em}
+h2{font-size:1.35rem;line-height:1.4;margin:2.4em 0 .6em;padding:.2em 0 .35em;border-bottom:2px solid var(--accent)}
+h3{font-size:1.1rem;line-height:1.45;margin:1.9em 0 .5em;padding-left:.6em;border-left:4px solid var(--accent)}
+.anc{color:var(--muted);text-decoration:none;opacity:.0;margin-right:.35em;font-weight:400}
+h2:hover .anc,h3:hover .anc,.anc:focus{opacity:.8}
+@media (hover:none){.anc{display:none}}
+p{margin:.8em 0}
+a{color:var(--link)}
+strong{font-weight:650}
+ul,ol{padding-left:1.5em;margin:.7em 0}
+li{margin:.3em 0}
+li>ul,li>ol{margin:.3em 0}
+img{max-width:100%;height:auto;display:block;margin:1em auto;border-radius:8px;border:1px solid var(--line);background:#000}
+blockquote{margin:1.1em 0;padding:.7em 1em;border-left:5px solid var(--tip-bar);background:var(--tip-bg);border-radius:0 10px 10px 0}
+blockquote p{margin:.3em 0}
+blockquote.imp{border-left-color:var(--imp-bar);background:var(--imp-bg)}
+blockquote.note{border-left-color:var(--note-bar);background:var(--note-bg)}
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1.1em 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.9rem;line-height:1.6}
+th,td{padding:.55em .75em;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--th);position:sticky;top:0;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--th) 35%,transparent)}
+.tbl table .tbl{margin:.5em 0}
+/* 目次 */
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:1em 0 1.4em}
+.toc summary{cursor:pointer;padding:.8em 1em;font-weight:650;list-style:none;min-height:44px;display:flex;align-items:center;justify-content:space-between}
+.toc summary::-webkit-details-marker{display:none}
+.toc summary::after{content:"▾";color:var(--muted)}
+.toc[open] summary::after{content:"▴"}
+.toc ol{list-style:none;margin:0;padding:0 .6em .8em;max-height:60vh;overflow:auto;-webkit-overflow-scrolling:touch}
+.toc li{margin:0}
+.toc a{display:block;padding:.5em .6em;text-decoration:none;color:var(--fg);border-radius:8px;line-height:1.5}
+.toc li.top a{font-weight:650;margin-top:.35em}
+.toc li.sub a{padding-left:1.6em;font-size:.92rem;color:var(--muted)}
+.toc a:active,.toc a:hover{background:var(--accent-soft)}
+.notice{font-size:.85rem;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.7em 1em;margin:.8em 0}
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:1em;margin-top:3em}
+#top{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));width:44px;height:44px;border-radius:50%;
+  background:var(--accent);color:#fff;border:0;font-size:1.2rem;box-shadow:0 2px 8px rgba(0,0,0,.3);display:none;cursor:pointer}
+@media (min-width:700px){body{font-size:17px}.wrap{padding:24px 24px 96px}h1{font-size:2rem}}
+@media print{.bar,#top{display:none}}
+</style>
+</head>
+<body>
+<div class="bar"><b>SampQOL OS マニュアル</b><a href="#toc">目次</a><button id="theme" type="button" aria-label="表示テーマを切り替え">🌓</button></div>
+<div class="wrap">
+<div class="notice">これは <a href="https://beatops.io/sampqol/manual">SampQOL OS Manual（英語版 0.2.0）</a>の<strong>非公式な日本語訳</strong>です。内容の正確さは英語の原文が優先されます。原文の著作権は原著作者（Snare Bes）に帰属します。</div>
+<nav class="toc" aria-label="目次"><details id="toc"><summary>目次</summary>
+<ol>
+<li class="top"><a href="#introduction">はじめに</a></li>
+<li class="sub"><a href="#what-is-sampqol-os">SampQOL OS とは？</a></li>
+<li class="sub"><a href="#is-it-safe">安全ですか？</a></li>
+<li class="sub"><a href="#about-this-manual">このマニュアルについて</a></li>
+<li class="sub"><a href="#knobs-on-sampqol-screens">SampQOL 画面でのノブ</a></li>
+<li class="top"><a href="#quick-overview">クイック概要</a></li>
+<li class="top"><a href="#installation-and-start-up">インストールと起動</a></li>
+<li class="sub"><a href="#install">インストール</a></li>
+<li class="sub"><a href="#every-start">毎回の起動時</a></li>
+<li class="sub"><a href="#watchdog">ウォッチドッグ</a></li>
+<li class="sub"><a href="#project-safety-net">プロジェクトのセーフティネット</a></li>
+<li class="sub"><a href="#two-rules">2 つのルール</a></li>
+<li class="sub"><a href="#go-back-to-stock-or-install-a-new-version">標準に戻す／新しいバージョンをインストールする</a></li>
+<li class="top"><a href="#settings">設定</a></li>
+<li class="sub"><a href="#shortcuts">ショートカット</a></li>
+<li class="top"><a href="#sample-mode">サンプルモード</a></li>
+<li class="sub"><a href="#the-sample-screen-header">SAMPLE 画面のヘッダー</a></li>
+<li class="sub"><a href="#eq-page">EQ ページ</a></li>
+<li class="sub"><a href="#sample-tail">サンプルテイル</a></li>
+<li class="sub"><a href="#stereo-one-channel-of-a-stereo-sample">ステレオ: ステレオサンプルの片チャンネル</a></li>
+<li class="sub"><a href="#16-levels-scale">16 LEVELS スケール</a></li>
+<li class="sub"><a href="#keys-play-a-pad-from-a-midi-keyboard">KEYS: MIDI キーボードでパッドを演奏する</a></li>
+<li class="sub"><a href="#chop-mode">チョップモード</a></li>
+<li class="top"><a href="#sample-record-mode">サンプルレコードモード</a></li>
+<li class="sub"><a href="#to-seq-record-directly-into-the-sequence">To Seq: シーケンスに直接録音する</a></li>
+<li class="sub"><a href="#looper">ルーパー</a></li>
+<li class="sub"><a href="#stop-stays-on-the-screen">STOP で画面が切り替わらない</a></li>
+<li class="sub"><a href="#source-rearusb">ソース Rear+USB</a></li>
+<li class="top"><a href="#tuner">チューナー</a></li>
+<li class="top"><a href="#sequences-and-tracks">シーケンスとトラック</a></li>
+<li class="sub"><a href="#select-a-track">トラックの選択</a></li>
+<li class="sub"><a href="#move-a-track">トラックの移動</a></li>
+<li class="sub"><a href="#copy-a-pad-to-another-track">パッドを別のトラックにコピーする</a></li>
+<li class="sub"><a href="#select-a-sequence-from-the-sample-screen">SAMPLE 画面からシーケンスを選択する</a></li>
+<li class="sub"><a href="#select-grid">セレクトグリッド</a></li>
+<li class="sub"><a href="#name-a-sequence">シーケンスの名前付け</a></li>
+<li class="sub"><a href="#clear-a-song">ソングのクリア</a></li>
+<li class="sub"><a href="#record-mutes">ミュートの録音</a></li>
+<li class="sub"><a href="#midi-out-a-track-plays-an-external-synth">MIDI アウト: トラックで外部シンセを演奏する</a></li>
+<li class="top"><a href="#step-edit">Step Edit</a></li>
+<li class="sub"><a href="#pad-view">パッドビュー</a></li>
+<li class="sub"><a href="#track-view">トラックビュー</a></li>
+<li class="sub"><a href="#selection">選択範囲</a></li>
+<li class="sub"><a href="#automate-write-a-fade">Automate: フェードを書き込む</a></li>
+<li class="sub"><a href="#dup-track">Dup. Track</a></li>
+<li class="sub"><a href="#explode">Explode</a></li>
+<li class="sub"><a href="#delete-a-track">トラックの削除</a></li>
+<li class="sub"><a href="#fader-in-step-edit">Step Edit でのフェーダー</a></li>
+<li class="top"><a href="#mixer">ミキサー</a></li>
+<li class="sub"><a href="#insert-pages">インサートページ</a></li>
+<li class="sub"><a href="#rename-a-track-submix-or-pad">トラック、サブミックス、パッドの名前変更</a></li>
+<li class="sub"><a href="#mute-groups">ミュートグループ</a></li>
+<li class="sub"><a href="#kill-eq-insert">Kill EQ インサート</a></li>
+<li class="sub"><a href="#master">マスター</a></li>
+<li class="sub"><a href="#channel-mixer-and-pad-mixer">Channel Mixer と Pad Mixer</a></li>
+<li class="sub"><a href="#knob-fx-on-all-pads">すべてのパッドに対する Knob FX</a></li>
+<li class="sub"><a href="#change-the-knob-fx-on-any-screen">どの画面でも Knob FX を変更</a></li>
+<li class="sub"><a href="#track-volume-on-the-fader">FADER でのトラックボリューム</a></li>
+<li class="sub"><a href="#color-comp-on-a-track-or-submix">トラックまたはサブミックス上の Color Comp.</a></li>
+<li class="sub"><a href="#mother-ducker">Mother Ducker</a></li>
+<li class="sub"><a href="#air-compressor-and-air-stereo-width">AIR Compressor と AIR Stereo Width</a></li>
+<li class="sub"><a href="#pad-fx-fixed">Pad FX: Fixed</a></li>
+<li class="sub"><a href="#knob-fx-list-and-insert-fx-list">Knob FX List と Insert FX List</a></li>
+<li class="top"><a href="#erasing-automation">オートメーションの消去</a></li>
+<li class="sub"><a href="#erase-all-automation-of-a-pad">パッドのすべてのオートメーションを消去</a></li>
+<li class="sub"><a href="#erase-the-track-volume">トラックボリュームの消去</a></li>
+<li class="top"><a href="#loading-and-saving">読み込みと保存</a></li>
+<li class="sub"><a href="#preview-in-sample-select">Sample Select でのプレビュー</a></li>
+<li class="sub"><a href="#new-folder-in-sample-select">Sample Select での新規フォルダ</a></li>
+<li class="sub"><a href="#browser">ブラウザ</a></li>
+<li class="sub"><a href="#save-to-a-folder">フォルダへの保存</a></li>
+<li class="sub"><a href="#home-folder">Home Folder</a></li>
+<li class="sub"><a href="#random-project-name">ランダムなプロジェクト名</a></li>
+<li class="sub"><a href="#new-project-with-a-template">テンプレートを使った New Project</a></li>
+<li class="sub"><a href="#export-mixdown-and-stems">ミックスダウンとステムのエクスポート</a></li>
+<li class="sub"><a href="#resample-one-pad">1 つのパッドのリサンプル</a></li>
+<li class="top"><a href="#undo-and-redo">アンドゥとリドゥ</a></li>
+<li class="sub"><a href="#undo-counter">アンドゥカウンター</a></li>
+<li class="sub"><a href="#step-names">ステップ名</a></li>
+<li class="top"><a href="#compatibility-and-limitations">互換性と制限事項</a></li>
+<li class="sub"><a href="#your-project-on-another-mpc">別の MPC でのプロジェクト</a></li>
+<li class="sub"><a href="#limitations">制限事項</a></li>
+<li class="top"><a href="#troubleshooting">トラブルシューティング</a></li>
+<li class="sub"><a href="#the-display-does-not-show-the-sampqol-logo-at-start-up">起動時にディスプレイに SAMPQOL のロゴが表示されない</a></li>
+<li class="sub"><a href="#the-display-does-not-show-v130">ディスプレイに v1.3.0 が表示されない</a></li>
+<li class="sub"><a href="#with-the-sd-card-in-the-mpc-is-stock">SD カードを挿しても MPC が標準のまま</a></li>
+<li class="sub"><a href="#the-start-up-stops-at-00">起動が 0.0% で止まる</a></li>
+<li class="sub"><a href="#the-mpc-hangs-at-start-up-or-sampqol-os-does-not-work">MPC が起動時にフリーズする、または SampQOL OS が動作しない</a></li>
+<li class="sub"><a href="#the-installation-is-correct-but-sampqol-os-does-not-work">インストールは正しいのに SampQOL OS が動作しない</a></li>
+<li class="sub"><a href="#insufficient-space-on-drive">Insufficient space on drive（ドライブの空き容量不足）</a></li>
+<li class="sub"><a href="#not-enough-memory">Not enough memory（メモリ不足）</a></li>
+<li class="sub"><a href="#the-mpc-goes-back-to-stock-while-you-play">演奏中に MPC が標準に戻る</a></li>
+<li class="sub"><a href="#the-computer-lost-the-sd-card">コンピューターが SD カードを認識しなくなった</a></li>
+<li class="top"><a href="#copyright-and-trademarks">著作権と商標</a></li>
+
+</ol></details></nav>
+<main>
+<h1 id="sampqol-os-user-manual">SampQOL OS ユーザーマニュアル</h1>
+<p>このマニュアルは <strong>SampQOL OS 0.2.0</strong> 用です。</p>
+<p>このマニュアルでは、SampQOL OS が追加または変更する内容のみを説明します。それ以外の機能については、標準の <strong>MPC Sample ユーザーガイド</strong>を参照してください。</p>
+<h2 id="introduction"><a class="anc" href="#introduction" aria-label="この見出しへのリンク">#</a>はじめに</h2>
+<h3 id="what-is-sampqol-os"><a class="anc" href="#what-is-sampqol-os" aria-label="この見出しへのリンク">#</a>SampQOL OS とは？</h3>
+<p>SampQOL OS は MPC Sample 用の Mod（改造 OS）です。標準の 1.3.0 にはない機能を追加します。たとえば、パッド・トラック・サブミックスにインサートを挿せるミキサー、トラックビュー付きの Step Edit、シーケンスへの直接録音、ルーパー、パッドごとの EQ、ステムのエクスポート、より多くのドラムトラック、チューナー、サイドチェイン、トラックごとの MIDI アウトなどです。</p>
+<p>機能は MPC のワークフローに沿って作られています。アイデアはさまざまな製品から得ており、特に MPC One、Live、X の影響が大きいです。</p>
+<ul>
+<li>Mod は <strong>microSD カード</strong>から自動的に起動します。カードがなければ、MPC は標準の 1.3.0 として起動します。</li>
+<li>プロジェクトは通常の MPC プロジェクトのままです。標準の MPC Sample でもプロジェクトは開けますが、Mod の機能は動作しません。<a href="#compatibility-and-limitations">互換性と制限事項</a>を参照してください。</li>
+</ul>
+<h3 id="is-it-safe"><a class="anc" href="#is-it-safe" aria-label="この見出しへのリンク">#</a>安全ですか？</h3>
+<p>SampQOL OS は標準ファームウェアやシステムファイルを変更しません。標準機能が起動時に SD カード内のスクリプト（<strong>autorun</strong> フォルダ）を実行します。このスクリプトが、標準の MPC Sample ソフトウェアと並べて Mod を起動します。Mod はメモリ（RAM）上にしか存在しないため、MPC の電源を切ると消えます。</p>
+<blockquote><p><strong>重要:</strong> SampQOL OS は自己責任でご使用ください。SampQOL OS は無償の Mod であり、Akai Professional や inMusic の製品ではなく、両社によるサポートもありません。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> Mod のエラーにより、演奏中にソフトウェアが停止することがあります。その場合、保存していない内容は失われます。プロジェクトはこまめに保存し、大切なプロジェクトはコピーを取っておいてください。</p></blockquote>
+<h3 id="about-this-manual"><a class="anc" href="#about-this-manual" aria-label="この見出しへのリンク">#</a>このマニュアルについて</h3>
+<p>ボタン、ノブ、設定の名前は<strong>太字</strong>で表記します。<strong>B1</strong>、<strong>B2</strong>、<strong>B3</strong> はディスプレイの上にある 3 つのボタンです。<strong>K1</strong>、<strong>K2</strong>、<strong>K3</strong> はディスプレイの下にある 3 つのノブです。</p>
+<blockquote><p><strong>ヒント:</strong> ヒントはこのようなブロックで表示します。</p></blockquote>
+<h3 id="knobs-on-sampqol-screens"><a class="anc" href="#knobs-on-sampqol-screens" aria-label="この見出しへのリンク">#</a>SampQOL 画面でのノブ</h3>
+<p>SampQOL 画面の <strong>K1</strong>〜<strong>K3</strong> は、標準のノブと同じように動作します。動作は <strong>MIDI Config</strong> &gt; <strong>Parameter Takeover</strong> に従います。</p>
+<ul>
+<li><strong>Pickup</strong>: ノブが値に到達するまで値は動きません。ノブの横の小さな矢印が回す方向を示します。</li>
+<li><strong>Scaled</strong>: 現在の値から動き始めます。値とノブは同時に端に到達します。</li>
+<li><strong>Instant</strong>: 値がすぐにノブの位置に移動します。</li>
+</ul>
+<p><strong>FADER</strong> は <strong>MIDI Config</strong> &gt; <strong>Fader Takeover</strong> に従います。</p>
+<p>独自の <strong>K1</strong>〜<strong>K3</strong> を持つ SampQOL のページ（EQ、Tail、Scale、Kill EQ、エフェクトページ）では、<strong>ENCODER</strong> で最後に回したノブを細かいステップで変更できます。標準のチョップモードと同様に、<strong>ENCODER</strong> を押すと次のノブへ移動します（<strong>SHIFT</strong> を押しながらだと前のノブ）。<strong>SHIFT</strong> を押しながら <strong>ENCODER</strong> を回すと、そのノブの <strong>SHIFT</strong> 値を変更します。</p>
+<p><strong>SAMPLE</strong> の <strong>Play</strong> ページでは、<strong>SHIFT</strong> を押しながら <strong>ENCODER</strong> を回すと、フォーカスボックス内のノブ（<strong>Keys</strong>（<strong>K1</strong>）、<strong>Pad Link</strong>（<strong>K2</strong>）、<strong>Stereo</strong>（<strong>K3</strong>））を変更します。<strong>ENCODER</strong> を押すとフォーカスボックスが移動します。</p>
+<p>次の 4 つのノブはステップ単位で動き、値が飛ぶことはありません。<strong>Keys</strong>（<strong>SHIFT</strong> + <strong>K1</strong>）、<strong>Export</strong>（<strong>K1</strong>）、トラックカラー（<strong>K1</strong>）、2 つの EQ クロスオーバーの同時操作（<strong>SHIFT</strong> + <strong>K2</strong>）です。</p>
+<h2 id="quick-overview"><a class="anc" href="#quick-overview" aria-label="この見出しへのリンク">#</a>クイック概要</h2>
+<div class="tbl"><table>
+<thead><tr><th>機能</th><th>開き方</th></tr></thead>
+<tbody>
+<tr><td><a href="#pad-view">Step Edit: パッドビュー</a></td><td><strong>SHIFT</strong> + <strong>SAMPLE</strong></td></tr>
+<tr><td><a href="#track-view">Step Edit: トラックビュー</a></td><td><strong>SHIFT</strong> + <strong>SEQ</strong></td></tr>
+<tr><td><a href="#mixer">ミキサー</a></td><td><strong>PAD FX</strong>。<strong>PAD FX</strong> を押しながらパッドまたは <strong>ENCODER</strong>: パッド・トラック・サブミックスを選択</td></tr>
+<tr><td><a href="#rename-a-track-submix-or-pad">トラック、サブミックス、パッドの名前変更</a></td><td><strong>PAD FX</strong>、Pad／Track／Submix ページ、<strong>SHIFT</strong> + <strong>B1</strong></td></tr>
+<tr><td><a href="#select-a-track">トラックの選択</a></td><td><strong>PAD BANK</strong> を押しながら <strong>ENCODER</strong> を回す、または <strong>SHIFT</strong> + <strong>PAD BANK</strong> + パッド 1〜16</td></tr>
+<tr><td><a href="#select-a-sequence-from-the-sample-screen">シーケンスの選択</a></td><td><strong>SEQ</strong> を押しながらパッドを押す、または <strong>ENCODER</strong> を回す</td></tr>
+<tr><td><a href="#to-seq-record-directly-into-the-sequence">To Seq とルーパー</a></td><td><strong>SAMPLE RECORD</strong>、<strong>B2</strong>（To Seq）、<strong>B3</strong>（Looper）</td></tr>
+<tr><td><a href="#export-mixdown-and-stems">ミックスダウンとステムのエクスポート</a></td><td><strong>SHIFT</strong> + <strong>PAD 16</strong>、<strong>B3</strong>（Export）</td></tr>
+<tr><td><a href="#chop-mode">チョップモード: 128 スライス、Link Slices、Extract</a></td><td>チョップモード: <strong>PAD BANK</strong>、<strong>SHIFT</strong> + <strong>K3</strong>、<strong>SHIFT</strong> + <strong>B1</strong></td></tr>
+<tr><td><a href="#eq-page">パッドごとの EQ</a></td><td><strong>SAMPLE</strong>、EQ ページが表示されるまで <strong>B3</strong>。または <strong>PAD FX</strong>、<strong>EQ</strong> 行</td></tr>
+<tr><td><a href="#record-mutes">ミュートの録音</a></td><td><strong>SEQ RECORD</strong> + <strong>PLAY</strong> 中に <strong>MUTE</strong></td></tr>
+<tr><td><a href="#record-mutes">トラックミュート</a></td><td><strong>PAD BANK</strong> + <strong>MUTE</strong>、または <strong>MUTE</strong> を 0.7 秒間押し続ける</td></tr>
+<tr><td><a href="#record-mutes">Mute Type: Audio または Event</a></td><td><strong>Settings</strong> &gt; <strong>Mute Type</strong></td></tr>
+<tr><td><a href="#mute-groups">ミュートグループ</a></td><td>ミキサー、Pad／Track／Submix ページの <strong>K2</strong>（<strong>Pad Grp</strong>、<strong>Trk Grp</strong>、<strong>Sub Grp</strong>）。Ch. Mixer と Pad Mixer では <strong>SHIFT</strong> + <strong>K2</strong></td></tr>
+<tr><td><a href="#keys-play-a-pad-from-a-midi-keyboard">KEYS（MIDI キーボード）</a></td><td>キーボードを弾く。ルート音: <strong>SAMPLE</strong>、Play ページ、<strong>SHIFT</strong> + <strong>K1</strong></td></tr>
+<tr><td><a href="#midi-out-a-track-plays-an-external-synth">トラックごとの MIDI アウト</a></td><td><strong>PAD FX</strong>、<strong>B1</strong> で <strong>Track</strong> へ、<strong>SHIFT</strong> + <strong>K3</strong></td></tr>
+<tr><td><a href="#settings">設定</a></td><td><strong>SHIFT</strong> + <strong>PAD 8</strong>（MIDI Config）、続いて <strong>B2</strong></td></tr>
+<tr><td><a href="#undo-counter">アンドゥカウンター</a></td><td><strong>SHIFT</strong> + <strong>-</strong> または <strong>SHIFT</strong> + <strong>+</strong>: ポップアップに「Undo 2/7」と表示</td></tr>
+<tr><td><a href="#new-folder-in-sample-select">新規フォルダ</a></td><td><strong>SAMPLE SELECT</strong>、External、フォルダを選択、<strong>B3</strong></td></tr>
+<tr><td><a href="#16-levels-scale">16 LEVELS スケール、コード、アルペジオ</a></td><td><strong>16 LEVELS</strong> をオン、「Scale」と表示されるまで <strong>SHIFT</strong> + <strong>16 LEVELS</strong></td></tr>
+<tr><td><a href="#sample-tail">サンプルテイル</a></td><td><strong>SAMPLE</strong>、Tail ページが表示されるまで <strong>B1</strong></td></tr>
+<tr><td><a href="#stereo-one-channel-of-a-stereo-sample">ステレオ: サンプルの片チャンネル</a></td><td><strong>SAMPLE</strong>、Play ページ、<strong>SHIFT</strong> + <strong>K3</strong></td></tr>
+<tr><td><a href="#automate-write-a-fade">オートメート（フェード）</a></td><td>トラックビュー、<strong>SHIFT</strong> + <strong>B2</strong></td></tr>
+<tr><td><a href="#dup-track">トラックの複製</a></td><td>トラックビュー、<strong>SHIFT</strong> + <strong>B3</strong>、続いて <strong>B2</strong>、続いて <strong>B3</strong></td></tr>
+<tr><td><a href="#explode">トラックの分解（Explode）</a></td><td>トラックビュー、<strong>SHIFT</strong> + <strong>B3</strong>、続いて <strong>B3</strong>、続いて <strong>B3</strong></td></tr>
+<tr><td><a href="#delete-a-track">トラックの削除</a></td><td>トラックビュー、<strong>SHIFT</strong> + <strong>B1</strong></td></tr>
+<tr><td><a href="#move-a-track">トラックの移動</a></td><td><strong>PAD BANK</strong> を押しながら <strong>-</strong> または <strong>+</strong></td></tr>
+<tr><td><a href="#select-grid">セレクトグリッド</a></td><td><strong>PAD BANK</strong> または <strong>SEQ</strong> を押し続ける: トラックまたはシーケンスの 4x4 グリッド。<strong>B2</strong>: グリッドのオン／オフ</td></tr>
+<tr><td><a href="#name-a-sequence">シーケンスの名前付け</a></td><td>SEQ 画面、<strong>SHIFT</strong> + <strong>B3</strong></td></tr>
+<tr><td><a href="#mother-ducker">サイドチェイン: Mother Ducker</a></td><td><strong>PAD FX</strong>、空きスロット、<strong>B3</strong>、<strong>Dynamics</strong> &gt; <strong>Mother Ducker Input</strong> と <strong>Mother Ducker</strong></td></tr>
+<tr><td><a href="#kill-eq-insert">Kill EQ インサート</a></td><td><strong>PAD FX</strong>、トラック・サブミックス・マスターの空きスロット、<strong>B3</strong>、<strong>EQ/Filter</strong> &gt; <strong>Kill EQ</strong></td></tr>
+<tr><td><a href="#track-volume-on-the-fader">FADER でのトラックボリューム</a></td><td><strong>SHIFT</strong> + <strong>PAD 9</strong>、<strong>Track Volume</strong></td></tr>
+<tr><td><a href="#resample-one-pad">1 つのパッドのリサンプル</a></td><td><strong>SHIFT</strong> + <strong>PAD 11</strong>、<strong>B2</strong>（Pad）</td></tr>
+<tr><td><a href="#preview-in-sample-select">サンプルのプレビュー</a></td><td><strong>SAMPLE SELECT</strong>、パッド。<strong>SHIFT</strong> + <strong>K2</strong> = Preview / Own Sample</td></tr>
+<tr><td><a href="#save-to-a-folder">フォルダへの保存</a></td><td><strong>Save Sample</strong> または <strong>Save Project</strong>、<strong>B3</strong>（<strong>Do It!</strong>）</td></tr>
+<tr><td><a href="#home-folder">Home Folder</a></td><td><strong>Settings</strong> &gt; <strong>Home Folder</strong>、続いて <strong>Sample Select Opens</strong></td></tr>
+<tr><td><a href="#random-project-name">ランダムなプロジェクト名</a></td><td><strong>Save Project</strong>、<strong>SHIFT</strong> + <strong>B3</strong></td></tr>
+<tr><td><a href="#new-project-with-a-template">New Project 用テンプレート</a></td><td><strong>Settings</strong> &gt; <strong>Default Template</strong></td></tr>
+<tr><td><a href="#erase-all-automation-of-a-pad">すべてのオートメーションを消去</a></td><td><strong>ERASE</strong> + ノブ・フェーダー・パッド、続いて <strong>B2</strong>（All）</td></tr>
+<tr><td><a href="#knob-fx-list-and-insert-fx-list">Knob FX List と Insert FX List</a></td><td><strong>Settings</strong> &gt; <strong>Knob FX List</strong>、<strong>Insert FX List</strong></td></tr>
+<tr><td><a href="#change-the-knob-fx-on-any-screen">どの画面でも Knob FX を変更</a></td><td><strong>KNOB FX</strong> を押しながら <strong>ENCODER</strong> を回す</td></tr>
+<tr><td><a href="#clear-a-song">ソングのクリア、Quick Add</a></td><td><strong>SHIFT</strong> + <strong>PAD 12</strong>（Song）、<strong>SHIFT</strong> + <strong>B2</strong>。<strong>Settings &gt; Song Pads</strong></td></tr>
+<tr><td><a href="#tuner">チューナー</a></td><td><strong>SHIFT</strong> + <strong>PAD 7</strong></td></tr>
+<tr><td><a href="#air-compressor-and-air-stereo-width">AIR Compressor、AIR Stereo Width</a></td><td><strong>PAD FX</strong>、空きスロット、<strong>B3</strong>、<strong>Dynamics</strong> または <strong>Modulation</strong></td></tr>
+<tr><td><a href="#selection">一部分をループ</a></td><td>トラックビューまたはパッドビュー: 範囲を選択し、<strong>SHIFT</strong> + <strong>PLAY</strong></td></tr>
+<tr><td><a href="#source-rearusb">リアと USB の同時録音</a></td><td><strong>SAMPLE RECORD</strong>、<strong>K1</strong> = <strong>Rear+USB</strong></td></tr>
+<tr><td>標準の Pad FX</td><td><strong>SHIFT</strong> + <strong>PAD FX</strong>、続いて <strong>B2</strong>。すぐに開く場合: <a href="#shortcuts">Shift+PAD FX</a> = <strong>Pad FX</strong></td></tr>
+</tbody></table></div>
+<h2 id="installation-and-start-up"><a class="anc" href="#installation-and-start-up" aria-label="この見出しへのリンク">#</a>インストールと起動</h2>
+<p>必要なもの:</p>
+<ul>
+<li><strong>exFAT</strong> 形式の microSD カード。カード名は何でも構いません。</li>
+<li>カードリーダー付きのコンピューター（Mac または Windows）。</li>
+<li>SampQOL OS の zip ファイル（例: <strong>SampQOL-OS-v0.2.0.zip</strong>）。番号が最も大きいファイルを使用してください。</li>
+</ul>
+<h3 id="install"><a class="anc" href="#install" aria-label="この見出しへのリンク">#</a>インストール</h3>
+<ol>
+<li><strong>MPC を確認する。</strong>SampQOL のカードを入れずに MPC を起動します。<strong>SHIFT</strong> を押したまま <strong>PAD 8 – MIDI CONFIG</strong> を押します。ディスプレイの右上に <strong>v1.3.0</strong>（フルバージョンは 1.3.0.12）と表示されている必要があります。表示されない場合は、<a href="#the-display-does-not-show-v130">トラブルシューティング</a>を参照してください。SampQOL OS が動作しているときは、同じ場所に SampQOL OS のバージョンが表示されます。</li>
+<li><strong>コピーする。</strong>zip ファイルを解凍します。microSD カードをコンピューターに挿入します。解凍したフォルダ内の <strong>autorun</strong> フォルダをカードにドラッグします（<strong>Mac:</strong> <strong>Finder</strong> で、<strong>Windows:</strong> <strong>エクスプローラー</strong>で）。その後、カードを取り出します。</li>
+<li><strong>起動する。</strong>MPC の電源を切ります。カードを MPC に挿入します。MPC の電源を入れます。</li>
+<li>SampQOL OS は自動的に起動します。ボタンを押す必要はありません。</li>
+</ol>
+<p>アプリの準備ができるまで、ディスプレイには <strong>SAMPQOL</strong> のロゴ、バージョン（<strong>v0.2.0</strong>）、<strong>beatops.io/SampQOL</strong> が表示されます。</p>
+<h3 id="every-start"><a class="anc" href="#every-start" aria-label="この見出しへのリンク">#</a>毎回の起動時</h3>
+<p>起動時に標準を選択することはできません。標準の 1.3.0 を起動するには、SD カードなしで MPC の電源を入れるか、<a href="#go-back-to-stock-or-install-a-new-version">標準に戻す</a>を参照してください。</p>
+<p><img loading="lazy" src="img/fig01.png" alt="ロゴとバージョンが表示された SampQOL の起動画面"></p>
+<p>Mod が動作しているか確認するには: MIDI Config（<strong>SHIFT</strong> + <strong>PAD 8</strong>）の右上に Mod のバージョン（例: <strong>QOL-0.2.0</strong>）が表示されます（標準: v1.3.0）。</p>
+<p><strong>SD Card Access</strong>（<strong>SHIFT</strong> + <strong>PAD 16</strong>）は標準と同じように動作します。<strong>MPC SAMPLE</strong> という名前のカードでも動作します。MPC に <strong>SD card is busy</strong> と表示された場合は、ファイルをコピーしないでください。<strong>B3</strong>（<strong>OK</strong>）を押し、<strong>Exit</strong> を押してからもう一度試してください。SD Card Access 中に SampQOL OS がクラッシュした場合は、<a href="#the-computer-lost-the-sd-card">コンピューターが SD カードを認識しなくなった</a>を参照してください。</p>
+<h3 id="watchdog"><a class="anc" href="#watchdog" aria-label="この見出しへのリンク">#</a>ウォッチドッグ</h3>
+<p>ウォッチドッグが Mod を監視しています。Mod がクラッシュすると、ウォッチドッグが数秒で SampQOL OS を再起動します。失われるのは、保存していなかった内容だけです。2 分以内にもう一度クラッシュした場合、MPC は標準として起動します。クラッシュはすべて、カード上の <strong>autorun/logs</strong> フォルダに記録されます（<strong>last-exit.log</strong> にクラッシュの詳細があります）。バグを報告するときは、このフォルダを添付してください。</p>
+<h3 id="project-safety-net"><a class="anc" href="#project-safety-net" aria-label="この見出しへのリンク">#</a>プロジェクトのセーフティネット</h3>
+<p>起動のたび（SampQOL OS が起動する前）とクラッシュの後に、標準側が開いているプロジェクトを読み込み、SampQOL OS だけが使っているサンプルを削除することがあります。そのため SampQOL OS は、開いているプロジェクトのコピーをバックグラウンドで保持します。コピー内のサンプルは、プロジェクトがそのサンプルを持っている間は追加の容量を使いません。消去したサンプルは、プロジェクトが使わなくなるか、内部ストレージの空き容量が 512 MB を下回るまでコピー内に残ります。SampQOL OS の起動時:</p>
+<ul>
+<li>標準側がプロジェクトを変更していなかった場合、失われたサンプルはメッセージなしで元に戻ります。</li>
+<li>標準側がプロジェクトを変更していた場合、SampQOL OS での最新の状態がプロジェクト <strong>QOL-Recovery-&lt;日付&gt;</strong>（Projects &gt; User）として保存されています。読み込み後、SAMPLE 画面にその名前とともに <strong>RECOVERY</strong> が表示されます。
+<ul>
+<li><strong>B3</strong>（<strong>Load</strong>）: SampQOL OS での最新の状態を読み込みます。<strong>Save</strong> では元のプロジェクト名が提案されます。QOL-Recovery プロジェクトは残ります。</li>
+<li><strong>B2</strong>（<strong>Delete</strong>）: QOL-Recovery プロジェクトとそのサンプルを削除します。開いているプロジェクトは変わりません。</li>
+<li><strong>B1</strong>（<strong>Cancel</strong>）: QOL-Recovery プロジェクトを残します。MPC は再度確認しません。</li>
+</ul>
+</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> RECOVERY の上に標準の確認ダイアログが開くと、RECOVERY は閉じます。MPC は次回の起動時にもう一度確認します。QOL-Recovery プロジェクトは、ブラウザからも読み込みや削除ができます。</p></blockquote>
+<h3 id="two-rules"><a class="anc" href="#two-rules" aria-label="この見出しへのリンク">#</a>2 つのルール</h3>
+<blockquote><p><strong>重要:</strong> SampQOL OS は 1.3.0 でのみ動作が確認されています。ファームウェアを更新すると、おそらく動作しなくなります。Akai のウェブページ（mpc-sample.local）や inMusic Software Center のアップデートは無視してください。</p></blockquote>
+<blockquote><p><strong>重要:</strong> 電源が入っている MPC にカードを挿入する前に、プロジェクトを保存してください。SampQOL OS がすぐに起動して MPC ソフトウェアを再起動するため、保存していない内容は失われます。</p></blockquote>
+<h3 id="go-back-to-stock-or-install-a-new-version"><a class="anc" href="#go-back-to-stock-or-install-a-new-version" aria-label="この見出しへのリンク">#</a>標準に戻す／新しいバージョンをインストールする</h3>
+<ul>
+<li><strong>1 回のセッションだけ標準にする:</strong> SD カードなしで起動します。</li>
+<li><strong>SD カードを挿したまま標準にする</strong>（たとえば、カード上のプロジェクトを使うため）: コンピューターで <strong>autorun</strong> フォルダの名前を変更するか（例: <strong>autorun-off</strong>）、別のフォルダに移動します。MPC はカード直下の <strong>autorun</strong> フォルダからのみ SampQOL OS を起動します。SampQOL OS をもう一度起動するには、名前と場所を元に戻します。</li>
+<li><strong>完全にやめる:</strong> カードから <strong>autorun</strong> フォルダを削除します。</li>
+<li><strong>新しいバージョン:</strong> カードから <strong>autorun</strong> フォルダを削除します。その後、新しい zip ファイルで<a href="#install">インストール</a>の手順 2、3、4 を行います。設定は保持されます。<strong>mpcqol.conf</strong> は <strong>autorun</strong> フォルダ内ではなく、カードの最上位にあるためです。</li>
+</ul>
+<h2 id="settings"><a class="anc" href="#settings" aria-label="この見出しへのリンク">#</a>設定</h2>
+<p><img loading="lazy" src="img/fig02.png" alt="PROJECT グループが表示された設定画面: Default Template、Start Drive、プリセット名リスト"></p>
+<ol>
+<li><strong>SHIFT</strong> を押したまま <strong>PAD 8 – MIDI CONFIG</strong> を押します。</li>
+<li><strong>B2</strong> を押して <strong>Settings</strong> に移動します。<strong>Shortcuts &gt; Shift+Pad 8</strong> が <strong>Settings</strong> の場合は、この手順は不要です。</li>
+<li><strong>ENCODER</strong> を回して行を選択します。</li>
+<li><strong>ENCODER</strong> を押し（行が青くなります）、回して値を変更し、もう一度押して確定します。<strong>&gt;</strong> が付いた行は、リストが開きます。</li>
+<li><strong>B1</strong>（Back）または <strong>B2</strong> を押すと MIDI Config に戻ります。</li>
+</ol>
+<p>Mod は設定を SD カード（<strong>mpcqol.conf</strong>）に保存します。</p>
+<div class="tbl"><table>
+<thead><tr><th>グループ</th><th>設定</th><th>内容</th><th>値</th></tr></thead>
+<tbody>
+<tr><td>PROJECT</td><td><strong>Default Template</strong></td><td>New Project が読み込めるプロジェクト。<a href="#new-project-with-a-template">テンプレートを使った New Project</a> を参照。</td><td>None（デフォルト）、プロジェクト</td></tr>
+<tr><td>PROJECT</td><td><strong>Start Drive</strong></td><td>Load Project のドライブ、および起動後最初の Save Project フォルダページのドライブ。<strong>Last Used</strong> = 標準と同じ。</td><td>Internal、External、Last Used（デフォルト）</td></tr>
+<tr><td>PROJECT</td><td><strong>Sequence Preset Names</strong>、<strong>Track Preset Names</strong>、<strong>Submix Preset Names</strong>、<strong>Pad Preset Names</strong></td><td>名前を変更するときの <strong>Preset</strong> リストに表示される名前。</td><td>On（デフォルト）、各名前ごとに Off</td></tr>
+<tr><td>SAMPLE BROWSER</td><td><strong>Start Drive</strong></td><td>Sample Select のドライブ、および起動後最初の Save Sample フォルダページのドライブ。<strong>Last Used</strong> = 標準と同じ。</td><td>Internal、External、Last Used（デフォルト）</td></tr>
+<tr><td>SAMPLE BROWSER</td><td><strong>Sample Select Opens</strong></td><td>Sample Select が開く場所。<strong>Last Used</strong> = SAMPLE BROWSER の <strong>Start Drive</strong>。</td><td>Last Used（デフォルト）、Home Folder</td></tr>
+<tr><td>SAMPLE BROWSER</td><td><strong>Home Folder</strong></td><td><a href="#home-folder">Home Folder</a> を参照。</td><td>None（デフォルト）、フォルダ</td></tr>
+<tr><td>SAMPLE BROWSER</td><td><strong>Sample Select Pads Play</strong></td><td>Sample Select でパッドが行う動作（そこでは <strong>SHIFT</strong> + <strong>K2</strong> でも切り替え可）。<a href="#preview-in-sample-select">Sample Select でのプレビュー</a>を参照。</td><td>Preview（デフォルト）、Own Sample</td></tr>
+<tr><td>SAMPLE BROWSER</td><td><strong>Fader Scrolls List</strong></td><td><strong>On</strong>: SAMPLE SELECT と Load Project で <strong>FADER</strong> がリストをスクロールします。<strong>Off</strong>: 標準と同じ。</td><td>Off、On（デフォルト）</td></tr>
+<tr><td>SAMPLE</td><td><strong>Snap to Zero Crossing</strong></td><td><strong>Stock</strong>: ズームアウト時のトリムのみがゼロクロスにスナップします。<strong>Always</strong>: チョップやスライスも、すべてのズームでスナップします。</td><td>Stock（デフォルト）、Always</td></tr>
+<tr><td>SAMPLE</td><td><strong>Link Slices Default</strong></td><td>個別の選択をしていない各パッドの Link Slices。<a href="#chop-mode">チョップモード</a>を参照。</td><td>Off、On（デフォルト）</td></tr>
+<tr><td>SAMPLE</td><td><strong>Ask Before Rechop</strong></td><td><strong>K3</strong> で新しいスライスを作る前に、チョップモードが確認するタイミング。<strong>After Edits</strong>: 自分でスライスを編集した後のみ。<strong>Always</strong>: タイプが Manual のときは毎回。</td><td>After Edits（デフォルト）、Always</td></tr>
+<tr><td>SAMPLE</td><td><strong>Threshold Max Slices</strong></td><td>チョップタイプ <strong>Threshold</strong> のスライス数の上限。スライス数を減らすと、短いサンプルでもマーカーが離れた状態を保てます。<a href="#chop-mode">チョップモード</a>を参照。</td><td>16（デフォルト）、32、64、128</td></tr>
+<tr><td>SAMPLE</td><td><strong>Ask Before Erase Pad</strong></td><td><strong>On</strong>: シーケンス停止中に <strong>ERASE</strong> + サンプルのあるパッドを押すと「Erase Pad A01?」と確認します（<strong>B1</strong> = Cancel、<strong>B3</strong> = <strong>Do It!</strong>）。確認中はパッドは何もしません。シーケンス再生中は、標準と同じく <strong>ERASE</strong> + パッドでそのパッドのノートを消去します。<strong>UNDO</strong> でクリアしたパッドを元に戻せます。</td><td>Off（デフォルト）、On</td></tr>
+<tr><td>SAMPLE</td><td><strong>Pad EQ</strong></td><td><strong>On</strong>: EQ ページが表示され、EQ が聞こえます。<strong>Off</strong>: 標準と同じ。EQ の値はプロジェクトに残ります。</td><td>Off、On（デフォルト）</td></tr>
+<tr><td>SAMPLE</td><td><strong>Sample Screen Name</strong></td><td>SAMPLE 画面に表示される名前。</td><td>Pad（デフォルト）、Track、Sequence</td></tr>
+<tr><td>SAMPLE</td><td><strong>MIDI Keyboard Plays</strong></td><td>個別の KEYS ルートを持たないパッドの場合。<strong>Selected Pad</strong>: キーボードで選択中のパッドを半音階で演奏します。<strong>All Pads</strong>: 標準と同じ。</td><td>All Pads、Selected Pad（デフォルト）</td></tr>
+<tr><td>SAMPLE</td><td><strong>MIDI Keys on Chop Pad</strong></td><td>2 つ以上のスライスを持つパッドでの MIDI キーボード: キーごとに 1 スライス、またはパッドを半音階で演奏。</td><td>Slices（デフォルト）、Pitch</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Track View Labels</strong></td><td>トラックビューの行ラベル: トラック番号または名前。</td><td>T01（デフォルト）、Name</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Track View Rows</strong></td><td>トラックビューに表示するトラック数。</td><td>8（デフォルト）、6、4</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Pad View Rows</strong></td><td>パッドビューに表示するパッド数。</td><td>8（デフォルト）、4</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Pad View Grid</strong></td><td>パッドビューで <strong>Steps</strong> をオンにしたときのステップサイズ。</td><td>1/8、1/16（デフォルト）、1/32</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Position Shows</strong></td><td>Step Edit の最上段に表示される位置。<strong>Playhead</strong>: シーケンス再生中はプレイヘッド、それ以外はカーソル。</td><td>Playhead（デフォルト）、Cursor</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Triplet Grids</strong></td><td><strong>Hide</strong>: グリッドリスト（パッドビューのズーム、SEQ 画面の <strong>K2</strong>、Rec Quantize ポップアップ）に T 値を表示しません。</td><td>Show（デフォルト）、Hide</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Count-In at Start</strong></td><td>MPC 起動時のカウントイン。<strong>SHIFT</strong> + <strong>PAD 4</strong> で次の起動まで変更できます。</td><td>On（デフォルト）、Off</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Track Grid on Screen</strong></td><td>トラックの<a href="#select-grid">セレクトグリッド</a>。</td><td>Toggle（デフォルト）、On、Off</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Seq Grid on Screen</strong></td><td>シーケンスの<a href="#select-grid">セレクトグリッド</a>。</td><td>Toggle（デフォルト）、On、Off</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Mute Type</strong></td><td>パッドミュートやトラックミュートの鳴り方。<strong>Audio</strong>: 音がすぐに止まります（トラックは 5 ms でフェードアウト）。<strong>Event</strong>: 新しいノートは鳴らず、鳴っているノートは最後まで再生されます。<a href="#record-mutes">ミュートの録音</a>を参照。</td><td>Audio（デフォルト）、Event</td></tr>
+<tr><td>SEQUENCE</td><td><strong>Song Pads</strong></td><td><strong>Song</strong> モードでパッドが行う動作。<a href="#clear-a-song">ソングのクリア</a>を参照。</td><td>Stock（デフォルト）、Quick Add</td></tr>
+<tr><td>FX &amp; AUTOMATION</td><td><strong>Knob FX List &gt;</strong></td><td><a href="#knob-fx-list-and-insert-fx-list">Knob FX List と Insert FX List</a> を参照。</td><td>各エフェクトごとに On または Off（デフォルト: すべて On）</td></tr>
+<tr><td>FX &amp; AUTOMATION</td><td><strong>Insert FX List &gt;</strong></td><td><a href="#knob-fx-list-and-insert-fx-list">Knob FX List と Insert FX List</a> を参照。</td><td>各エフェクトごとに On または Off（デフォルト: すべて On）</td></tr>
+<tr><td>FX &amp; AUTOMATION</td><td><strong>FX Categories</strong></td><td><strong>On</strong>: Insert FX リストがエフェクトを 6 つのカテゴリーに分けて表示します。<strong>Off</strong>: 1 本の長いリスト。</td><td>On（デフォルト）、Off</td></tr>
+<tr><td>FX &amp; AUTOMATION</td><td><strong>Erase All Starts</strong></td><td>ERASE AUTOMATION ウィンドウを開いたときに <strong>All</strong> がオンになっているかどうか。</td><td>On、Off（デフォルト）、Last Used</td></tr>
+<tr><td>FX &amp; AUTOMATION</td><td><strong>Mixer Opens On</strong></td><td><a href="#mixer">ミキサー</a>の最初のページ。</td><td>Pad inserts、Ch. Mixer、Last Used（デフォルト）</td></tr>
+<tr><td>SYSTEM</td><td><strong>Shortcuts &gt;</strong></td><td><a href="#shortcuts">ショートカット</a>を参照。</td><td><a href="#shortcuts">ショートカット</a>を参照</td></tr>
+<tr><td>SYSTEM</td><td><strong>CPU/RAM Monitor</strong></td><td>CPU と RAM の使用量を示すバー。<strong>Warn Only</strong>: CPU や RAM が高いとき、または音切れのときのみ表示。</td><td>Off（デフォルト）、On、Warn Only</td></tr>
+<tr><td>SYSTEM</td><td><strong>Show Knob Values</strong></td><td><strong>Stock</strong>: ノブはラベルを表示し、回したときだけ短時間その値を表示します。ミキサーの <strong>Out</strong>（<strong>K3</strong>）とグループ（<strong>K2</strong>）、Mother Ducker の <strong>Bus</strong>（<strong>K1</strong>）は常に値を表示します。<strong>Always</strong>: すべてのノブが常にラベルと値を表示し、必要に応じて短いラベル（「Freq」「Semi」）を使います。</td><td>Stock（デフォルト）、Always</td></tr>
+<tr><td>SYSTEM</td><td><strong>Screen Brightness</strong></td><td>ディスプレイの最大輝度。</td><td>13%、25%、50%、100%（デフォルト）</td></tr>
+<tr><td>SYSTEM</td><td><strong>Pad Brightness</strong></td><td>パッドライトの明るさ（ボタンは対象外）。</td><td>25%、50%、75%、100%（デフォルト）</td></tr>
+</tbody></table></div>
+<h3 id="shortcuts"><a class="anc" href="#shortcuts" aria-label="この見出しへのリンク">#</a>ショートカット</h3>
+<p><strong>SHIFT</strong> + パッド、<strong>SHIFT</strong> + <strong>SAMPLE</strong>、<strong>PAD FX</strong>、<strong>SHIFT</strong> + <strong>PAD FX</strong> に別の機能を割り当てられます。<strong>SHIFT</strong> + パッド、<strong>SHIFT</strong> + <strong>SAMPLE</strong>、<strong>PAD FX</strong> は、同じ画面リストから選びます。</p>
+<p><strong>Settings</strong> で <strong>Shortcuts</strong>（グループ SYSTEM）を選択します。<strong>ENCODER</strong> を押し、各ボタンを Settings の行として変更します。</p>
+<div class="tbl"><table>
+<thead><tr><th>ボタン</th><th>デフォルト</th><th>その他の機能</th></tr></thead>
+<tbody>
+<tr><td><strong>Shift+Pad 1</strong>–<strong>6</strong>、<strong>Shift+Pad 12</strong>–<strong>15</strong></td><td>Stock</td><td>View Follow、Count-In、Pad View、Mixer、Off、Input Config、Pad FX、Tuner</td></tr>
+<tr><td><strong>Shift+Pad 4</strong></td><td>Count-In（標準）</td><td>View Follow、Pad View、Mixer、Off、Input Config、Pad FX、Tuner</td></tr>
+<tr><td><strong>Shift+Pad 7</strong></td><td>Tuner</td><td>Stock（Double Speed）、View Follow、Count-In、Pad View、Mixer、Off、Input Config、Pad FX</td></tr>
+<tr><td><strong>Shift+Pad 8</strong></td><td>MIDI Config</td><td>Settings</td></tr>
+<tr><td><strong>Shift+Sample</strong></td><td>Pad View</td><td>Input Config（標準）、Mixer、Off、Pad FX</td></tr>
+<tr><td><strong>PAD FX</strong></td><td>Mixer</td><td>Pad FX（標準）、Pad View、Input Config</td></tr>
+<tr><td><strong>Shift+PAD FX</strong></td><td>Flex Beat（標準）</td><td>Pad FX</td></tr>
+</tbody></table></div>
+<p><strong>Stock</strong> = そのパッドの標準機能。<strong>Off</strong> = そのボタンは何もしません。<strong>Settings</strong> = <strong>SHIFT</strong> + <strong>PAD 8</strong> で Settings がすぐに開きます（<strong>B1</strong> または <strong>B2</strong> で MIDI Config へ）。<strong>View Follow</strong> は後述します。その他の機能は、それぞれの画面を開きます: 標準の <strong>COUNT-IN</strong>、<a href="#pad-view">パッドビュー</a>、<a href="#mixer">ミキサー</a>、標準の Input Config メニュー、標準の Pad FX 画面、<a href="#tuner">チューナー</a>。</p>
+<blockquote><p><strong>ヒント:</strong> <strong>Pad View</strong> を <strong>Shift+Sample</strong> から、または <strong>Mixer</strong> を <strong>PAD FX</strong> から外す場合は、<strong>Shift+Pad</strong> のどれかに割り当てておくと、すぐ呼び出せます。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> デフォルトでは <strong>SHIFT</strong> + <strong>PAD FX</strong> で Flex Beat が開き、標準の Pad FX 画面はそこでの <strong>B2</strong> にあります。<strong>Shift+PAD FX</strong> = <strong>Pad FX</strong> にすると、<strong>SHIFT</strong> + <strong>PAD FX</strong> で標準の Pad FX 画面がすぐに開き、Flex Beat はその画面の <strong>B2</strong> になります。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> 複数のパッドに同じ機能を割り当てられます。新しい機能を割り当てたパッドは、標準の機能を失います。例: <strong>Shift+Pad 5</strong> = <strong>Mixer</strong> にすると、ミキサー内でマスターの Color Comp. を開けます（<strong>Master</strong>、<strong>Edit</strong>）。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> <strong>SHIFT</strong> + <strong>PAD 9</strong>、<strong>10</strong>、<strong>11</strong>、<strong>16</strong> は常に標準の機能を保持します。Mod はそれらの画面に独自の機能を追加します。</p></blockquote>
+<p><strong>View Follow</strong></p>
+<p>View Follow は、シーケンス再生中にパッドビューとトラックビューが何を追従するかを設定します。<strong>Follow Playhead</strong>（ビューがプレイヘッドと一緒にスクロールし、カーソルは動かない）または <strong>Follow Cursor</strong>（ビューはカーソルの位置に留まる）です。<strong>Shift+Pad</strong> を <strong>View Follow</strong> に設定します。<strong>SHIFT</strong> + そのパッドを押すたびに、もう一方の値に切り替わり、ポップアップが表示されます。</p>
+<blockquote><p><strong>ヒント:</strong> <strong>ENCODER</strong> を回すか <strong>-</strong> または <strong>+</strong> を押すと、次にシーケンスを開始するまで Follow Playhead が止まります。MPC は再起動後も選択を記憶します。</p></blockquote>
+<h2 id="sample-mode"><a class="anc" href="#sample-mode" aria-label="この見出しへのリンク">#</a>サンプルモード</h2>
+<h3 id="the-sample-screen-header"><a class="anc" href="#the-sample-screen-header" aria-label="この見出しへのリンク">#</a>SAMPLE 画面のヘッダー</h3>
+<p>SAMPLE 画面には、パッドの前にシーケンスとトラックが表示されます。例: <strong>「S01 T02 A01」</strong>（<strong>T03+</strong> = <a href="#select-a-track">新しいトラック</a>）。</p>
+<p><img loading="lazy" src="img/fig03.png" alt="サンプル名の前に S01 T02 A07 のヘッダーが表示された SAMPLE 画面"></p>
+<ul>
+<li><strong>SEQ</strong> または <strong>PAD BANK</strong> を押している間は、<strong>S01</strong> または <strong>T01</strong> が赤くなり、名前欄には（これから選ばれる）シーケンスまたはトラックが表示されます。</li>
+<li>選択したシーケンスがループの終わりを待っている間は、<strong>S01</strong> が赤くなり、名前欄に <strong>「Next」</strong> とその名前が表示されます。</li>
+<li><strong>SAMPLE</strong> を押している間は <strong>A01</strong> が赤くなります。<strong>SAMPLE</strong> + パッドで、音を出さずにそのパッドを選択します（標準）。</li>
+</ul>
+<h3 id="eq-page"><a class="anc" href="#eq-page" aria-label="この見出しへのリンク">#</a>EQ ページ</h3>
+<p>各パッドには、フィルターの直後に 3 バンド EQ があります。0 dB のときは音を変えず、余分な CPU も使いません。</p>
+<p><img loading="lazy" src="img/fig04.png" alt="パッドのスペクトラムと Low、Mid、High ノブが表示された EQ ページ"></p>
+<ol>
+<li><strong>SAMPLE</strong> を押してパッドを選択します。</li>
+<li>EQ ページが表示されるまで <strong>B3</strong> を押します（<strong>Filter &gt; Flt Env &gt; EQ</strong>）。</li>
+<li>ノブを回します。
+<ul>
+<li><strong>K1</strong> = Low、<strong>K2</strong> = Mid、<strong>K3</strong> = High。</li>
+<li>左いっぱい = そのバンドはオフ（キル）。中央 = 0 dB。右いっぱい = +6 dB。</li>
+</ul>
+</li>
+<li>クロスオーバーポイント:
+<ul>
+<li><strong>SHIFT</strong> + <strong>K1</strong> = Low/Mid のクロスオーバー（40 Hz – 1 kHz）。</li>
+<li><strong>SHIFT</strong> + <strong>K3</strong> = Mid/High のクロスオーバー（600 Hz – 15 kHz）。</li>
+<li><strong>SHIFT</strong> + <strong>K2</strong> = 2 つのクロスオーバーを同時に動かします。</li>
+</ul>
+</li>
+</ol>
+<p>ウィンドウには、パッドのリアルタイムスペクトラム（EQ 後）と EQ カーブが表示されます。<strong>ENCODER</strong> については、<a href="#knobs-on-sampqol-screens">SampQOL 画面でのノブ</a>を参照してください。</p>
+<ul>
+<li><strong>オートメーション:</strong> <strong>SEQ RECORD</strong> と <strong>PLAY</strong> 中に <strong>K1</strong>〜<strong>K3</strong> を回します。</li>
+<li><strong>オートメーションの消去:</strong> EQ ページで <strong>ERASE</strong> を押したまま <strong>K1</strong>、<strong>K2</strong>、<strong>K3</strong> を回します。<strong>SHIFT</strong> を押すとクロスオーバーを消去します。</li>
+<li>プロジェクトは各パッドの EQ 値を保存します。</li>
+<li><strong>バイパス:</strong> EQ ページで <strong>SHIFT</strong> + <strong>B3</strong>: すべてのパッドが EQ なしで再生され、ノブがグレーで表示されます。もう一度押すと EQ が聞こえます。EQ ページを離れるとバイパスはオフになります。プロジェクトには保存されません。</li>
+<li><strong>ミキサー:</strong> <strong>PAD FX</strong> でパッドのインサートに移動します。<strong>EQ</strong> 行の <strong>B3</strong> で戻ります。<a href="#mixer">ミキサー</a>を参照。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> EQ は、SampQOL OS を入れた MPC Sample でのみ再生されます。どの MPC でも再生される EQ が必要な場合は、<a href="#mixer">ミキサー</a>で EQ エフェクトをパッドのインサートとして挿してください。</p></blockquote>
+<h3 id="sample-tail"><a class="anc" href="#sample-tail" aria-label="この見出しへのリンク">#</a>サンプルテイル</h3>
+<p><strong>Tail</strong> を使うと、サンプル（またはチョップ）の終わりが長く響きます。最後の部分が前後に再生され（ピンポン）、フェードアウトするため、チョップが突然途切れません。</p>
+<p><img loading="lazy" src="img/fig05.png" alt="Start と Length ノブがある Tail ページ"></p>
+<ol>
+<li><strong>SAMPLE</strong> を押してパッドを選択します。</li>
+<li><strong>Tail</strong> ページが表示されるまで <strong>B1</strong> を押します（<strong>Trim &gt; Mix &gt; Amp Env &gt; Tail</strong>）。</li>
+<li>ノブを回します。
+<ul>
+<li><strong>K1</strong> = <strong>Start</strong>: 前後に再生される部分の大きさ（4 ms〜1 秒）。波形に青い線で表示されます。</li>
+<li><strong>K2</strong> = <strong>Length</strong>: テイルが響く長さ（4 ms〜5 秒）。左いっぱい = <strong>Off</strong>（デフォルト）。</li>
+</ul>
+</li>
+</ol>
+<p>パッドの Tail オートメーションを消去するには、<strong>ERASE</strong> を押したまま <strong>K1</strong> または <strong>K2</strong> を回します。</p>
+<ul>
+<li><strong>Loop</strong> がオンのときは Tail は動作しません。</li>
+<li>テイルが再生されている間、パッドライトは明るいままです。</li>
+<li>チョップモードでは、Tail は選択中のチョップに対して働きます。</li>
+<li>プロジェクトは Tail の値を保存します。</li>
+</ul>
+<h3 id="stereo-one-channel-of-a-stereo-sample"><a class="anc" href="#stereo-one-channel-of-a-stereo-sample" aria-label="この見出しへのリンク">#</a>ステレオ: ステレオサンプルの片チャンネル</h3>
+<p><strong>Stereo</strong> を使うと、ステレオサンプルを左チャンネルのみ、右チャンネルのみ、またはそのブレンドで再生できます。チャンネルはモノラルで、両方のスピーカーから再生されます。</p>
+<ol>
+<li><strong>SAMPLE</strong> を押してパッドを選択します。</li>
+<li><strong>Play</strong> ページが表示されるまで <strong>B2</strong> を押します。</li>
+<li><strong>SHIFT</strong> を押しながら <strong>K3</strong>（<strong>Stereo</strong>）を回します。
+<ul>
+<li><strong>St</strong>（中央、デフォルト）: サンプルを標準どおりステレオで再生します。</li>
+<li><strong>L Mono</strong>（左いっぱい）: 左チャンネルのみを両方のスピーカーから再生します。</li>
+<li><strong>R Mono</strong>（右いっぱい）: 右チャンネルのみを両方のスピーカーから再生します。</li>
+<li><strong>L1</strong>〜<strong>L49</strong>、<strong>R1</strong>〜<strong>R49</strong>: ブレンド。もう一方のスピーカーでは、残したチャンネルがより多く再生されます。数字が大きいほど、よりモノラルに近づきます。</li>
+</ul>
+</li>
+</ol>
+<p><strong>K3</strong> は、ほかの SampQOL のノブと同様に <strong>MIDI Config</strong> &gt; <strong>Parameter Takeover</strong> に従います（<a href="#knobs-on-sampqol-screens">SampQOL 画面でのノブ</a>を参照）。</p>
+<ul>
+<li>モノラルのサンプルは変化しません。</li>
+<li>プロジェクトは各パッドの Stereo 値を保存します。</li>
+<li><strong>SEQ RECORD</strong> + <strong>PLAY</strong> 中にノブを回しても、オートメーションは録音されません。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> 同じステレオサンプルを 2 つのパッドに割り当て、それぞれ <strong>L Mono</strong> と <strong>R Mono</strong> にすると、各パッドが片側をそれぞれ独立したモノラルの音として再生します。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> 左右を 1 つのモノラルの音にまとめたい場合は、<strong>Stereo</strong> を <strong>St</strong> のままにして、パッドのインサートスロットに <a href="#air-compressor-and-air-stereo-width">AIR Stereo Width</a> を入れ、<strong>Width</strong> を <strong>0 %</strong> にします。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> 標準の MPC Sample や MPC One、Live、X では、パッドは両チャンネルを再生します。結果をサンプルとして残したい場合は、先に<a href="#resample-one-pad">1 つのパッドのリサンプル</a>を使ってください。</p></blockquote>
+<h3 id="16-levels-scale"><a class="anc" href="#16-levels-scale" aria-label="この見出しへのリンク">#</a>16 LEVELS スケール</h3>
+<p><strong>Scale</strong> を使うと、16 個のパッドが 1 つのパッドのサンプルを、スケールの音階で演奏します。各パッドでコードを鳴らしたり、アルペジオ（Arp）を演奏したりすることもできます。</p>
+<p><img loading="lazy" src="img/fig06.png" alt="16 LEVELS Scale: パッドにスケールの音名が表示され、バーに Key、Major、Octave が表示されている"></p>
+<ol>
+<li><strong>SAMPLE</strong> を押してパッドを選択します。</li>
+<li><strong>16 LEVELS</strong> を押して 16 Levels をオンにします。</li>
+<li>ディスプレイに <strong>「16 Level / Scale」</strong> と表示されるまで <strong>SHIFT</strong> + <strong>16 LEVELS</strong> を押します（<strong>Velocity &gt; Filter &gt; Tune &gt; Scale</strong>。もう一度押すと <strong>Velocity</strong> に戻ります）。</li>
+<li>オレンジ色のバー上のノブを回します。
+<ul>
+<li><strong>K1</strong> = <strong>Key</strong>（C〜B）。</li>
+<li><strong>K2</strong> = <strong>Scale</strong>: Chromatic、Major、Minor、Harm Minor、Maj Pent、Min Pent、Dorian、Phrygian、Mixolydian、Blues。</li>
+<li><strong>K3</strong> = <strong>Octave</strong>（-2〜+2）。</li>
+<li><strong>ENCODER</strong>: <a href="#knobs-on-sampqol-screens">SampQOL 画面でのノブ</a>を参照。</li>
+</ul>
+</li>
+<li>パッド（オレンジ色）を演奏します。<strong>PAD 1</strong> がキーの音で、その上のパッドはスケールを上がっていきます。例: Key C、Major の場合、<strong>PAD 1</strong>〜<strong>PAD 8</strong> は C、D、E、F、G、A、B、C を演奏します。</li>
+</ol>
+<p>キーは最も近い音程で再生されます（最大で 5 半音上、または 6 半音下）。それ以上は <strong>Octave</strong> を使います。Scale はパッドの <a href="#keys-play-a-pad-from-a-midi-keyboard">KEYS</a> ルート音を基準にします（例: <strong>「Key C (D3)」</strong>）。KEYS ルートが <strong>Off</strong> の場合、サンプルは C として扱われます。</p>
+<p><strong>Chord:</strong> <strong>SHIFT</strong> を押しながら <strong>K1</strong> を回します: Chord Off、1-3-5、1-3-5-7、1-3-5-6、1-3-5-9、1-3-5-7-9、1-2-5、1-4-5、1-5、1-5-8。数字はスケールの度数です（8 = 1 オクターブ上）。<strong>Chromatic</strong> では、各パッドが Major のコード形を演奏します（1-3-5 = メジャー、1-4-5 = sus4）。<strong>Note On</strong> モードのパッドでは、録音された各音がそれぞれの長さで再生されます。</p>
+<p><strong>Arp:</strong> <strong>SHIFT</strong> を押しながら <strong>K2</strong> を回してパターンを選択します: Arp Off、Up、Down、Up &amp; Down、Converge、Diverge、Thumb Up、Pinky Up、Random。<strong>SHIFT</strong> + <strong>K3</strong> でオクターブ数（1〜4）を設定します。</p>
+<p><strong>NOTE REPEAT</strong> を押しながらパッドを押し続けると、リピートは押しているパッドのノート（<strong>Chord</strong> の場合はコードの全構成音）を、パターンに従って低い音から高い音へ 1 音ずつ演奏します。2 つのコードで共通する音は 1 回だけ鳴ります。レート、スウィング、録音は標準の Note Repeat と同じです。</p>
+<blockquote><p><strong>ヒント:</strong> <strong>Chord Off</strong> の場合、1 つのパッドはどのステップでも同じ音を鳴らします。2 つ以上のパッドを押し続けるか、<strong>Chord</strong> を設定してください。</p></blockquote>
+<p><strong>パッドグリッド:</strong> <strong>B2</strong>（<strong>Grid</strong>）で、各パッドの音（例: <strong>E3</strong>）とコード名（例: <strong>Em7</strong>）が表示された 4×4 グリッドの表示／非表示を切り替えます。キーを鳴らすパッドはオレンジ色です。グリッドがオフのときは、ノブを回した後 2 秒間表示されます。</p>
+<ul>
+<li><strong>SHIFT</strong> を押している間は、バーに Chord と Arp の値が表示されます。<strong>SHIFT</strong> + パッドは常に標準機能です。</li>
+<li>Mod は Scale の値をプロジェクトではなく SD カードに保存します。</li>
+<li>録音は通常の 16 Levels ノートになります。プロジェクトは標準の MPC でも開けます。</li>
+<li>録音したコードは、Time Correct（<strong>SHIFT</strong> + <strong>PAD 14</strong>）を使ってもすべての音が保持されます。最初の音がグリッド上に置かれ、以降の音は 1 ティック（1 拍の 1/960）ずつ後ろにずれます。標準では 1 音しか保持されません。これは Tune を含むすべての 16 Levels ノートに当てはまります。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> コードを聞くには、パッドを <strong>Poly</strong>（Play ページ、<strong>K1</strong>）に設定してください。<strong>Mono</strong> モードのパッドは 1 音しか鳴りません。</p></blockquote>
+<blockquote><p><strong>注意:</strong> <strong>Pitch</strong> モードで <strong>Warp</strong> がオンのときは、Scale は動作しません（標準の Tune と同じ）。Warp を <strong>Off</strong> または <strong>Time stretch</strong> に設定してください（<strong>SHIFT</strong> + <strong>PAD 15</strong>）。</p></blockquote>
+<p>2 つのパッド: 標準と同じく、2 つ目のパッドが 1 つ目を止めます。2 つ目のパッドは、離すまで再生されます。</p>
+<h3 id="keys-play-a-pad-from-a-midi-keyboard"><a class="anc" href="#keys-play-a-pad-from-a-midi-keyboard" aria-label="この見出しへのリンク">#</a>KEYS: MIDI キーボードでパッドを演奏する</h3>
+<p><strong>KEYS</strong> を使うと、MIDI キーボードで選択中のパッドを半音階で演奏できます。パッドはドラムのままで、キーボードがサンプルを音程付きで演奏します。</p>
+<p><img loading="lazy" src="img/fig07.png" alt="SHIFT を押した Play ページ: K1 に Keys (C3) と表示されている"></p>
+<p><strong>キーボードの接続:</strong></p>
+<ol>
+<li>MIDI 出力のあるキーボードを、1/8&quot;（3.5 mm）TRS – 5 ピン MIDI DIN ケーブル（付属しません）で <strong>MIDI IN</strong> に接続します。USB のみのキーボードの場合: USB MIDI ホストボックス（付属しません）を <strong>MIDI IN</strong> に接続するか、<strong>USB-C</strong> 経由で MIDI を MPC に送るコンピューターを使います。</li>
+<li>MIDI Config（<strong>SHIFT</strong> + <strong>PAD 8</strong>）で、<strong>MIDI Port</strong> を <strong>External</strong>（<strong>MIDI IN</strong>）または <strong>USB</strong>（コンピューター）に、<strong>Pad MIDI In</strong> を <strong>On</strong> に設定します。</li>
+</ol>
+<blockquote><p><strong>ヒント:</strong> キーボードを <strong>USB-C</strong> に直接接続しても動作しません。MPC は USB ホストではなく USB デバイスだからです。<strong>MIDI Port</strong> の設定が間違っていると、キーボードを弾いても音が出ません。</p></blockquote>
+<p><strong>演奏:</strong> <strong>SAMPLE</strong> を押し、パッドを選択して（<strong>SAMPLE</strong> + パッド: 音は出ません）キーボードを弾きます。C3 でサンプルが元の音程で再生されます。コード、キーごとのリリース、サステインペダルも動作します。</p>
+<p><strong>パッドのルート音を変更する:</strong></p>
+<ol>
+<li><strong>SAMPLE</strong> を押し、<strong>Play</strong> ページが表示されるまで <strong>B2</strong> を押します。</li>
+<li><strong>SHIFT</strong> を押しながら <strong>K1</strong>（<strong>Keys</strong>）を回します: 1 ステップ = 1 半音。
+<ul>
+<li><strong>C#-2</strong> より下は <strong>Off</strong>: キーボードは標準どおりパッドを演奏します。</li>
+<li><strong>Off</strong> のさらに下は <strong>Default</strong>: パッドは <strong>Settings &gt; MIDI Keyboard Plays</strong> に従います。値はかっこ内に表示されます（例: 「(C3)」）。</li>
+</ul>
+</li>
+</ol>
+<p>プロジェクトは各パッドのルート音を保存します。</p>
+<blockquote><p><strong>ヒント:</strong> <a href="#tuner">チューナー</a>を使うと、パッドや楽器が鳴らした音からルート音を設定できます。</p></blockquote>
+<p><strong>チョップしたパッド:</strong> 2 つ以上のスライスを持つパッドでは、ルート音から上の各キーが、元の音程で 1 つのスライス（1、2、…）を演奏します。パッド全体を半音階で演奏するには、<strong>Settings &gt; MIDI Keys on Chop Pad</strong> を <strong>Pitch</strong> に設定します。</p>
+<p><strong>NOTE REPEAT:</strong> キーを押し続けます。選択中のパッドが、そのキーの音程でリピートします。</p>
+<p><strong>録音:</strong> <strong>SEQ RECORD</strong> をオンにして演奏します。MPC は通常の 16 Levels ノート（Tune、チョップしたパッドでは Slice）を録音するため、プロジェクトは標準の MPC でも開けます。録音したコードは <a href="#16-levels-scale">16 LEVELS スケール</a>と同じように動作します。</p>
+<blockquote><p><strong>ヒント:</strong> 標準と同様に、Step Edit ではキーを弾いてもノートは追加されません。そこではパッドを使ってください。</p></blockquote>
+<h3 id="chop-mode"><a class="anc" href="#chop-mode" aria-label="この見出しへのリンク">#</a>チョップモード</h3>
+<p><strong>128 スライス:</strong> チョップモードでは、1 つのサンプルに最大 128 のスライスを作れます。<strong>PAD BANK</strong> でバンクを選択します（A = スライス 1〜16 から H = 113〜128 まで）。<strong>ERASE</strong> + パッドは各バンクで動作します。チョップのないバンクでは、チョップモードはバンク A で開きます。</p>
+<p><strong>タップでチョップ:</strong> チョップタイプ <strong>Manual</strong> で、パッド 1 をタップしてサンプルを再生し、それに合わせてパッド 2〜16 をタップします。タップするたびにチョップが作られます。バンクの 16 個目のチョップの後は次のバンクが表示されるので、そのパッド 1 をタップして続けます。</p>
+<blockquote><p><strong>ヒント:</strong> 2 つのチョップの間にチョップを入れても、バンクは変わりません。サンプル再生中に <strong>PAD BANK</strong> を押すと次のバンクに移動します。128 個目のチョップの後は、バンクは変わりません。</p></blockquote>
+<p><img loading="lazy" src="img/fig08.png" alt="スライス内にループがあり、Start、End、Chop Type ノブが表示されたチョップモード"></p>
+<p><strong>Threshold と Split:</strong> チョップタイプ <strong>Threshold</strong> は、標準と同じく最大 16 スライス（バンク A）を作ります。<strong>Settings</strong> &gt; <strong>Threshold Max Slices</strong> で最大 128 まで設定できます。最初のスライスはサンプルの先頭から作られます。Threshold を下げるとスライスが増えます。<strong>Split</strong>（<strong>SHIFT</strong> + <strong>B2</strong>）は最大 64 スライスまで分割します。</p>
+<p><strong>Regions 32、64、128:</strong> <strong>K3</strong>（Chop Type）には 8 つの位置があります: Threshold、Regions 4、8、16、32、64、128、Manual。<strong>K3</strong> またはエンコーダーを回すと、ノブにタイプの名前が表示されます。</p>
+<p>チョップモードを離れる、またはチョップモード内で別のトラックに移動すると、Threshold や Regions のチョップは <strong>Manual</strong> になります（Extract で作られるパッドと同様）。スライスはそのまま残ります。もう一度チョップするには、<strong>K3</strong> を Threshold または Regions に回します。</p>
+<blockquote><p><strong>注意:</strong> 標準の MPC Sample ソフトウェアは、Threshold や Regions のパッドを再度チョップし、16 スライスしか保持しません。Manual のパッドは、Mod のないデバイスでもすべてのスライスを保持します。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> 新しいチョップやスライスの移動をした後、チョップモードを離れるときに MPC がチョップをサンプルファイルに保存します。長いサンプルでは、波形が戻るまで数秒間ロード中のサークルが表示されます。変更がない場合、波形はすぐに表示されます。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> 64 スライス以上では、<strong>Split</strong> は白いままですが分割しません。先に <strong>Merge</strong> を使うか、スライスを手動で追加してください。</p></blockquote>
+<p><strong>Link Slices:</strong> Link Slices がオンのとき、スライスの終わりを動かすと次のスライスの始まりも一緒に動きます。このパッドについて設定するには、<strong>SHIFT</strong> を押しながら <strong>K3</strong>（<strong>Link: On</strong> / <strong>Link: Off</strong>）を回します。プロジェクトは各パッドの選択を保存します。個別の選択をしていないパッドは <strong>Settings &gt; Link Slices Default</strong> に従います。チョップタイプが Threshold のときは、<strong>SHIFT</strong> + <strong>K3</strong> は標準の Threshold のままです。</p>
+<p><strong>再チョップ前の確認:</strong> 新しい Chop Type（<strong>K3</strong>）があなたの作ったスライスを置き換える前に、MPC は <strong>「CHANGE CHOP TYPE」</strong> と確認します: <strong>B1</strong> = Cancel、<strong>B3</strong> = Do It!。<strong>Settings &gt; Ask Before Rechop</strong> を参照してください。</p>
+<p><strong>ゼロクロス:</strong> <strong>Settings &gt; Snap to Zero Crossing</strong> = <strong>Always</strong> にすると、Start、End、Loop、チョップ、スライスがすべてのズームでゼロクロスにスナップし、クリックノイズが減ります。</p>
+<p><strong>Extract</strong> は、パッドのチョップをそれぞれ独自のパッドに配置します。新しい WAV は作りません。新しい各パッドは、チョップしたパッドのコピーで、そのチョップが Start と End になります。標準の Extract（チョップごとに新しい WAV を作る）は使えません。</p>
+<ol>
+<li><strong>SAMPLE</strong> を押し、チョップしたパッドを選択して <strong>Chop Mode</strong> を開きます。</li>
+<li>スライスを選択します。</li>
+<li><strong>SHIFT</strong> を押しながら <strong>B1</strong>（<strong>Extract</strong>）を押します。
+<ul>
+<li><strong>B1</strong> = <strong>Cancel</strong>。</li>
+<li><strong>B2</strong> = <strong>Pad</strong>: 選択したスライスを 1 つのパッドに配置します。</li>
+<li><strong>B3</strong> = <strong>Track</strong>: 各チョップを順番に、1 列にそれぞれのパッドへ配置します。</li>
+</ul>
+</li>
+<li>チョップ用のパッド（<strong>Pad</strong>）、または最初のチョップ用のパッド（<strong>Track</strong>）を押します。<strong>PAD BANK</strong> を短く押すと次のバンクを選択します。<strong>PAD BANK</strong> を押しながらパッドを押すと、そのバンクを選択します。ディスプレイにはパッド（例: <strong>「16 chops to B01-B16」</strong>）と、それらが空かどうかが表示されます。開始時には、最初の空きパッド（またはパッドの列）が選択されます。なければ、チョップが収まる最後のパッドが選択されます（128 チョップの場合: 常に <strong>A01</strong>）。パッドライトはバンク内のパッドを示します: 黄 = チョップがそこに入る、赤 = チョップがそこのサンプルを置き換える、白 = チョップしたパッド。<strong>K2</strong>（<strong>Mute Grp</strong>）または <strong>ENCODER</strong> を回して、チョップパッドのミュートグループを設定します: <strong>Off</strong> または 1〜32（<strong>ENCODER</strong> 1 ステップにつき 1 グループ）。開始時には、チョップしたパッドのミュートグループになっています。<strong>Back</strong> は設定した値を保持します。ミュートグループ内では、パッドは同じグループのほかのパッドを止めるため、チョップは直前のチョップを止めます。<a href="#mute-groups">ミュートグループ</a>を参照。</li>
+<li>ボタンを押します。
+<ul>
+<li>すべてのパッドが空の場合は <strong>B3</strong> = <strong>Do It!</strong>。邪魔になるパッドにサンプルがある場合は、<strong>B3</strong> = <strong>Replace</strong>: チョップがそれらのパッドのサンプルを置き換えます。<strong>Track</strong> の場合、チョップしたパッド自身も対象になることがあります。その場合、そのパッドは自身のチョップになり、そのチョップが Start と End になります。</li>
+<li><strong>B2</strong> = <strong>New Track</strong>（<strong>Track</strong> のみ）: チョップは、現在のトラックの直後に作られる新しいトラックの A01 以降のパッドに入ります。MPC は新しいトラックをバンク A で表示し、パッド A01（最初のチョップ）が選択されます。</li>
+<li><strong>B1</strong> = <strong>Back</strong>: 手順 3 に戻ります。</li>
+</ul>
+</li>
+<li>チョップしたパッドにパッドインサートエフェクトがある場合、<strong>New Track</strong> は最初に確認します。<strong>B3</strong>（<strong>To Track</strong>）は、同じ設定とオン／オフの状態のまま、エフェクトを新しいトラックのトラックインサートに 1 つだけ配置します（チョップパッドにはエフェクトが付きません）。<strong>B2</strong>（<strong>Copy FX</strong>）は、各チョップパッドにコピーを付けます。<strong>B1</strong>（<strong>Back</strong>）は手順 4 に戻ります。チョップしたパッドはエフェクトを保持します。</li>
+<li>ディスプレイに <strong>「Extracted to:」</strong> とパッドが表示されます。</li>
+</ol>
+<ul>
+<li>1 回の <strong>UNDO</strong> で、新しいトラックを含め Extract 全体が取り消されます。</li>
+<li><strong>Pad</strong> では、チョップしたパッドは置き換えられません。<strong>Track</strong> と <strong>Replace</strong> では、チョップしたパッドはサンプルを保持しますが、自身のチョップだけを再生します。<strong>UNDO</strong> で、すべてのチョップを持つ元のパッドに戻ります。</li>
+<li>自身のチョップだけを再生するパッドで <strong>SHIFT</strong> + <strong>B1</strong> を押すと、<strong>「Extract: 1 chop」</strong> と表示されます。<strong>UNDO</strong> ですべてのチョップが戻ります。</li>
+<li>チョップが H16 を超える場合、ディスプレイに <strong>「they do not fit」</strong> と表示され、<strong>B3</strong> は使えません。より前のパッドを押すか、<strong>New Track</strong> を使ってください。</li>
+<li>128 チョップはトラックのすべてのパッドを埋めるため、<strong>New Track</strong> を使ってください。</li>
+<li>トラックが 16 個ある場合、<strong>New Track</strong> は <strong>「16 Tracks Max」</strong> と表示します。</li>
+<li>Extract はシーケンスが停止しているときのみ動作します。ノートは変更されません。</li>
+</ul>
+<h2 id="sample-record-mode"><a class="anc" href="#sample-record-mode" aria-label="この見出しへのリンク">#</a>サンプルレコードモード</h2>
+<p>標準の <strong>Input Config</strong> メニューのすべての設定は、SAMPLE RECORD 画面にあります。<strong>SHIFT</strong> + <strong>SAMPLE</strong> のメニュー自体については、<a href="#shortcuts">ショートカット</a>を参照してください。</p>
+<p><strong>SHIFT</strong> + <strong>B2</strong> で <strong>Rec Input Effects</strong>（ラベル <strong>Input FX</strong>）のオン／オフを切り替えます。オン: Knob FX が録音に含まれます。入力モニターもそれに従います: <strong>Input FX Off</strong> ではドライ、<strong>Input FX On</strong> では Knob FX が 1 回かかった音になります。</p>
+<p>標準では、モニターは常に Knob FX を通ります。<strong>Monitor</strong>（<strong>Off</strong>、<strong>Auto</strong>、<strong>On</strong>）を変更してもクリックノイズは出ません。モニターは <strong>MAIN VOLUME</strong> に従います。</p>
+<p><strong>Undo</strong> と <strong>Redo</strong>（<strong>SHIFT</strong> + <strong>-</strong> / <strong>+</strong>）は SAMPLE RECORD でも動作します。録音中は、MPC に <strong>Stop the recording first.</strong> と表示されます。</p>
+<h3 id="to-seq-record-directly-into-the-sequence"><a class="anc" href="#to-seq-record-directly-into-the-sequence" aria-label="この見出しへのリンク">#</a>To Seq: シーケンスに直接録音する</h3>
+<p><strong>To Seq</strong> を使うと、MPC は新しいサンプルのノートをシーケンスに追加します。</p>
+<ol>
+<li><strong>SAMPLE RECORD</strong> を押します。</li>
+<li><strong>B2</strong> を押して <strong>To Seq</strong> をオンにします（白いボックス = オン）。</li>
+<li><strong>K2</strong> で録音の長さを選択します。
+<ul>
+<li><strong>Seq</strong>: ループの先頭から 1 ループ分。ノートは 1 拍目に置かれます。</li>
+<li><strong>Free</strong>: 録音は即座に始まり、もう一度パッドをタップすると止まります。ノートは開始した時点に置かれます。</li>
+</ul>
+</li>
+<li>録音したいパッドをタップします。録音後、ノートがシーケンスに入り、パッドはすぐに再生されます。</li>
+</ol>
+<ul>
+<li><strong>シーケンス停止中:</strong> パッドをタップすると、シーケンスと録音が 1 小節目の 1 拍目から始まります（<strong>COUNT-IN</strong> がオンの場合は 1 小節後）。カウントイン中に <strong>STOP</strong> を押すと、録音は行われません。</li>
+<li><strong>同じパッドに再度録音する:</strong> 新しいテイクがそのパッドの古いノートを置き換えます。オートメーションは残ります。レイヤーを追加するには、別のパッドを使います。</li>
+<li><strong>テイクを取り消す</strong>（Looper のテイクも同様）: Undo を 1 回（<strong>To Seq A01</strong>）。パッドの古いノートと古いサンプルが戻ります。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> To Seq は 4/4 と 3/4 拍子でのみテストされています。</p></blockquote>
+<h3 id="looper"><a class="anc" href="#looper" aria-label="この見出しへのリンク">#</a>ルーパー</h3>
+<p><strong>Looper</strong> は、同じループを複数回重ねて録音します。停止すると、MPC はすべてのパスを 1 つのループに重ねてまとめます。</p>
+<p><img loading="lazy" src="img/fig09.png" alt="To Seq と Looper がオンの SAMPLE RECORD 画面"></p>
+<ol>
+<li><strong>SAMPLE RECORD</strong> を押し、<strong>To Seq</strong> をオンにします（<strong>B2</strong>）。</li>
+<li><strong>B3</strong> を押して <strong>Looper</strong> をオンにします（白いボックス = オン）。</li>
+<li><strong>K2</strong> を <strong>Free</strong> に設定します。</li>
+<li>パッドをタップし、好きなだけパスを演奏します。</li>
+<li>もう一度パッドをタップして停止します。</li>
+</ol>
+<ul>
+<li>合計が大きすぎる場合、音がクリップします。</li>
+<li>チョップしたパッドでは、標準と同じく Looper はパスをまとめません。</li>
+<li>To Seq をオフにすると、Looper もオフになります。</li>
+</ul>
+<h3 id="stop-stays-on-the-screen"><a class="anc" href="#stop-stays-on-the-screen" aria-label="この見出しへのリンク">#</a>STOP で画面が切り替わらない</h3>
+<p><strong>STOP</strong> はシーケンスを止めますが、ディスプレイは次のテイクに備えて SAMPLE RECORD に留まります。待機中の録音（「Waiting for signal」）はキャンセルされます。</p>
+<h3 id="source-rearusb"><a class="anc" href="#source-rearusb" aria-label="この見出しへのリンク">#</a>ソース Rear+USB</h3>
+<p>ソースを <strong>Rear+USB</strong> にすると、MPC はリア入力とコンピューターからの USB オーディオを同時に録音し、モニターします。</p>
+<ol>
+<li><strong>SAMPLE RECORD</strong> を押します。</li>
+<li><strong>K1</strong>（Source）を右いっぱいに回して <strong>Rear+USB</strong> にします。（標準の Input Config メニューと<a href="#tuner">チューナー</a>でも、最後の <strong>Source</strong> です。）</li>
+<li>通常どおり録音します。</li>
+</ol>
+<ul>
+<li>MPC は 2 つの入力をフルレベルで加算します。両方が同時に大きいと録音がクリップすることがあるので、どちらかを下げてください。</li>
+<li>SD カードがない場合、MPC はソース <strong>Rear</strong> の標準状態で起動します。</li>
+</ul>
+<h2 id="tuner"><a class="anc" href="#tuner" aria-label="この見出しへのリンク">#</a>チューナー</h2>
+<p>チューナーは 1 つの音の音名を表示します: マイクに入れたギターや声、リア入力や USB オーディオ、または MPC が再生しているサンプルです。</p>
+<ol>
+<li><strong>SHIFT</strong> + <strong>PAD 7</strong> を押します。チューナーが開きます。（標準ではこれは Double Speed です。<a href="#shortcuts">ショートカット</a>を参照。）</li>
+<li><strong>K1</strong>（<strong>Src</strong>）または <strong>ENCODER</strong> を回して <strong>Source</strong> を選択します: <strong>Mic</strong>、<strong>Rear</strong>、<strong>Rear+USB</strong>（チューナーが読み取るのはリア入力のみ）、<strong>USB</strong>（コンピューター）、<strong>Resample</strong>（MPC が再生しているもの。<strong>MAIN VOLUME</strong> が 0 でも可）。これは録音時の Source と同じものです。</li>
+<li>1 つの音を弾きます。画面に音名（例: <strong>A3</strong>）、-50〜+50 セントの針、周波数とセントが表示されます。針は 3 セント以内で緑色になります。音が止まると、最後の音名がグレーで残ります。</li>
+<li><strong>B1</strong>（Back）、<strong>SHIFT</strong> + <strong>PAD 7</strong>、またはモードボタンを押すとチューナーを閉じます。</li>
+</ol>
+<p>音名は、KEYS や 16 Levels と同じ MPC のオクターブ表記を使います: C3 が MIDI ノート 60 なので、440 Hz は <strong>A3</strong> と表示されます（ギターチューナーでは A4）。</p>
+<blockquote><p><strong>ヒント:</strong> 一度に 1 つの音を弾いてください。コードやドラムヒットでは、安定した音名が表示されないことがよくあります。低いギターやベースの弦は、特に音の出だしで 1 オクターブ高く表示されることがあります。</p></blockquote>
+<p><strong>音からパッドのルート音を設定する:</strong></p>
+<ol>
+<li><strong>SAMPLE</strong> 画面または <strong>Pad View</strong> でパッドを選択します。チューナーを開いている間に演奏したパッドも、選択中のパッドになります。</li>
+<li>チューナーを開きます。最下行に、ルート音を受け取るパッドが表示されます（例: 「Pad T02 A05」）。</li>
+<li>音を鳴らします。
+<ul>
+<li>ソースが <strong>Resample</strong> の場合: パッドを演奏します。チューナーはサンプル自体を読み取ります。</li>
+<li>ほかのソース（例: <strong>Rear</strong>）の場合: サンプルの音を、もう一度楽器で弾きます。例: Sample Record でギターの A を録音した場合は、同じ A をもう一度弾きます。</li>
+</ul>
+</li>
+<li><strong>B3</strong>（<strong>Apply</strong>）を押します。その音が、選択中のパッドの <a href="#keys-play-a-pad-from-a-midi-keyboard">KEYS ルート音</a>になります。3 秒間、最下行に新旧のルート音が表示されます（例: 「Pad T02 A05: root A3 (was C3)」）。Apply には Undo ステップがありません。元に戻すには、<strong>SAMPLE</strong> の <strong>Play</strong> ページで <strong>SHIFT</strong> + <strong>K1</strong> を使います。</li>
+</ol>
+<blockquote><p><strong>ヒント:</strong> <strong>Resample</strong> は常にサンプルの音名を返します。ほかのソースでは、サンプルと同じ音を弾いてください。コードやリフの場合は <strong>Resample</strong> を使います。</p></blockquote>
+<h2 id="sequences-and-tracks"><a class="anc" href="#sequences-and-tracks" aria-label="この見出しへのリンク">#</a>シーケンスとトラック</h2>
+<p>1 つのプロジェクトには、最大 16 個のドラムトラックを持てます。SampQOL OS は、MPC One、Live、X で作られたものも含め、プロジェクトのすべてのドラムトラックを読み込みます。MPC One や Live と同様に、パッドは現在のトラックを演奏します。各トラックには独自の 8 つのパッドバンクがあります。録音、NOTE REPEAT、MIDI キーボード、Resample は現在のトラックを使います。</p>
+<p>Mod は常に、トラック 1 を現在のトラックとしてプロジェクトを保存します。これにより、標準の MPC Sample でも安全に開けます。</p>
+<p><strong>Load Kit:</strong> Load Kit はキットを現在のトラックに読み込みます。ほかのトラックのサンプルはそのまま残ります。プロジェクト内のサンプルと同じ名前のキットのサンプルには、別の名前が付けられます（例: <strong>Kick1</strong>）。これにより、各トラックが自分の音を保持します。トラックにはキットの名前が付きます。</p>
+<p><strong>トラック名の一意化:</strong> プロジェクトは各トラックのノートをトラック名で保存します。そのため、Load Kit や Load Project で 2 つのトラックが同じ名前になった場合、2 つ目のトラックには別の名前が付けられます（例: <strong>Drum 001-2</strong>）。</p>
+<p><strong>Half Seq と Double Seq:</strong> <strong>SHIFT</strong> + パッド 2（Half Seq）と <strong>SHIFT</strong> + パッド 3（Double Seq）は、シーケンスのすべてのドラムトラックを変更します。</p>
+<p><strong>TAP TEMPO ライト:</strong> <strong>TAP TEMPO</strong> ライトはテンポに合わせて点滅しません。少し暗めに点灯したままになります。<strong>SHIFT</strong> を押している間は、標準と同じく SHIFT の色を表示します。</p>
+<h3 id="select-a-track"><a class="anc" href="#select-a-track" aria-label="この見出しへのリンク">#</a>トラックの選択</h3>
+<p><img loading="lazy" src="img/fig10.png" alt="6 トラックと「+ New track」セルがあるトラックグリッド"></p>
+<ul>
+<li><strong>PAD BANK</strong> を押しながら <strong>ENCODER</strong> を回します。<strong>PAD BANK</strong> を離すとトラックが変わります。</li>
+<li>または <strong>SHIFT</strong> + <strong>PAD BANK</strong> を押しながらパッド n を押すと、トラック n になります。押している間、パッドはトラックを表示します: 明るい緑 = 現在のトラック、暗い緑 = ほかのトラック、赤 = ミュートされたトラック、消灯 = トラックなし。<strong>ENCODER</strong> を回すと、対象のパッドが白くなります。</li>
+<li><strong>ENCODER</strong> を 1 回回した後は、<strong>PAD BANK</strong> だけでもパッドにトラックが表示され、<strong>PAD BANK</strong> を離すまでパッド n でトラック n を選択できます。<strong>PAD BANK</strong> だけを押し続ける（<strong>ENCODER</strong> なし）と、パッド 1〜8 に標準のバンクの色が表示され、バンクを選択できます。</li>
+<li>選択中は、トラック番号が赤くなります。トラックビューでは、トラックラベルが、これから選ばれるトラックに移動します。</li>
+</ul>
+<p><strong>新しいトラック:</strong> 最後のトラックの 1 つ先を選択します（例: <strong>T03+</strong>、トラックビューでは新しい行）。MPC は、空のパッド、空のトラックインサート、独自の色を持つ新しいトラックを 1 つ作ります。<strong>UNDO</strong> を 1 回押すと削除されます。</p>
+<h3 id="move-a-track"><a class="anc" href="#move-a-track" aria-label="この見出しへのリンク">#</a>トラックの移動</h3>
+<ol>
+<li>移動したいトラックを選択します。</li>
+<li><strong>PAD BANK</strong> を押しながら <strong>-</strong>（1 つ上）または <strong>+</strong>（1 つ下）を押します。トラックは隣のトラックと入れ替わり、現在のトラックのままです。ポップアップに両方のトラックが表示されます（変更がない場合は <strong>「First Track」</strong> / <strong>「Last Track」</strong>）。</li>
+</ol>
+<p>これはすべての画面で動作します。移動のたびに <strong>UNDO</strong> のステップが 1 つ増えます。パッド、ノート、ミュート、名前はトラックと一緒に移動します。「Track n」という名前のトラックには、新しい位置の番号が付きます。自分で付けた名前は変わりません。</p>
+<h3 id="copy-a-pad-to-another-track"><a class="anc" href="#copy-a-pad-to-another-track" aria-label="この見出しへのリンク">#</a>パッドを別のトラックにコピーする</h3>
+<ol>
+<li>コピー元のパッドを選択します。標準と同じく、<strong>SHIFT</strong> + <strong>ERASE</strong>（COPY）を押しながらコピー先のパッドを押します。</li>
+<li>COPY を押している間に <strong>ENCODER</strong> を回して、コピー先のトラックを選択します（例: 「Copy from A01 to Track 04 A02」）。</li>
+<li>離します。MPC はコピー先のトラックに移動します。</li>
+</ol>
+<p>コピーされるのはサンプルのみ（共有）で、ノートはコピーされません。コピー先のパッドにサンプルがある場合は、MPC が先に確認します（<strong>「COPY PAD」</strong>）。</p>
+<h3 id="select-a-sequence-from-the-sample-screen"><a class="anc" href="#select-a-sequence-from-the-sample-screen" aria-label="この見出しへのリンク">#</a>SAMPLE 画面からシーケンスを選択する</h3>
+<p><strong>SEQ</strong> を押しながらパッド n を押すと、現在のパッドバンクのシーケンス n になります。SAMPLE 画面に留まります。シーケンスが再生中の場合は、ループの終わりで切り替わります。<strong>SEQ</strong> だけを押すと、標準と同じく SEQ 画面が開きます。</p>
+<p><img loading="lazy" src="img/fig11.png" alt="シーケンス再生中の SAMPLE 画面ヘッダー S01 T01 A07 Next Verse"></p>
+<p>または <strong>SEQ</strong> を押しながら <strong>ENCODER</strong> を回し、<strong>SEQ</strong> を離します。これは Step Edit、すべての<a href="#mixer">ミキサー</a>ページ、標準の Pad FX と Flex Beat 画面でも動作します。</p>
+<p><strong>SEQ</strong> を押している間、パッドにはパッドバンクのシーケンスが表示されます: 緑 = 現在、黄 = イベントあり、消灯 = 空、赤 = ループの終わりを待機中。</p>
+<blockquote><p><strong>ヒント:</strong> Pad FX や Flex Beat 画面では、シーケンスを切り替えながら、パッドと <strong>KNOB FX</strong> でエフェクトを演奏できます。ライブパフォーマンス用の 1 つの画面です。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> MPC の再生中にシーケンスを切り替えると（Song モードでも）、短い途切れが聞こえることがあります。トラックやエフェクトが多いほど起こりやすくなります。</p></blockquote>
+<h3 id="select-grid"><a class="anc" href="#select-grid" aria-label="この見出しへのリンク">#</a>セレクトグリッド</h3>
+<p>トラックまたはシーケンスを選択している間、ディスプレイにはパッド順（パッド 1 が左下）の 4x4 グリッドが表示され、各セルに番号と名前が入ります。</p>
+<p><img loading="lazy" src="img/fig12.png" alt="Intro、Verse、Chorus、Drop、Outro、Break、Fill、End の名前が入ったシーケンスグリッド"></p>
+<ul>
+<li><strong>トラック:</strong> <strong>SHIFT</strong> + <strong>PAD BANK</strong> を押し続けるか、<strong>PAD BANK</strong> を押しながら <strong>ENCODER</strong> を回します。<strong>PAD BANK</strong> を離すまで表示されます。</li>
+<li><strong>シーケンス:</strong> <strong>SEQ</strong> を 0.3 秒間押し続けるか、<strong>SEQ</strong> を押しながら <strong>ENCODER</strong> を回します。これから選ばれるシーケンスのパッドバンクにある 16 個のシーケンスが表示されます。グリッドの後に <strong>SEQ</strong> を離しても、SEQ 画面は開きません。</li>
+<li>太い白枠はこれから選ばれるトラックまたはシーケンス、細い白枠は現在のもの、太い赤枠はループの終わりを待っているシーケンスを示します。暗いセルは、ミュートされたトラックまたは未使用のシーケンスです。新しいトラックは「New track」とともに <strong>+</strong> で表示されます。</li>
+<li><strong>Settings &gt; Track Grid on Screen</strong> と <strong>Seq Grid on Screen</strong> を <strong>On</strong>、<strong>Off</strong>、<strong>Toggle</strong> のいずれかに設定します。<strong>Toggle</strong> では、<strong>B2</strong> を押してグリッドのオン／オフを切り替えます（グリッドがオンのとき <strong>B2</strong> は白）。MPC はこの選択を記憶します。</li>
+</ul>
+<h3 id="name-a-sequence"><a class="anc" href="#name-a-sequence" aria-label="この見出しへのリンク">#</a>シーケンスの名前付け</h3>
+<p><img loading="lazy" src="img/fig13.png" alt="シーケンス名のプリセットリスト: Intro、Verse、Chorus、Pre-Chorus、Bridge、Breakdown、Drop"></p>
+<ol>
+<li>SEQ 画面で <strong>SHIFT</strong> + <strong>B3</strong>（<strong>Rename</strong>）を押します。</li>
+<li>標準と同じように名前を変更するか、<strong>SHIFT</strong> + <strong>B3</strong>（<strong>Preset</strong>）を押して名前を選択します: Intro、Verse、Chorus、Bridge、Drop、Outro など。</li>
+<li><strong>B3</strong>（<strong>Do It!</strong>）を押します。<strong>UNDO</strong> も使えます。</li>
+</ol>
+<p>標準と同じく、シーケンスは最初のイベントが入ったときに <strong>「Sequence 08」</strong> という名前が付きます。SEQ 画面では、<strong>「Seq A08」</strong> の横に名前がグレーで表示されます。<strong>Song</strong> モードでは <strong>「A01 Intro」</strong>、デフォルト名の場合は <strong>「A01」</strong> のみが表示されます。</p>
+<p><strong>SEQ</strong> モードでは、現在のシーケンスのパッドは緑、イベントのあるシーケンスは黄、空のシーケンスは消灯です。</p>
+<h3 id="clear-a-song"><a class="anc" href="#clear-a-song" aria-label="この見出しへのリンク">#</a>ソングのクリア</h3>
+<p>ソング内のすべてのシーケンスを一度に削除します。標準では、<strong>B2</strong>（<strong>Remove</strong>）は 1 行だけを削除します。</p>
+<ol>
+<li><strong>SHIFT</strong> + <strong>PAD 12</strong> を押して <strong>Song</strong> モードを開きます。</li>
+<li><strong>SHIFT</strong> + <strong>B2</strong>（<strong>Clear All</strong>）を押します。ソングが空になります。<strong>UNDO</strong> で元に戻せます。</li>
+</ol>
+<blockquote><p><strong>ヒント:</strong> 先にソングを停止してください。ソングの再生中、または空のときは、<strong>Clear All</strong> はグレーになります。</p></blockquote>
+<p><strong>Quick Add:</strong> <strong>Settings &gt; Song Pads</strong> = <strong>Quick Add</strong> にすると、パッドを押すだけで、<strong>B3</strong> なしで選択中の行の直後にそのシーケンスが挿入されます。パッド 1、パッド 1、パッド 2 の順に押すと A01、A01、A02 になります。空のシーケンスのパッドも、<strong>B3</strong> と同じように挿入されます（「(unused)」）。<strong>B2</strong> または <strong>UNDO</strong> で削除できます。ソングの再生中は、パッドを押しても挿入されません。</p>
+<blockquote><p><strong>ヒント:</strong> 各行には、再生されるテンポが表示されます。<strong>SEQ</strong> 画面で <strong>BPM: GBL</strong> をオンにすると、すべての行にグローバルテンポが表示されます。標準ではシーケンスのテンポが表示されます。</p></blockquote>
+<h3 id="record-mutes"><a class="anc" href="#record-mutes" aria-label="この見出しへのリンク">#</a>ミュートの録音</h3>
+<ol>
+<li><strong>SEQ RECORD</strong> をオンにして、シーケンスを再生します（<strong>PLAY</strong>）。</li>
+<li><strong>MUTE</strong> を押してミュートモードにします。</li>
+<li>パッドを押してミュート／ミュート解除します。MPC は押すたびに録音します。<strong>UNMUTE ALL</strong>（<strong>SHIFT</strong> + <strong>MUTE</strong>）も録音されます。</li>
+</ol>
+<ul>
+<li>ミュートはループのたびに再び再生されます。このシーケンスの中だけです。</li>
+<li>タイミングは、押した正確な時刻です。Time Correct の影響は受けません。</li>
+<li>録音されたミュートは、ライブで押したものより優先されます。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> <strong>UNMUTE ALL</strong> は、ミュートされたすべてのトラックのミュートも解除します。録音していない場合は 1 回の Undo ステップになります: <strong>UNDO</strong> で、すべてのパッドミュートとトラックミュートが元に戻ります。録音中は、<strong>UNDO</strong> は録音したパスを削除し、パッドはその時点のミュート状態を保持します。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> あるパッドをミュートした状態で始まるシーケンスにするには、パッドを正しい状態にして、最初から 1 回の押下を録音してください。</p></blockquote>
+<p><strong>ミュートの消去:</strong> ミュートモードで <strong>ERASE</strong> を押しながらパッドを押し、<strong>B3</strong>（<strong>Do It!</strong>）を押します。そのパッドのミュートだけが消えます。</p>
+<p><strong>Mute Type:</strong> <strong>Settings &gt; Mute Type</strong> で、ミュートの鳴り方を設定します。対象はパッドミュート（ミュートモード、<strong>Pad Mixer</strong>、別のパッドの <strong>Solo</strong> によってミュートされるパッド）とトラックミュート（Track Mute、<strong>Ch. Mixer</strong>、<strong>Explode</strong>）です。</p>
+<ul>
+<li><strong>Audio</strong>: パッドはすぐに止まります。トラックは 5 ms でフェードアウトし、クリックノイズは出ません。</li>
+<li><strong>Event</strong>: 新しいノートだけが止まり、鳴っているノートは最後まで再生されます。この場合、ミュートされたパッドは MIDI ノートも送信せず、同じミュートグループのほかのパッドも止めません。</li>
+<li>別のタイプでミュートしたトラックは、ミュートされたままです。1 回押すとミュートが解除されます。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> <strong>Out</strong> がサブミックスや出力に設定されているパッドは、Audio のトラックミュートではフェードしません。音がクリックノイズとともにすぐに止まります。<strong>Event</strong> を使うか、<strong>Out</strong> を <strong>Track</strong> に設定してください。</p></blockquote>
+<p><strong>Track Mute:</strong> パッドでトラック全体をミュートします。</p>
+<ol>
+<li><strong>MUTE</strong> を 0.7 秒間押し続けるか、<strong>PAD BANK</strong> + <strong>MUTE</strong> を押します。16 個のパッドが 16 個のトラックになります。</li>
+<li>パッドを押してそのトラックをミュート／ミュート解除します: 緑 = 再生、赤 = ミュート、消灯 = トラックなし。（パッドのミュートモードでは、再生中のパッドは黄色です。）</li>
+<li><strong>SEQ RECORD</strong> と <strong>PLAY</strong> 中は、パッドミュートと同様に MPC が押すたびに録音します。これはすべてのトラックで動作し、現在のトラックでないトラックでも、<strong>SAMPLE</strong> 画面と <strong>SEQ</strong> 画面でも動作します。録音の開始時と停止時も、Track Mute はオンのままです。</li>
+<li>別のシーケンスを選択するには、<strong>SEQ</strong> を押しながらパッドを押します（<strong>SEQ</strong> を押している間、パッドにシーケンスが表示されます）。Track Mute はオンのままです。再生中は、次のシーケンスがループの終わりで始まります。</li>
+<li>Track Mute を終了するには、<strong>MUTE</strong> または <strong>SAMPLE</strong> を押すか、別の画面を開きます。</li>
+</ol>
+<blockquote><p><strong>ヒント:</strong> <strong>SHIFT</strong> + <strong>MUTE</strong> は、Track Mute でもほかの画面でも、すべてのトラックのミュートを解除します。録音していない場合は 1 回の Undo ステップです。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> Track Mute と <strong>Ch. Mixer</strong> の <strong>Mute</strong>（<strong>B3</strong>）は同じミュートです。Ch. Mixer には、再生中の録音済みトラックミュートも表示されます。</p></blockquote>
+<p><strong>シーケンスごとのトラックミュート:</strong> MPC Live と同様に、各シーケンスが独自のトラックミュートを保持します。トラックを無音にしたい各シーケンスでミュートしてください。パッドミュートはすべてのシーケンスで共通です。プロジェクトはこれらを保存します。1 セットのトラックミュートしかないプロジェクトでは、そのセットがすべてのシーケンスで使われます。</p>
+<ol>
+<li>シーケンスを新しいシーケンスにコピーします（例: Seq 2 と Seq 3）。コピーが現在のシーケンスになります。</li>
+<li>各シーケンスを選択し、そこでほかのトラックをミュートします。Track Mute 中は、<strong>SEQ</strong> を押しながらパッドを押すと、Track Mute を離れずにシーケンスへ移動できます。</li>
+<li>シーケンスをソングのパートとして使うか、<strong>Song</strong> モードで使います。</li>
+</ol>
+<p>ソングをシーケンスにエクスポートすると（<strong>Song</strong> &gt; <strong>Export</strong> &gt; <strong>Sequence</strong>）、各パートの開始位置に、各トラックのトラックミュートイベントが、録音されたトラックミュートとして追加されます。標準の MPC Sample はこれらのトラックミュートを再生しないため、そこではすべてのトラックが鳴ります。</p>
+<p>新しいシーケンスは RT Swing も保持します。1 つのシーケンスはトラックごとに 1 つの RT Swing を持つため、各トラックにはソングの最初のパートの RT Swing が設定されます。</p>
+<blockquote><p><strong>ヒント:</strong> 後のパートが別の RT Swing を使う場合は、新しいシーケンスで設定し直してください（<strong>SEQ</strong>、<strong>K3</strong>）。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> トラックミュートの <strong>UNDO</strong> は、別のシーケンスを選択していても、ミュートを行ったシーケンスを変更します。<strong>Explode</strong> が元のトラックに設定するミュートも同様です。</p></blockquote>
+<h3 id="midi-out-a-track-plays-an-external-synth"><a class="anc" href="#midi-out-a-track-plays-an-external-synth" aria-label="この見出しへのリンク">#</a>MIDI アウト: トラックで外部シンセを演奏する</h3>
+<p>トラックは、そのノートを独自の MIDI チャンネルで送信できます。そのトラックのパッドは、実際に聞こえる音のノートを送信します: Scale、Tune、KEYS のノートは実際のノートとして出力されます。1 つのトラックが、外部シンセの 1 つのパートを演奏します。</p>
+<p><strong>シンセの接続:</strong></p>
+<ol>
+<li>コンピューターまたは iPad を USB-C ケーブルで <strong>USB-C</strong> に接続するか、シンセを 1/8&quot;（3.5 mm）TRS – 5 ピン MIDI DIN ケーブル（付属しません）で <strong>MIDI OUT</strong> に接続します。</li>
+<li>MIDI Config（<strong>SHIFT</strong> + <strong>PAD 8</strong>）で、<strong>MIDI Port</strong> を <strong>USB</strong> または <strong>External</strong> に設定します。</li>
+</ol>
+<p><strong>トラックの MIDI チャンネルの設定:</strong></p>
+<ol>
+<li>トラックを選択します。</li>
+<li><strong>PAD FX</strong> を押し、<strong>Track</strong> ページが表示されるまで <strong>B1</strong> を押します。</li>
+<li><strong>SHIFT</strong> を押しながら <strong>K3</strong>（<strong>MIDI</strong>）を回します。トラックはすぐにその設定を使います。
+<ul>
+<li><strong>Off</strong>: トラックは MIDI ノートを送信しません。</li>
+<li><strong>Glob.</strong>（Global、デフォルト）: トラックは標準どおり、MIDI Config の <strong>MIDI Out Channel</strong> と <strong>Pad MIDI Out</strong> で送信します。<strong>16 LEVELS</strong> のパッドは元のノートを送信します。</li>
+<li><strong>Ch 1</strong>〜<strong>Ch 16</strong>: トラックはこのチャンネルで送信します。</li>
+</ul>
+</li>
+</ol>
+<p>独自のチャンネルを持つトラックは、MIDI Config の <strong>Pad MIDI Out</strong> が <strong>Never</strong> や <strong>When Empty</strong> のときでも、常に送信します。<a href="#select-grid">トラックグリッド</a>にはチャンネルが表示されます（例: <strong>Ch 3</strong>）。プロジェクトはこの設定を保存します。新しいトラックは <strong>Glob.</strong> から始まります。MIDI 設定には Undo がありません。</p>
+<blockquote><p><strong>ヒント:</strong> 1 つの <strong>MIDI OUT</strong> から複数のシンセを演奏するには、各シンセに別々のチャンネルを割り当てて数珠つなぎにするか（<strong>MIDI THRU</strong> から <strong>MIDI IN</strong> へ）、MIDI スルーボックスを使います。シンセを演奏させないトラックは <strong>Off</strong> に設定してください。<strong>MIDI Port</strong> はすべてのトラック共通です: すべて <strong>USB</strong> で送信するか、すべて <strong>External</strong> で送信します。</p></blockquote>
+<p><strong>MIDI アウトのノート:</strong></p>
+<ul>
+<li>通常のパッドは、そのパッド自身のノートを送信します。KEYS のキーは、そのキー自身のノートを送信します。コードと Arp は、すべての構成音を送信します。</li>
+<li><strong>16 LEVELS</strong> の Scale や Tune のパッドは、パッドの KEYS ルート音（<strong>Off</strong> = C3、ノート 60）に Tune を加えたノートを送信します。例: Scale、Key C、Major、ルート Off の場合: <strong>PAD 1</strong>、<strong>PAD 3</strong>、<strong>PAD 5</strong> は C3、E3、G3 を送信します。</li>
+<li>各パッドは、自分のノートだけを止めます。同じノート・同じチャンネルで 2 つのパッドを押し続けると、シンセ上では 1 つのノートになります（MIDI の制限）: 2 つ目のパッドがもう一度ノートを開始し、最後のパッドを離したときに止まります。</li>
+<li>録音は、パッドが重なっていても、各パッドの長さを保持します。</li>
+<li>シーケンス再生中の <strong>STOP</strong> は、すべてのノートを止めます。シーケンスが再生されていないときは、押し続けているパッドは離すまで鳴り続けます。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> シンセのパートごとに、独自のチャンネルを持つ専用トラックを用意してください。新しいトラックやサンプルのないパッドでは、シンセの音だけが聞こえます。Scale、Tune、KEYS はサンプルのないパッドでも動作します。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> シーケンスが再生しないソースパッドを使ってください。ソースパッドの録音済みノートは、そのパッドのライブのノートも止めます（標準と同じ）。</p></blockquote>
+<h2 id="step-edit"><a class="anc" href="#step-edit" aria-label="この見出しへのリンク">#</a>Step Edit</h2>
+<p>Step Edit には 2 つのビューがあります。</p>
+<ul>
+<li><strong>パッドビュー</strong>（<strong>SHIFT</strong> + <strong>SAMPLE</strong>）: 1 行に 1 つのパッド、1 ページ分のステップ。</li>
+<li><strong>トラックビュー</strong>（<strong>SHIFT</strong> + <strong>SEQ</strong>）: 1 行に 1 つのドラムトラック、1〜8 小節。</li>
+</ul>
+<p>2 つのビューは、できる限り同じ操作を使います。<strong>SHIFT</strong> を押している間は、ボタンが SHIFT 時の機能を表示します。</p>
+<blockquote><p><strong>ヒント:</strong> <strong>KNOB FX</strong> バーが表示されている間、<strong>B1</strong>〜<strong>B3</strong> は標準の Step Edit の機能を行います（例: <strong>B3</strong> は <strong>Erase</strong>）。<strong>NOTE REPEAT</strong> バーが表示されている間は、Note Repeat のレートを設定します。上部のラベルがこれらの機能を示します。</p></blockquote>
+<p>別のシーケンスを選択するには、<strong>SEQ</strong> を押しながらパッドを押すか <strong>ENCODER</strong> を回します（<a href="#select-a-sequence-from-the-sample-screen">シーケンスの選択</a>を参照）。Step Edit に留まります。</p>
+<p>新しいノート（ステップパッド、または <strong>SEQ RECORD</strong> がオンでシーケンス停止中のパッド）は、One Shot のパッドでも 1 ステップの長さになります。<strong>SEQ RECORD</strong> と <strong>PLAY</strong> 中は、標準と同じく、パッドを押している間の長さになります。<strong>FULL LEVEL</strong>（<strong>SHIFT</strong> + <strong>PAD 1</strong>）は、<strong>Steps</strong> がオンのときも含め、両方のビューで動作します。</p>
+<p><strong>Note Repeat</strong> は両方のビューで動作します（標準では Step Edit では動作しません）: <strong>SEQ RECORD</strong> と <strong>PLAY</strong> 中に、<strong>NOTE REPEAT</strong> とパッドを押し続けます。パッドはズームではなく Time Correct の値でリピートします。<strong>B1</strong>〜<strong>B3</strong> は標準どおりレートを選択します。<strong>K1</strong>〜<strong>K3</strong> と <strong>ENCODER</strong> はビューに作用します。<strong>Steps</strong> がオンのときは、<strong>NOTE REPEAT</strong> を押している間パッドが演奏され、ステップは設定されません。</p>
+<h3 id="pad-view"><a class="anc" href="#pad-view" aria-label="この見出しへのリンク">#</a>パッドビュー</h3>
+<p>パッドビューは、16 ステップのパッド 8 個（または 4 個。<strong>Settings &gt; Pad View Rows</strong> を参照）を表示します。各ノートはブロックで表示され、幅が長さ、色がベロシティを表します（薄い黄色 = 弱い、赤 = 強い）。赤い線はシーケンスの終わりを示します。</p>
+<p><img loading="lazy" src="img/fig14.png" alt="パッドビュー: 16 ステップのグリッド上のパッド A01〜A08 のノート"></p>
+<ul>
+<li><strong>ENCODER</strong>: カーソルを 1 ステップ動かします。<strong>SHIFT</strong> + <strong>ENCODER</strong> で行を選択します。<strong>-</strong> / <strong>+</strong> = 前／次のページ。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> Resample、Project、Time Correct、FADER メニュー、MIDI Config、<strong>PAD FX</strong>、<strong>SAMPLE SELECT</strong> の後は、Step Edit が同じカーソル、ページ、<strong>Steps</strong>、選択範囲のまま戻ります。</p></blockquote>
+<p><strong>パッドでノートを追加する（Steps）</strong></p>
+<ol>
+<li><strong>SHIFT</strong> + <strong>B2</strong> を押して <strong>Steps</strong> をオンにします（パッドビューを開いたときはオフ）。16 個のパッドが、そのページの 16 ステップになります。点灯したパッドにはノートがあります。</li>
+<li>空のステップをタップするとノートを追加し、設定済みのステップをタップすると削除します（音は出ません）。</li>
+</ol>
+<ul>
+<li>別の行を選択するには、<strong>SAMPLE</strong> を押しながらパッドを押します（音は出ません。<strong>Steps</strong> はオンのまま）。<strong>SAMPLE</strong> を押している間、パッドは SAMPLE 画面と同じように点灯します。<strong>SAMPLE</strong> だけを短く押すと SAMPLE 画面が開きます。パッドを押さずに <strong>SAMPLE</strong> を押して離すと、パッドビューに留まります。</li>
+<li>シーケンスの終わりより後のステップをタップしても、何も起こりません。</li>
+<li>16 ステップは 1/16、1 小節です（または <strong>Settings &gt; Pad View Grid</strong> のグリッド）。ズームについては、後述の <strong>Zoom</strong> を参照してください。</li>
+</ul>
+<p><strong>パッドを演奏する（Steps オフ）</strong></p>
+<p><strong>Steps</strong> がオフ（<strong>Play</strong>）のとき、パッドは SAMPLE 画面の色で演奏されます。叩いたパッドがその行になります。<strong>SEQ RECORD</strong> がオンでシーケンス停止中は、パッドを叩くとカーソル位置にノートが追加され、カーソルが 1 ステップ進みます。</p>
+<p><strong>ノブでノートを編集する</strong></p>
+<ul>
+<li><strong>K1</strong>（<strong>Nudge</strong>）はノートをページ内で 1 ステップ単位で動かします（<strong>SHIFT</strong> を押すと細かく、ティック単位で、左右最大 1 ステップまで）。<strong>FADER</strong> は細かく動かします。<strong>K2</strong>（<strong>Length</strong>）は長さを設定します（1 ティック〜1 ページ。最も長いノートを表示します）。<strong>K3</strong>（<strong>Velocity</strong>、0〜127。最初のノートを表示します）はベロシティを設定します。</li>
+<li>パッドを押していない場合、ノブは <strong>Steps</strong> でも <strong>Play</strong> でも、選択範囲またはカーソル位置のノートを編集します。グリッドからずれたノートは、見えているセルに属します。</li>
+<li>MPC は 0.5 秒後に変更を書き込みます。書き込みごとに <strong>UNDO</strong> のステップが 1 つ増えます。<strong>ENCODER</strong> を回すか、ほかの操作をするまで、ノートはノブの下に保持されます。少し間を置いてもう一度回すことができます。</li>
+<li><strong>Rec Quantize</strong> がオン（<strong>SHIFT</strong> + <strong>PAD 10</strong>）のとき: <strong>K1</strong> は最初のノートをグリッドに合わせ、<strong>K2</strong> は長さをグリッドステップの整数倍にします。<strong>SHIFT</strong>（細かい調整）を押すと、ノートは自由に動きます。</li>
+</ul>
+<p><strong>コピー、ペースト、消去</strong></p>
+<ul>
+<li><strong>B1</strong>（<strong>Copy</strong>）は、選択範囲またはカーソル位置のセルのノートを、ベロシティ、長さ、ステップ内の位置とともにコピーします（オートメーションやパッドプレッシャーは含まれません）。カーソルを動かして <strong>B3</strong>（<strong>Paste</strong>）を押します: 最初のステップがカーソルのステップに、一番上のパッドがカーソルの行に入ります。すべてのパッドをコピーした場合（<strong>SHIFT</strong> + <strong>ENCODER</strong> を押す）、各ノートはそれぞれのパッドに入ります。コピーするものがない場合、MPC は <strong>「Nothing to copy」</strong> と表示します。ノートがある場合、MPC は <strong>Merge</strong> か <strong>Replace</strong> かを確認します。コピー元と同じ場所にペーストしても、ノートがまだそこにある間は何も起こりません。別のシーケンスにペーストすることもできます。</li>
+<li><strong>SHIFT</strong> + <strong>B1</strong>（<strong>Cut</strong>）は、ノートをコピーしてすぐに削除します。その後、<strong>Copy</strong> のときと同じように <strong>Paste</strong> します。<strong>B1</strong>（<strong>Cancel</strong>）ではノートは元に戻りません。<strong>UNDO</strong> を押してください。カットとペーストはそれぞれ <strong>UNDO</strong> の 1 ステップです。</li>
+<li><strong>SHIFT</strong> + <strong>B3</strong> は <strong>B3</strong>（<strong>Duplicate</strong>、または <strong>Copy</strong> の後は <strong>Paste</strong>）と同じように動作します。</li>
+<li><strong>ERASE</strong> のみ（パッドなしで押して離す）で、選択範囲、カーソル位置のノート、または押しているステップをクリアします。<strong>UNDO</strong> 1 回で全部元に戻ります。</li>
+<li><strong>ERASE</strong> + パッド: <strong>B2</strong>（<strong>Page</strong>）は、このページにあるそのパッドのノートとオートメーションを消去します。<strong>B3</strong>（<strong>Do It!</strong>）はシーケンス全体を消去します。</li>
+</ul>
+<p><strong>ズーム（SHIFT + K3）</strong></p>
+<ul>
+<li><strong>Steps</strong> オン: <strong>SHIFT</strong> + <strong>K3</strong> でステップを <strong>Bar</strong> から 1/64T までズームします（1/32 では 16 個のパッドが半小節、1/4 では 4 小節）。<strong>Bar</strong> は 16 小節を表示します: パッドはノートの位置を示し、タップしてもノートは追加されません。</li>
+<li>ズームは、ユーザーの Time Correct（Rec Quantize）を変更しません。<strong>Steps</strong> をオフにする、トラックビューに移動する、Step Edit を閉じる、またはプロジェクトを保存すると、元の値に戻ります。</li>
+<li><strong>Steps</strong> オフ: <strong>SHIFT</strong> + <strong>K3</strong>（<strong>Bars</strong>）でビューを 1、2、4、8 小節にズームします（トラックビューと同様）。グリッドは変わりません。操作は見えている列に作用し、<strong>K1</strong> と <strong>K2</strong> はグリッドステップ単位です。</li>
+</ul>
+<p><strong>Rec Quantize グリッド:</strong> <strong>SHIFT</strong> + <strong>PAD 10</strong> を押します。ポップアップに On または Off が表示されます。<strong>K3</strong> を回してグリッド（Bar〜1/64T）を選択し、<strong>B3</strong>（<strong>Do It!</strong>）または <strong>B1</strong>（<strong>Cancel</strong>）を押します。回さない場合、ポップアップは 2 秒後に閉じます。ポップアップはユーザー自身の値を設定し、ズームは変わりません。</p>
+<h3 id="track-view"><a class="anc" href="#track-view" aria-label="この見出しへのリンク">#</a>トラックビュー</h3>
+<p>トラックビューは、シーケンスのドラムトラックを表示します。各トラックには、<strong>Ch. Mixer</strong> と同じ独自の色があります。カーソルのあるトラックのノートは明るく、ほかは暗く表示されます。パッドビューと同様に、赤い線がシーケンスの終わりを示します。</p>
+<p><img loading="lazy" src="img/fig15.png" alt="トラックビュー: トラック T01〜T06 のノート、1〜4 小節"></p>
+<ul>
+<li>4 小節が表示されます。<strong>SHIFT</strong> + <strong>K3</strong>（<strong>Bars</strong>）でズームします: 1、2、4、8 小節。1 列はウィンドウの 1/16 です。<strong>-</strong> / <strong>+</strong> = 次／前の小節。</li>
+<li><strong>ENCODER</strong>: カーソルを 1 列動かします。<strong>SHIFT</strong> + <strong>ENCODER</strong> で別のトラックに移動します。そのトラックは現在のトラックにもなります。</li>
+<li>パッドは、SAMPLE 画面の色で、カーソルのあるトラックを演奏します。</li>
+<li><strong>K1</strong>（<strong>Nudge</strong>）、<strong>K2</strong>（<strong>Length</strong>）、<strong>K3</strong>（<strong>Velocity</strong>）、<strong>FADER</strong>、<strong>Rec Quantize</strong> は、パッドビューと同様に、見えているウィンドウ内で動作します。<strong>Nudge</strong> と <strong>Length</strong> はグリッドステップ単位（Time Correct の値、例: 1/16）です。<strong>SHIFT</strong> を押すと細かく、ティック単位です（<strong>Nudge</strong> は最大 1 グリッドステップまで）。</li>
+<li><strong>B1</strong>（<strong>Copy</strong>）と <strong>B3</strong>（<strong>Paste</strong>）は、パッドビューと同様に動作します。ステップとパッドの代わりに、列とトラックを使います。</li>
+<li><strong>Cut</strong>: <strong>Cut</strong> ボタンはありません（<strong>SHIFT</strong> + <strong>B1</strong> は <strong>Delete</strong> です）。<strong>B1</strong>（<strong>Copy</strong>）を押し、次に <strong>ERASE</strong>（コピーは残ります）、続いて <strong>Paste</strong> します。カットした場所にペーストすることもできます。</li>
+<li><strong>ERASE</strong> のみ（パッドなしで押して離す）で、選択範囲内のノートと、そのパッドプレッシャーを、短いメッセージとともにすぐにクリアします（ノート 1 つの場合は表示されません）。ほかのオートメーションは残ります。</li>
+<li><strong>SHIFT</strong> + <strong>B1</strong>（<strong>Delete</strong>）: <a href="#delete-a-track">トラックの削除</a>を参照。</li>
+<li>行ラベルと行数: <strong>Settings &gt; Track View Labels</strong> と <strong>Track View Rows</strong>。</li>
+</ul>
+<h3 id="selection"><a class="anc" href="#selection" aria-label="この見出しへのリンク">#</a>選択範囲</h3>
+<p>選択範囲は、両方のビューで同じように動作します。</p>
+<p><img loading="lazy" src="img/fig16.png" alt="行 A02 のステップが選択されたパッドビュー"></p>
+<ol>
+<li>カーソルを最初のセルに置いて <strong>ENCODER</strong> を押します（黄色い枠）。</li>
+<li><strong>ENCODER</strong> を回します（<strong>SHIFT</strong> を押すと行方向）。選択範囲（水色）は、最初のセルからカーソルまでの長方形で、画面外にも広がります（小さな白い矢印）。</li>
+<li>選択範囲は保持されます。ほかのボタンやノブ（<strong>ERASE</strong> も含む）を操作すると黄色い枠が終了し、<strong>ENCODER</strong> は再びカーソルを動かします。</li>
+<li>もう一度 <strong>ENCODER</strong> を押すと、選択が解除されます。</li>
+</ol>
+<ul>
+<li><strong>B2</strong>（<strong>Sel. Row</strong>）: カーソルの行を選択範囲に追加または削除します。選択範囲がない場合は、シーケンス全体にわたって行全体を選択します。</li>
+<li><strong>SHIFT</strong> + <strong>ENCODER</strong> を押すと、すべての行（パッドバンクのすべてのパッド、またはすべてのトラック）を選択します。選択範囲がない場合は、シーケンス全体にわたって選択します。もう一度押すと選択が解除されます。</li>
+<li>選択範囲がない場合、ノブとボタンはカーソルのセルだけを対象にします。</li>
+<li>ノートは 1 つのブロックとして移動します。1 つのノートが同じノートに重なる場合は、どのノートも移動しません。</li>
+<li><strong>B3</strong>（<strong>Duplicate</strong>）は、選択範囲のコピーを、その直後に 1 回の押下でペーストします。選択範囲は新しい部分に移動するため、次に押すとさらに続きます。選択範囲がない場合は、新しいセルが選択範囲になります。<strong>Copy</strong> の後は、<strong>B1</strong> = <strong>Cancel</strong>、<strong>B3</strong> = <strong>Paste</strong>（1 回のみ）となり、その後 <strong>Copy</strong> と <strong>Duplicate</strong> に戻ります。</li>
+<li>1 回の <strong>Copy</strong> または <strong>Duplicate</strong> で扱えるのは最大 8192 ノートです。それを超えると、ディスプレイに <strong>Too many notes</strong> と表示され、何もコピーされません。</li>
+<li><strong>SHIFT</strong> + <strong>PLAY</strong> は、選択範囲の小節をループ再生します。ループは、ほかの画面や <strong>STOP</strong> の後も保持されます: <strong>SHIFT</strong> + <strong>PLAY</strong> でその最初の小節からもう一度再生します。<strong>PLAY</strong> は 1 小節目から再生してループを終了します。Step Edit で別のシーケンスを選んだ場合も同様です。</li>
+<li>ある部分を繰り返し録音するには: テイクごとに <strong>STOP</strong> を押し、<strong>SEQ RECORD</strong> と <strong>SHIFT</strong> + <strong>PLAY</strong> を押します。</li>
+<li>1 回の <strong>UNDO</strong> で、クリア、移動、ペーストが元に戻ります。</li>
+</ul>
+<h3 id="automate-write-a-fade"><a class="anc" href="#automate-write-a-fade" aria-label="この見出しへのリンク">#</a>Automate: フェードを書き込む</h3>
+<p><strong>Automate</strong> は、トラックビューの選択範囲（またはカーソルのセル）に、トラックボリュームまたはトラックフィルターのフェードを書き込みます。</p>
+<p><img loading="lazy" src="img/fig17.png" alt="T01 の AUTOMATE ウィンドウ: Start %、End %、Target ノブ"></p>
+<ol>
+<li>トラックビューで範囲を選択します。</li>
+<li><strong>SHIFT</strong> + <strong>B2</strong>（<strong>Automate</strong>）を押します。
+<ul>
+<li><strong>K1</strong> = <strong>Start %</strong>、<strong>K2</strong> = <strong>End %</strong>（100 % = 現在の値、0 % = 無音）。</li>
+<li><strong>K3</strong> = <strong>Volume</strong>、<strong>LP Filter</strong>、<strong>HP Filter</strong>。</li>
+<li><strong>SHIFT</strong> + <strong>K3</strong> = <strong>Curve</strong>: <strong>Linear</strong>、<strong>Log</strong>（等 dB ステップ、自然なフェードアウト）、<strong>S-Curve</strong>。</li>
+</ul>
+</li>
+<li><strong>B3</strong>（<strong>Do It!</strong>）または <strong>B1</strong>（<strong>Cancel</strong>）を押します。</li>
+</ol>
+<ul>
+<li>フィルターのフェードには、トラックインサートとしてのフィルターが必要です。トラックにない場合は、MPC が空きのインサートスロットに追加します。4 つのスロットがすべて埋まっている場合は、何も書き込みません。</li>
+<li><strong>マスターフェード:</strong> すべてのトラックを選択し（<strong>SHIFT</strong> + <strong>ENCODER</strong> を押す）、<strong>Volume</strong> を選択します。</li>
+<li>選択範囲にボリュームオートメーションがある場合、<strong>B3</strong> は <strong>Replace</strong> になります。</li>
+</ul>
+<p><strong>フェードの削除:</strong></p>
+<ol>
+<li>トラックビューで範囲を選択し、<strong>SHIFT</strong> + <strong>B2</strong>（<strong>Automate</strong>）を押します。</li>
+<li><strong>K3</strong> でターゲットを選択します。</li>
+<li><strong>B2</strong>（<strong>Remove</strong>）を押します: MPC は、選択したトラックの選択範囲内で、そのターゲットのフェードポイントを削除します。</li>
+<li>このシーケンス内の、選択したトラックのすべてのフェード（<strong>Volume</strong>、<strong>LP Filter</strong>、<strong>HP Filter</strong>）を削除するには、<strong>SHIFT</strong> を押しながら <strong>B2</strong>（<strong>Remove All</strong>）を押します。<strong>Remove All</strong> には選択範囲は関係ありません。ウィンドウを開いた後に <strong>SHIFT</strong> を離し、もう一度押してください。<strong>SHIFT</strong> + <strong>B2</strong> から押したままの <strong>SHIFT</strong> は数えられません。</li>
+</ol>
+<ul>
+<li><strong>B2</strong> は、削除するものがあるときだけ表示されます。</li>
+<li>フィルターインサートはトラックに残ります。そのフェードだけが消えます。</li>
+<li>削除した部分では、その手前の値が聞こえます。シーケンス内にフェードポイントがなくなると、ユーザー自身の値（ミキサー、<strong>FADER</strong>、Pad Mix）が聞こえます。</li>
+<li>1 回の <strong>UNDO</strong> で、<strong>Remove</strong> または <strong>Remove All</strong> が削除したものがすべて元に戻ります。</li>
+<li>1 回の <strong>UNDO</strong> でフェードが削除され、古いボリュームが戻ります。フェードの途中でシーケンスを止めた場合も同様です。</li>
+<li>フェードは、書き込んだシーケンスに属します。ほかのシーケンスは、ユーザー自身の値（ミキサー、<strong>FADER</strong>、Pad Mix）を再生します。フェード内の 100 % はその値です。フェードのないシーケンスでボリュームやフィルターを変更すると、それがすべてのシーケンスの新しい値になります。ボリューム変更の <strong>UNDO</strong> でも、その値が戻ります。</li>
+<li>フェードのあるシーケンスで停止すると、フェードの開始位置の値が聞こえます。選択範囲の前後では、ユーザー自身の値が聞こえます。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> ボリュームフェードは、シーケンスを停止した状態で書き込んでください。シーケンスの再生中に書き込むと、<strong>UNDO</strong> は <strong>STOP</strong> 時のボリュームを保持します。その場合は、ミキサーでボリュームを設定し直してください。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> シーケンスの終わりまでのフェードを書く前に、シーケンスの長さを設定してください。フェードアウトの後でシーケンスを長くすると、古い終わりの後はユーザー自身の値が聞こえます。新しい長さに合わせてフェードを書き直してください。フェードのあるシーケンスを選択した状態でプロジェクトを保存すると、フェードのないシーケンスでその後に行ったユーザー自身の値の変更が、次の起動後に元に戻ることがあります。その場合は、値を設定し直してください。</p></blockquote>
+<h3 id="dup-track"><a class="anc" href="#dup-track" aria-label="この見出しへのリンク">#</a>Dup. Track</h3>
+<p><strong>Dup. Track</strong> は、トラックのコピーを、イベントなし、またはイベント付きで作成します。</p>
+<ol>
+<li>トラックビューで、カーソルをトラックに置きます。</li>
+<li><strong>SHIFT</strong> + <strong>B3</strong>（<strong>Dupl/Expl</strong>）を押します。</li>
+<li><strong>B2</strong>（<strong>Dup. Track</strong>）を押します。MPC はコピーが置かれる場所を表示します。</li>
+<li><strong>B2</strong>（<strong>Events</strong>）で <strong>Events</strong> を <strong>On</strong> または <strong>Off</strong> に設定します（<strong>Off</strong> から始まります）。<strong>On</strong> = コピーがすべてのシーケンスのイベント（ノートとパッドオートメーション）を持ちます。</li>
+<li><strong>B3</strong>（<strong>Do It</strong>）を押します。<strong>B1</strong>（<strong>Cancel</strong>）: コピーしません。</li>
+</ol>
+<p><strong>トラックエフェクト</strong>: トラックにトラックインサートエフェクトがある場合、<strong>Do It</strong> は各選択肢で作られるエフェクトの数を表示します。<strong>Events</strong> の選択はそのまま保持されます。</p>
+<ul>
+<li><strong>B3</strong>（<strong>To Submix</strong>）: エフェクトは、同じ設定とオン／オフの状態で、最初の空きサブミックス（エフェクトがなく、何も送られていないもの）に 1 つだけ配置されます。コピーにはトラックエフェクトが付きません。トラックとコピーの <strong>Out</strong> は、そのサブミックスに送られます。元のトラックにはエフェクトが残りますが、オフになります。これにより、2 つのトラックが 1 セットのエフェクトの CPU を使うことになります。空きサブミックスがない場合、<strong>B3</strong> は表示されません。</li>
+<li><strong>B2</strong>（<strong>Copy FX</strong>）: コピーが、エフェクトの独自のコピーを持ちます。</li>
+<li><strong>B1</strong>（<strong>Cancel</strong>）: コピーしません。</li>
+</ul>
+<p>コピーは「Track n」（n = その位置）という名前になります。元のトラックの直後に置かれ、現在のトラックになります。すべてのパッド、サンプル、パッド設定、エフェクト、ルートは保持されます。コピーはサンプルを共有し（追加メモリなし）、ミュートされず、独自の色が付きます。<strong>UNDO</strong> を 1 回押すとコピーが削除されます。<strong>To Submix</strong> の後は、同じ <strong>UNDO</strong> でエフェクトとトラックの <strong>Out</strong> も元に戻ります。</p>
+<blockquote><p><strong>ヒント:</strong> <strong>To Submix</strong> では、各トラックはトラックボリュームの後でエフェクトに入ります。リバーブ、ディレイ、EQ は同じ音になります。コンプレッサーやディストーションは、トラックボリュームが 0 dB の場合のみ同じ音になります。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> トラックが 16 個ある場合や、ドラムトラックでないトラックでは、<strong>B2</strong> は表示されません。質問の 1 行目に理由が表示されます。</p></blockquote>
+<h3 id="explode"><a class="anc" href="#explode" aria-label="この見出しへのリンク">#</a>Explode</h3>
+<p><strong>Explode</strong> は、ノートのあるパッドを、それぞれ新しいトラックに分けます。</p>
+<p><img loading="lazy" src="img/fig18.png" alt="トラック 5 の質問: B2 Dup. Track（トラックをコピー）、B3 Explode（パッドを新しいトラックへ）"></p>
+<ol>
+<li>トラックビューで、カーソルをトラックに置きます。</li>
+<li><strong>SHIFT</strong> + <strong>B3</strong>（<strong>Dupl/Expl</strong>）を押します。</li>
+<li><strong>B3</strong>（<strong>Explode</strong>）を押します。Explode できない場合は、MPC が理由を表示し、<strong>B3</strong> は表示されません。</li>
+<li>MPC はパッドの数と新しいトラックを表示します。<strong>B3</strong>（<strong>Do It</strong>）を押します。<strong>B1</strong>（<strong>Cancel</strong>）: Explode しません。</li>
+</ol>
+<ul>
+<li>カーソルのあるトラックの現在のシーケンスでノートのある各パッドは、そのトラックの直後に新しいトラックを持ちます。同じミュートグループのパッドは、まとめて 1 つのトラックになります。元のトラックはミュートされます。</li>
+<li><strong>Out</strong> が <strong>Master</strong> に設定されているパッドは <strong>Track</strong> に変更され、トラックストリップ、ボリューム、ミュート、ソロが機能するようになります。<strong>Out</strong> がサブミックスや別の出力に設定されているパッドは、そのまま保持されます。</li>
+<li>新しいトラックは、各シーケンスで元のトラックの <strong>RT Swing</strong> を引き継ぎます。</li>
+<li>その後ろにある「Track n」という名前のトラックには、新しい位置の番号が付きます。自分で付けた名前は変わりません。</li>
+<li>1 回の <strong>UNDO</strong> で、サブミックスのエフェクトを含め、Explode 全体が取り消されます。Explode はシーケンス停止中のトラックビューでのみ動作します。</li>
+</ul>
+<p><strong>トラックエフェクト</strong>: トラックにトラックインサートエフェクトがある場合、手順 4 は各選択肢で作られるエフェクトの数を表示し、<strong>B3</strong> は <strong>Do It</strong> ではなくなります。</p>
+<ul>
+<li><strong>B3</strong>（<strong>To Submix</strong>）: エフェクトは、同じ設定とオン／オフの状態で、最初の空きサブミックス（エフェクトがなく、何も送られていないもの）に 1 つだけ配置されます。新しいトラックの <strong>Out</strong> は、そのサブミックスに送られます。元のトラックにはエフェクトが残りますが、オフになります。これにより CPU の使用量がかなり少なくなります。空きサブミックスがない場合、<strong>B3</strong> は表示されません。</li>
+<li><strong>B2</strong>（<strong>Copy FX</strong>）: 各新しいトラックが、エフェクトのコピーを持ちます。</li>
+<li><strong>B1</strong>（<strong>Cancel</strong>）: Explode しません。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> <strong>To Submix</strong> では、各トラックはトラックボリュームの後でエフェクトに入ります。リバーブ、ディレイ、EQ は同じ音になります。コンプレッサーやディストーションは、トラックボリュームが 0 dB の場合のみ同じ音になります。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> Mute Targets（MPC One、Live、X のプロジェクト由来の、1 つのパッドが別のパッドを止める機能）は、1 つのトラック内でのみ動作します。Explode の前に 2 つのパッドを同じミュートグループにして、1 つのトラックにまとめてください。</p></blockquote>
+<h3 id="delete-a-track"><a class="anc" href="#delete-a-track" aria-label="この見出しへのリンク">#</a>トラックの削除</h3>
+<p>トラックビューで、<strong>SHIFT</strong> + <strong>B1</strong>（<strong>Delete</strong>）を押します。確認の後、すべてのシーケンスにあるノートとともに、カーソルのあるトラックを削除します。シーケンス停止中のみ動作します。最後の 1 つのトラックは常に残ります。その後ろにある「Track n」という名前のトラックには、新しい位置の番号が付きます。<strong>UNDO</strong> 1 回で全部元に戻ります。</p>
+<h3 id="fader-in-step-edit"><a class="anc" href="#fader-in-step-edit" aria-label="この見出しへのリンク">#</a>Step Edit でのフェーダー</h3>
+<p>FADER メニュー（<strong>SHIFT</strong> + <strong>PAD 9</strong>）で、<strong>B2</strong> を使って Step Edit でのフェーダーの動作を設定します。</p>
+<ul>
+<li><strong>Step: Nudge</strong>（標準と同じ）: フェーダーでノートを動かします。</li>
+<li><strong>Step: Same</strong>: フェーダーは、メニューで設定した動作を行います。</li>
+</ul>
+<p>FADER メニューの <strong>Track Volume</strong>（標準では「Kit Volume」）については、<a href="#track-volume-on-the-fader">FADER でのトラックボリューム</a>を参照してください。</p>
+<h2 id="mixer"><a class="anc" href="#mixer" aria-label="この見出しへのリンク">#</a>ミキサー</h2>
+<p>どのモードからでも <strong>PAD FX</strong> を押すとミキサーが開きます。もう一度 <strong>PAD FX</strong> をタップすると戻ります。標準の Pad FX と Flex Beat 画面については、<a href="#shortcuts">ショートカット</a>を参照してください。</p>
+<p>ミキサーは、最後に見たページで開きます。常にパッドインサート（<strong>Pad inserts</strong>）または <strong>Ch. Mixer</strong> で開くようにするには、<strong>Settings &gt; Mixer Opens On</strong> を設定してください。</p>
+<h3 id="insert-pages"><a class="anc" href="#insert-pages" aria-label="この見出しへのリンク">#</a>インサートページ</h3>
+<p><img loading="lazy" src="img/fig19.png" alt="パッド A02 のパッドインサートページ: 4 つの空きスロットと EQ 行"></p>
+<ul>
+<li><strong>B1</strong> は、音の流れの順に <strong>Pad &gt; Track &gt; Submix &gt; Master</strong> と切り替えます。<strong>B2</strong> はミキサーを開きます。標準と同様に、もう一方のグループから <strong>B1</strong> または <strong>B2</strong> を押すと、常にそのグループの最初のページが開きます。</li>
+<li><strong>Submix</strong> には、現在のパッド（またはそのトラック）のサブミックスが表示されます。ない場合は最後のサブミックスです。</li>
+<li><strong>ENCODER</strong> を回して、4 つのインサートスロットのいずれかを選択します。</li>
+<li>パッド、トラック、サブミックスを選択するには: <strong>PAD FX</strong> を押しながらパッドを押します（音は出ません）。パッドには、SAMPLE 画面の色（<strong>Pad</strong>）、<strong>SHIFT</strong> + <strong>PAD BANK</strong> の色（<strong>Track</strong>）、または紫（<strong>Submix</strong>）が表示されます。</li>
+<li>または <strong>PAD FX</strong> を押しながら <strong>ENCODER</strong> を回します: 前または次のパッド（128 個すべて。パッドバンクも追従します）、トラック、サブミックス。最後のトラックより 1 つ先（<strong>Track nn+</strong>）に進んで <strong>PAD FX</strong> を離すと、<strong>PAD BANK</strong> + <strong>ENCODER</strong> のときと同様に、新しいトラックが作られます。</li>
+<li><strong>PAD BANK</strong> + <strong>ENCODER</strong>（トラック）と <strong>SEQ</strong> + <strong>ENCODER</strong>（シーケンス）も、ミキサーで動作します。</li>
+<li><strong>K1</strong> = ボリューム。<strong>K3</strong>（<strong>Out</strong>）= 音の送り先: Track、Submix 1-8、または Master。<strong>Pad</strong> ページでは、<strong>Trk 1</strong> = そのパッドのトラック（トラック 1）。</li>
+<li><strong>K2</strong>（<strong>Pad Grp</strong>、<strong>Trk Grp</strong>、<strong>Sub Grp</strong>）= ミュートグループ。<a href="#mute-groups">ミュートグループ</a>を参照。</li>
+</ul>
+<div class="tbl"><table>
+<thead><tr><th>操作</th><th>空きスロット</th><th>エフェクトのあるスロット</th></tr></thead>
+<tbody>
+<tr><td><strong>B3</strong> または <strong>ENCODER</strong> 押し込み</td><td><strong>Insert</strong>: Insert FX リストを開く</td><td><strong>B3</strong> = <strong>Edit</strong>: エフェクトページを開く。<strong>ENCODER</strong> 押し込み = エフェクトのオン／オフ</td></tr>
+<tr><td><strong>-</strong> / <strong>+</strong></td><td>何も起こらない</td><td>エフェクトを 1 スロット上／下へ移動</td></tr>
+<tr><td><strong>SHIFT</strong> + <strong>B3</strong></td><td>何も起こらない</td><td><strong>Delete</strong>（先に確認）</td></tr>
+</tbody></table></div>
+<p><strong>Insert FX リスト:</strong> 6 つのカテゴリー（Delay/Reverb、EQ/Filter、Dynamics、Harmonic、Modulation、Vintage）があり、<a href="#knob-fx-list-and-insert-fx-list">Insert FX List</a> で On になっているエフェクトが表示されます。<strong>ENCODER</strong> を押すと、カテゴリーが開くか、エフェクトが読み込まれます。トラックやサブミックスには <strong>Color Comp.</strong> も、トラック・サブミックス・マスターには <strong>Kill EQ</strong> もあります。ここにしかなく、Knob FX にはないもの: <a href="#mother-ducker">Mother Ducker</a>、Mother Ducker Input、<a href="#air-compressor-and-air-stereo-width">AIR Compressor と AIR Stereo Width</a>。読み込みは <strong>UNDO</strong> の 1 ステップです。<strong>REDO</strong> は、読み込み時の値でエフェクトを戻します（例: <strong>AIR Compressor</strong> はニュートラルの状態）。</p>
+<p><strong>EQ 行:</strong> <strong>Pad</strong> ページで（<strong>Settings &gt; Pad EQ</strong> が On のとき）、4 つのスロットの下にある <strong>EQ</strong> 行が、そのパッドの <a href="#eq-page">EQ ページ</a>を開きます: 選択して <strong>B3</strong>（<strong>Edit</strong>）または <strong>ENCODER</strong> を押します。EQ ページから <strong>PAD FX</strong> を押すと、<strong>Settings &gt; Mixer Opens On</strong> の設定に関係なく、常に <strong>EQ</strong> が選択された <strong>Pad</strong> ページが開きます。</p>
+<p><strong>エフェクトページ:</strong> 6 つの主要パラメーターを表示します。<strong>K1</strong>〜<strong>K3</strong>（<strong>SHIFT</strong>: 2 層目）で変更します。MIDI Config の <strong>Parameter Takeover</strong> に従います。<strong>B3</strong> = Bypass。<strong>B1</strong> または <strong>PAD FX</strong> = 戻る。</p>
+<ul>
+<li><strong>LP Filter</strong>、<strong>HP Filter</strong>、<strong>BP Filter</strong> は、カットオフ付きのフィルターカーブと、フィルター後のリアルタイムスペクトラムを表示します。</li>
+<li><strong>Limiter</strong> は 3 つのメーターを表示します: <strong>In</strong>（<strong>Gain</strong> の後）、<strong>GR</strong>（ゲインリダクション）、<strong>Out</strong>。<strong>Bypass</strong> がオンのときは、ゼロのままです。</li>
+</ul>
+<p>トラックまたはサブミックス上のエフェクトのノブ操作をオートメーションとして録音するには:</p>
+<ol>
+<li><strong>SEQ RECORD</strong> を押し、次に <strong>PLAY</strong> を押します。</li>
+<li>カウントインの後、エフェクトページでノブを回します。</li>
+<li><strong>STOP</strong> を押します。シーケンスがノブの動きを再生します。</li>
+</ol>
+<p>Undo 1 回で、録音全体が削除されます。録音以外では、ノブの操作に Undo はありません。</p>
+<blockquote><p><strong>ヒント:</strong> パッドやマスター上のエフェクトは、オートメーションを録音しません。</p></blockquote>
+<p><strong>トラックの MIDI チャンネル:</strong> <strong>Track</strong> ページで <strong>SHIFT</strong> + <strong>K3</strong>（<strong>MIDI</strong>）。<a href="#midi-out-a-track-plays-an-external-synth">MIDI アウト</a>を参照。</p>
+<p><strong>UNDO</strong> と <strong>REDO</strong> は、ミキサー内の操作に対して動作します。<strong>SEQ RECORD</strong> と <strong>PLAY</strong> 中は、MPC がエフェクトのオン／オフとボリュームを録音します。</p>
+<blockquote><p><strong>ヒント:</strong> トラックインサートがパッドの音を受け取るのは、そのパッドがそのトラックに送られているとき（<strong>K3</strong> = Track）だけです。<strong>Submix 1</strong> の場合、パッドはトラックをスキップします。</p></blockquote>
+<h3 id="rename-a-track-submix-or-pad"><a class="anc" href="#rename-a-track-submix-or-pad" aria-label="この見出しへのリンク">#</a>トラック、サブミックス、パッドの名前変更</h3>
+<ol>
+<li><strong>PAD FX</strong> を押してミキサーを開きます。</li>
+<li><strong>Pad</strong>、<strong>Track</strong>、または <strong>Submix</strong> ページに移動します。</li>
+<li><strong>SHIFT</strong> + <strong>B1</strong>（<strong>Rename</strong>）を押します。</li>
+<li>名前を変更するか、<strong>SHIFT</strong> + <strong>B3</strong>（<strong>Preset</strong>）を押してリストから選びます（<strong>B2</strong> の <strong>Abbreviate</strong> で、Drm、Vox、Rvb などの短い名前になります）。</li>
+<li><strong>K1</strong> でトラックまたはパッドの色を設定します。</li>
+<li><strong>B3</strong>（<strong>Do It!</strong>）を押して保存します。</li>
+</ol>
+<p>プロジェクトはパッド名を保持します。名前を空にすると、パッドはサンプル名に戻ります。</p>
+<h3 id="mute-groups"><a class="anc" href="#mute-groups" aria-label="この見出しへのリンク">#</a>ミュートグループ</h3>
+<p>ミキサーの <strong>Pad</strong>、<strong>Track</strong>、<strong>Submix</strong> ページの <strong>K2</strong> で、ミュートグループを設定します（<strong>-</strong> = Off）。<strong>Ch. Mixer</strong> と <strong>Pad Mixer</strong> では、<strong>SHIFT</strong> + <strong>K2</strong> で選択中のストリップのグループを設定します。パッド、トラック、サブミックスには、それぞれ別のグループがあります。</p>
+<ul>
+<li><strong>Pad</strong>（<strong>Pad Grp</strong>）: 標準のパッド <strong>Mute Grp</strong>（Off、1-32）: チョーク。パッドは同じグループのほかのパッドを止めます。<strong>K2</strong> を 1 回回すと <strong>UNDO</strong> のステップが 1 つ増えます。</li>
+<li><strong>Track</strong>（<strong>Trk Grp</strong>）: Off または 1-8。トラックをミュートまたはミュート解除すると、同じグループのほかのトラックも同じミュート状態になります。これは <a href="#record-mutes">Track Mute</a> と、<strong>Ch. Mixer</strong> の <strong>Mute</strong> で動作します。<strong>UNDO</strong> 1 回で、すべて元に戻ります。</li>
+<li><strong>Submix</strong>（<strong>Sub Grp</strong>）: Off または 1-8。<strong>Ch. Mixer</strong> でサブミックスの <strong>Mute</strong> を押すと、同じグループのほかのサブミックスもミュートまたはミュート解除されます。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> Track Mute では、トラックのセルにグループが表示されます（例: <strong>G1</strong>）。<strong>Solo</strong> はグループに従いません。<strong>SEQ RECORD</strong> と <strong>PLAY</strong> 中は、MPC がグループ内の各トラックのミュートを録音します。</p></blockquote>
+<h3 id="kill-eq-insert"><a class="anc" href="#kill-eq-insert" aria-label="この見出しへのリンク">#</a>Kill EQ インサート</h3>
+<p><a href="#eq-page">EQ ページ</a>の 3 バンドキル EQ は、トラック、サブミックス、マスター用のインサートとしても使えます。ノブ、クロスオーバー、ウィンドウは同じです。</p>
+<ol>
+<li><strong>PAD FX</strong> を押します。<strong>Track</strong> または <strong>Submix</strong> には <strong>B1</strong>、<strong>Master</strong> には <strong>B2</strong> を押します。</li>
+<li>空きスロットを選択して <strong>B3</strong>（<strong>Insert</strong>）を押します。</li>
+<li><strong>EQ/Filter</strong> を開き、<strong>Kill EQ</strong> を選択して <strong>ENCODER</strong> を押します。Kill EQ ページが開きます。<strong>B3</strong> = Bypass。<strong>B1</strong> または <strong>PAD FX</strong> = 戻る。スロットの <strong>B3</strong>（<strong>Edit</strong>）で、もう一度開けます。</li>
+</ol>
+<ul>
+<li>読み込みは Undo の 1 ステップです（例: 「Kill EQ Slot 1 T01」）。</li>
+<li>プロジェクトは Kill EQ の値を保存します。</li>
+<li>トラックやサブミックスでは、<a href="#insert-pages">エフェクトページ</a>と同様に、ノブがオートメーションを録音します。ノブは、最後に再生された値を保持します。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> マスター上の Kill EQ は、標準のエフェクトと同様に、オートメーションを録音しません。すべてのトラックにオートメーションをかけるには、トラックを Kill EQ のあるサブミックスに送る、各トラックに Kill EQ を挿す、またはパッドの EQ ページを使ってください。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> SampQOL OS がない環境では、Kill EQ は標準エフェクトの <strong>PEQ 2-Band, 2-Shelf</strong> として再生されます。バンドはキルにならず、右いっぱいは +18 dB になります。</p></blockquote>
+<h3 id="master"><a class="anc" href="#master" aria-label="この見出しへのリンク">#</a>マスター</h3>
+<p>マスターには、標準と同じく Pad FX、Flex Beat、Color Comp.、Knob FX の 4 つのスロットがあります。Knob FX スロットには、FX Select のエフェクトが表示されます（例: 「(Knob FX) LP Filter」）。</p>
+<p><img loading="lazy" src="img/fig20.png" alt="Pad FX、Flex Beat、Color Comp.、(Knob FX) Vinyl Emulator が表示されたマスターページ"></p>
+<ul>
+<li><p><strong>削除:</strong> スロットを選択し、<strong>SHIFT</strong> + <strong>B3</strong> を押して、<strong>B3</strong>（<strong>Remove</strong>）を押します。CPU の節約になります。<strong>UNDO</strong> で元に戻せます。</p></li>
+<li><p><strong>非表示（Hidden）:</strong> 同じウィンドウで、<strong>B2</strong>（<strong>Use Hidden</strong>）をオンにします。エフェクトは動作し続けますが、スロットを空けます。スロット 4 の下のグレーの行が、非表示のエフェクトを示します。マスターの Color Comp. が非表示のとき、<strong>COMPRESSOR</strong> 画面に「Hidden」と表示されます。非表示のエフェクトの画面は、通常どおり開きます。</p></li>
+<li><p><strong>マスターに戻す:</strong> 空きスロットを選択して <strong>B3</strong>（<strong>Insert</strong>）を押します。非表示のエフェクトはリストの先頭にあります（例: 「Flex Beat (Hidden)」）。<strong>B3</strong>（<strong>Select</strong>）を押すと、エフェクトが設定を保ったままこのスロットに入ります。</p></li>
+<li><p>Pad FX、Flex Beat、Color Comp. は、別のスロットに移動できます（<strong>-</strong> / <strong>+</strong>）。Knob FX は自身のスロットに留まります。</p></li>
+<li><p>Color Comp. Off = <strong>COMPRESSOR</strong> 画面の <strong>Bypass</strong>。</p></li>
+<li><p><strong>Edit</strong>（<strong>B3</strong>）はエフェクトの標準画面を開きます。<strong>PAD FX</strong> で、同じスロットのままミキサーに戻ります。</p></li>
+<li><p>削除したエフェクトの画面を開くと、MPC が元に戻すかどうかを尋ねます（<strong>B2</strong> = Hidden、<strong>B3</strong> = Insert。4 つのスロットが埋まっている場合: <strong>「MASTER FULL」</strong>）。</p></li>
+</ul>
+<h3 id="channel-mixer-and-pad-mixer"><a class="anc" href="#channel-mixer-and-pad-mixer" aria-label="この見出しへのリンク">#</a>Channel Mixer と Pad Mixer</h3>
+<p><strong>B2</strong> を押します: <strong>Ch. Mixer</strong>、次に <strong>Pad Mixer</strong>。各ミキサーは 1 ページに 8 つのストリップを表示します。<strong>ENCODER</strong> を回してストリップを選択し、ほかのストリップを表示します。</p>
+<p><img loading="lazy" src="img/fig21.png" alt="6 つのトラックストリップ、マスターストリップ、メーターを表示した Ch. Mixer"></p>
+<ul>
+<li><strong>Ch. Mixer</strong>: ノートのあるトラック、使用中のサブミックス、マスター。</li>
+<li><strong>Pad Mixer</strong>: 現在のトラックのうち、サンプルとノートがあるパッド。パッドを演奏すると、そのストリップが選択されます。</li>
+<li>各ストリップには、ステレオメーターがあります（0 dB を超えると赤）。ピーク線は、<strong>SHIFT</strong> + <strong>ENCODER</strong>（すべてのストリップ）を押すまで残ります。</li>
+<li><strong>K1</strong> = ボリューム、<strong>K2</strong> = パン（<strong>L50</strong>〜<strong>C</strong>〜<strong>R50</strong>）、<strong>K3</strong> = 出力。</li>
+<li><strong>SHIFT</strong> + <strong>K2</strong> = 選択中のストリップのミュートグループ: <strong>Pad Grp</strong>、<strong>Trk Grp</strong>、<strong>Sub Grp</strong>（<strong>-</strong> = Off）。インサートページの <strong>K2</strong> と同じです。<strong>SHIFT</strong> を押すとグループが表示されます。マスターストリップにはグループがありません。そこでは <strong>SHIFT</strong> + <strong>K2</strong> もパンになります。<a href="#mute-groups">ミュートグループ</a>を参照。</li>
+<li><strong>SHIFT</strong> + <strong>B1</strong>（<strong>Inserts</strong>）は、選択中のストリップのインサートページを開きます。<strong>B2</strong> でミキサーに戻ります。</li>
+<li><strong>FADER</strong> も、MIDI Config の <strong>Fader Takeover</strong> に従って、選択中のストリップのボリュームを設定します。FADER メニューが Off のときは、<strong>FADER</strong> は何もしません。</li>
+<li><strong>ENCODER でボリューム:</strong> <strong>ENCODER</strong> を押し（黄色い枠）、回して、もう一度押すと、再びストリップを選択できます。</li>
+<li><strong>B3</strong> = <strong>Mute</strong>、<strong>SHIFT</strong> + <strong>B3</strong> = <strong>Solo</strong>。<strong>SHIFT</strong> + <strong>B2</strong>（<strong>Clear M/S</strong>）は、そのページのすべてのミュートとソロをオフにします。</li>
+<li>トラックストリップの <strong>Mute</strong> は Track Mute です（<a href="#record-mutes">ミュートの録音</a>を参照）。</li>
+<li><strong>サブミックスの Solo</strong> は、そのサブミックスに送られているトラックとパッドをソロにします。</li>
+</ul>
+<h3 id="knob-fx-on-all-pads"><a class="anc" href="#knob-fx-on-all-pads" aria-label="この見出しへのリンク">#</a>すべてのパッドに対する Knob FX</h3>
+<p>Knob FX はマスター上にあります。すべてのトラックのすべてのパッドが、これを通って再生されます。</p>
+<ul>
+<li><strong>K1</strong>-<strong>K3</strong> と <strong>SHIFT</strong> + <strong>K1</strong>-<strong>K3</strong> は、標準と同じように動作します。<a href="#change-the-knob-fx-on-any-screen">どの画面でも Knob FX を変更</a>も参照してください。</li>
+<li><strong>FX Select</strong>（<strong>SHIFT</strong> + <strong>KNOB FX</strong>）では、すべてのパッドが点灯し、<strong>B2</strong>（All Pads）はありません。<strong>B3</strong>（<strong>Bypass</strong>）は標準と同じように動作します。</li>
+<li>パッドの Output は、設定したままです。Knob FX の対象となるパッドを選択することはできません。</li>
+<li>標準のプロジェクト: Mod は、読み込み時に Knob FX をマスターに移します。すべてのパッドが使っていたわけではない場合は、バイパスの状態で始まります。<strong>FX Select</strong> で <strong>B3</strong>（<strong>Bypass</strong>）を押すと、すべてのパッドに対してオンになります。</li>
+</ul>
+<h3 id="change-the-knob-fx-on-any-screen"><a class="anc" href="#change-the-knob-fx-on-any-screen" aria-label="この見出しへのリンク">#</a>どの画面でも Knob FX を変更</h3>
+<p>画面を離れずに、別の Knob FX エフェクトを選択できます。</p>
+<ol>
+<li><strong>KNOB FX</strong> を押し続けます。エフェクトのリストが画面の上に表示されます。読み込まれているエフェクトはオレンジ色です。</li>
+<li><strong>ENCODER</strong> を回して、リスト内の次または前のエフェクトを選択します。</li>
+<li><strong>KNOB FX</strong> を離します。選択したエフェクトが読み込まれ、リストが閉じます。元の画面に留まります。</li>
+</ol>
+<ul>
+<li><strong>KNOB FX</strong> を短く押すと、標準と同じく、離したときに Knob FX モードがオン／オフされます。<strong>ENCODER</strong> を回しながら押し続けると、そのモードが保持されます。<strong>KNOB FX</strong> + 別のボタンまたは <strong>K1</strong>-<strong>K3</strong> は、標準と同じように動作します。</li>
+<li>新しいエフェクトは、デフォルトの値で始まります。標準の FX Select と同様に、この変更には Undo ステップがありません。</li>
+<li>変更時にクリックノイズは出ません。古いエフェクトがフェードアウトし、新しいエフェクトは音の準備ができたとき（0.1 秒未満）にフェードインします。バイパス中のエフェクトは、バイパスのままです。</li>
+<li>リストには、<a href="#knob-fx-list-and-insert-fx-list">Knob FX List</a> で On になっているエフェクトのみが表示されます。</li>
+<li>これは、FX Select、ミキサー、名前変更画面、ダイアログの表示中、マスターに Knob FX がないときは動作しません。</li>
+</ul>
+<h3 id="track-volume-on-the-fader"><a class="anc" href="#track-volume-on-the-fader" aria-label="この見出しへのリンク">#</a>FADER でのトラックボリューム</h3>
+<p>FADER メニューの <strong>Track Volume</strong> は、現在のトラックのボリュームを設定します。<strong>Ch. Mixer</strong> のトラックストリップの <strong>K1</strong> と同じボリュームです。</p>
+<ol>
+<li><strong>SHIFT</strong> + <strong>PAD 9</strong> を押します。<strong>ENCODER</strong> で <strong>Track Volume</strong> を選択して押します。フェーダーがオフの場合は、<strong>B3</strong> を押します。<strong>B1</strong>（<strong>Back</strong>）を押します。</li>
+<li><strong>FADER</strong> を動かします。現在のトラックのボリュームが変わります。</li>
+</ol>
+<ul>
+<li><strong>UNDO</strong> は FADER の動きを取り消しません（標準の <strong>Kit Volume</strong> と同じ）。</li>
+<li><strong>SEQ RECORD</strong> と <strong>PLAY</strong> 中は、MPC がボリュームを録音します。消去するには、<strong>ERASE</strong> を押しながら <strong>FADER</strong> を動かします（<a href="#erase-the-track-volume">オートメーションの消去</a>を参照）。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> Track Volume が変更するのは、出力がそのトラックに設定されているパッドだけです。出力がサブミックスやマスターのパッドは、これに従いません。</p></blockquote>
+<h3 id="color-comp-on-a-track-or-submix"><a class="anc" href="#color-comp-on-a-track-or-submix" aria-label="この見出しへのリンク">#</a>トラックまたはサブミックス上の Color Comp.</h3>
+<p>Insert FX リスト（Dynamics）から、トラックまたはサブミックスに <strong>Color Comp.</strong> を挿せます。<strong>Edit</strong> でその COMPRESSOR 画面が開き、上部に例えば <strong>「T01」</strong> や <strong>「Sub 2」</strong> と表示されます（<strong>PAD FX</strong> = 戻る）。標準と同様に、<strong>SHIFT</strong> + <strong>PAD 5</strong> でマスターの Color Comp. が開きます。</p>
+<h3 id="mother-ducker"><a class="anc" href="#mother-ducker" aria-label="この見出しへのリンク">#</a>Mother Ducker</h3>
+<p><strong>Mother Ducker</strong> は、別の音が鳴っている間、ある音を小さくします（サイドチェイン: 例えば、キックのたびにベースが小さくなる）。<strong>Mother Ducker Input</strong> は、制御する側の音に、<strong>Mother Ducker</strong> は小さくなる側の音に挿します。両者はバス（<strong>Bus 1</strong>〜<strong>Bus 8</strong>）を通じて接続されます。</p>
+<ol>
+<li>Insert FX リスト（Dynamics）から、キック（パッド、トラック、サブミックス）に <strong>Mother Ducker Input</strong> を挿します。<strong>K1</strong>（<strong>Bus</strong>）を設定します（例: <strong>Bus 1</strong>）。</li>
+<li>ベースに <strong>Mother Ducker</strong> を挿します。<strong>K1</strong>（<strong>Bus</strong>）を同じバスに設定します。</li>
+<li>両方を再生します。ベースがどれだけ小さくなるかを、<strong>K2</strong>（<strong>Threshold</strong>）と <strong>K3</strong>（<strong>Ratio</strong>）で設定します。</li>
+</ol>
+<p>各ページには、タイトルの下に、同じバス上の相手側が表示されます。</p>
+<div class="tbl"><table>
+<thead><tr><th>表示</th><th>意味</th></tr></thead>
+<tbody>
+<tr><td><strong>Input: A01 Kick</strong></td><td>パッド A01 の Mother Ducker Input が、この Ducker を制御しています。</td></tr>
+<tr><td><strong>Input: T02 Bass +1</strong></td><td>このバス上に 2 つ以上の相手がいます。最初の 1 つが表示されます。</td></tr>
+<tr><td><strong>Input: A01 Kick (Bypass)</strong></td><td>相手側がバイパスされています（グレー）: ダッキングなし。</td></tr>
+<tr><td><strong>No Input on Bus 2</strong></td><td>このバス上に相手側がありません（グレー）: ダッキングなし。両方の <strong>K1</strong>（<strong>Bus</strong>）を確認してください。</td></tr>
+</tbody></table></div>
+<p>Mother Ducker Input ページでは、テキストが <strong>Ducker:</strong> で始まります。<strong>K1</strong>（<strong>Bus</strong>）は、どちらのページでも常にバスを表示します。</p>
+<p>Mother Ducker ページには、<strong>GR</strong>（ゲインリダクション、現在どれだけ小さくなっているか）も dB で、オレンジ色のバー（0〜60 dB）とともに表示されます。<strong>GR 0.0</strong> = ダッキングなし（<strong>Bypass</strong> がオンのときも同様）。</p>
+<blockquote><p><strong>ヒント:</strong> ダッキングは 60 dB を超えることもあります。ダッキングを穏やかにするには、<strong>K2</strong>（<strong>Threshold</strong>）を高くするか、<strong>K3</strong>（<strong>Ratio</strong>）を低くしてください。</p></blockquote>
+<div class="tbl"><table>
+<thead><tr><th>ノブ</th><th>Mother Ducker</th><th><strong>SHIFT</strong> + ノブ</th></tr></thead>
+<tbody>
+<tr><td><strong>K1</strong></td><td><strong>Bus</strong>（1-8）</td><td><strong>Attack</strong></td></tr>
+<tr><td><strong>K2</strong></td><td><strong>Threshold</strong></td><td><strong>Release</strong></td></tr>
+<tr><td><strong>K3</strong></td><td><strong>Ratio</strong></td><td><strong>Soft Knee</strong>（dB）</td></tr>
+</tbody></table></div>
+<ul>
+<li>新しい Mother Ducker は、標準の値で始まります: <strong>Bus 1</strong>、-6 dB、6:1、<strong>Attack</strong> 10 ms、<strong>Release</strong> 100 ms、<strong>Soft Knee</strong> 0 dB。</li>
+<li>Mother Ducker は音を小さくするだけです。Input が鳴っていないときは、Mother Ducker がない場合と同じ音量になります（<strong>Auto Make-Up</strong> Off、<strong>Make-Up Gain</strong> 0 dB。ノブにはありません。標準は <strong>Auto Make-Up</strong> が On）。</li>
+<li><strong>Soft Knee</strong> は、<strong>Threshold</strong> の付近でダッキングの始まりをなだらかにします。0 dB では、ダッキングは <strong>Threshold</strong> ちょうどで始まります。</li>
+<li>Mother Ducker Input は、（標準と同様に）パッドフェーダーの前にあります。<strong>Vol</strong> が 0 のパッドでもダッキングします。</li>
+<li>ダッキングを止めるには、Mother Ducker Input ページで <strong>Bypass</strong>（<strong>B3</strong>）を押します。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> 聞こえないリズムでダッキングさせるには、<strong>Vol</strong> が 0 のパッドに Mother Ducker Input を挿してください。</p></blockquote>
+<h3 id="air-compressor-and-air-stereo-width"><a class="anc" href="#air-compressor-and-air-stereo-width" aria-label="この見出しへのリンク">#</a>AIR Compressor と AIR Stereo Width</h3>
+<p>追加のインサートエフェクトが 2 つあります: <strong>AIR Compressor</strong>（<strong>Dynamics</strong>）と <strong>AIR Stereo Width</strong>（<strong>Modulation</strong>）。</p>
+<p><strong>AIR Compressor</strong> はニュートラル（0 dB、1:1）の状態で始まります。<strong>K1</strong>（<strong>Threshold</strong>）と <strong>K2</strong>（<strong>Ratio</strong>）を回すと効果が聞こえます。</p>
+<div class="tbl"><table>
+<thead><tr><th>ノブ</th><th>AIR Compressor</th><th><strong>SHIFT</strong> + ノブ</th></tr></thead>
+<tbody>
+<tr><td><strong>K1</strong></td><td><strong>Threshold</strong></td><td><strong>Attack</strong></td></tr>
+<tr><td><strong>K2</strong></td><td><strong>Ratio</strong></td><td><strong>Release</strong></td></tr>
+<tr><td><strong>K3</strong></td><td><strong>Mix</strong></td><td><strong>Output</strong></td></tr>
+</tbody></table></div>
+<p><strong>AIR Stereo Width</strong> は、<strong>Width</strong> を <strong>0 %</strong> にすると、左右のチャンネルを 1 つのモノラルの音として再生します。</p>
+<div class="tbl"><table>
+<thead><tr><th>ノブ</th><th>AIR Stereo Width</th><th><strong>SHIFT</strong> + ノブ</th></tr></thead>
+<tbody>
+<tr><td><strong>K1</strong></td><td><strong>Width</strong></td><td><strong>Low</strong></td></tr>
+<tr><td><strong>K2</strong></td><td><strong>Level Trim</strong></td><td><strong>Mid</strong></td></tr>
+<tr><td><strong>K3</strong></td><td><strong>Pan Trim</strong></td><td><strong>High</strong></td></tr>
+</tbody></table></div>
+<h3 id="pad-fx-fixed"><a class="anc" href="#pad-fx-fixed" aria-label="この見出しへのリンク">#</a>Pad FX: Fixed</h3>
+<p>標準の Pad FX 画面で、<strong>Fixed</strong> を使うと、タップした後もパッドのエフェクトが保持されます。</p>
+<ol>
+<li>標準の Pad FX 画面を開きます（<strong>SHIFT</strong> + <strong>PAD FX</strong>、続いて <strong>B2</strong>。<a href="#shortcuts">ショートカット</a>を参照）。</li>
+<li><strong>B3</strong> を押して <strong>Fixed</strong> をオンにします（白いボックス = オン）。</li>
+<li>パッドをタップします。そのエフェクトは、もう一度パッドをタップするまで、（標準の <strong>Latch</strong> と同様に）ほかの画面でもオンのままです。<strong>FADER</strong> で、エフェクトがどれだけ聞こえるかを設定します。</li>
+</ol>
+<ul>
+<li><strong>Fixed</strong> がオンのとき、<strong>FADER</strong> はこの画面でほかの機能を持ちません。<strong>Fixed</strong> をオフにすると、すべての <strong>Fixed</strong> エフェクトが止まります。</li>
+<li><strong>Fixed</strong> と <strong>Latch</strong> のエフェクトは、<a href="#resample-one-pad">1 つのパッドのリサンプル</a>のプリントに含められます。</li>
+<li>標準の <strong>Latch</strong> がオンのパッドは、<strong>Fixed</strong> がオンでも標準と同じように動作します。</li>
+<li>MPC は再起動後も <strong>Fixed</strong> の設定を保持します。</li>
+</ul>
+<h3 id="knob-fx-list-and-insert-fx-list"><a class="anc" href="#knob-fx-list-and-insert-fx-list" aria-label="この見出しへのリンク">#</a>Knob FX List と Insert FX List</h3>
+<p>使わないエフェクトを非表示にできます。FX Select と <strong>KNOB FX</strong> 長押しリスト用のリスト（<strong>Knob FX List</strong>）と、ミキサーの Insert FX リスト用のリスト（<strong>Insert FX List</strong>。インサート専用のエフェクトも含む）は別々です。</p>
+<ol>
+<li><strong>Settings</strong> で、<strong>Knob FX List &gt;</strong> または <strong>Insert FX List &gt;</strong> を選択し、<strong>ENCODER</strong> を押します。</li>
+<li>エフェクトを選択し、<strong>ENCODER</strong> を押して <strong>On</strong> または <strong>Off</strong> にします。</li>
+<li><strong>B1</strong> または <strong>B2</strong> を押して戻ります。</li>
+</ol>
+<ul>
+<li>FX Select では、読み込まれているエフェクトは Off になっていても常に表示されます。</li>
+<li>これらのリストは、プロジェクトを変更しません。</li>
+<li>リストのすべてのエフェクトが Off の場合、そのリストはすべてのエフェクトを表示します。</li>
+</ul>
+<h2 id="erasing-automation"><a class="anc" href="#erasing-automation" aria-label="この見出しへのリンク">#</a>オートメーションの消去</h2>
+<h3 id="erase-all-automation-of-a-pad"><a class="anc" href="#erase-all-automation-of-a-pad" aria-label="この見出しへのリンク">#</a>パッドのすべてのオートメーションを消去</h3>
+<ol>
+<li><strong>ERASE</strong> を押しながらノブまたはフェーダーを動かします。</li>
+<li><strong>ERASE AUTOMATION</strong> ウィンドウで <strong>B2</strong>（<strong>All</strong>）を押します。</li>
+<li><strong>B3</strong>（<strong>Do It!</strong>）を押します。このシーケンス内のそのパッドのすべてのオートメーションが消えます: Pad Mute、Filter、EQ、Level など。ノートは残ります。</li>
+</ol>
+<ul>
+<li><strong>UNDO</strong> が使えます。</li>
+<li><strong>B2</strong>（<strong>All</strong>）は、ミュートモード（<strong>ERASE</strong> + パッド）でも動作します。</li>
+<li><strong>Settings &gt; Erase All Starts</strong> も参照してください。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> 録音の音がおかしいのに、どのオートメーションが原因かわからない？ そのパッドのすべてのオートメーションを消去してみてください。</p></blockquote>
+<h3 id="erase-the-track-volume"><a class="anc" href="#erase-the-track-volume" aria-label="この見出しへのリンク">#</a>トラックボリュームの消去</h3>
+<ol>
+<li>FADER を <strong>Track Volume</strong> に設定します（<a href="#track-volume-on-the-fader">FADER でのトラックボリューム</a>を参照）。</li>
+<li><strong>ERASE</strong> を押しながら <strong>FADER</strong> を動かします。</li>
+<li><strong>B3</strong>（<strong>Do It!</strong>）を押します。このシーケンス内の現在のトラックの録音済みボリュームが消えます。ほかのトラックとノートは残ります。</li>
+</ol>
+<ul>
+<li><strong>UNDO</strong> が使えます。</li>
+</ul>
+<h2 id="loading-and-saving"><a class="anc" href="#loading-and-saving" aria-label="この見出しへのリンク">#</a>読み込みと保存</h2>
+<h3 id="preview-in-sample-select"><a class="anc" href="#preview-in-sample-select" aria-label="この見出しへのリンク">#</a>Sample Select でのプレビュー</h3>
+<p>Sample Select では、パッドでファイルをプレビューできます。<strong>Own Sample</strong> にすると、サンプルのあるパッドは自分自身の音を再生するため、ファイルをキットと聞き比べられます。</p>
+<p><img loading="lazy" src="img/fig22.png" alt="フォルダ Break で Sample Select を開き、ファイルを選択した状態。B3 Preview と K3 Prev. Vol."></p>
+<ol>
+<li><strong>SAMPLE SELECT</strong> を押して、オーディオファイルを選択します。</li>
+<li>パッドを押します。そのパッドが選択パッド（読み込み先）になり、ファイルが最後まで再生されます。</li>
+<li><strong>K3</strong>（<strong>Prev. Vol.</strong>）を回して、プレビューのボリュームを設定します。</li>
+</ol>
+<blockquote><p><strong>ヒント:</strong> 長いフォルダ名のせいで <strong>Prev. Vol.</strong> が隠れる場合は、<strong>SHIFT</strong> を押すと表示されます。</p></blockquote>
+<p>ファイルをキットと聞き比べるには:</p>
+<ol>
+<li><strong>SHIFT</strong> + <strong>K2</strong> を右に回します（<strong>Own Sample</strong>）。</li>
+<li>サンプルのあるパッドを押します。そのパッドは自分自身の音を再生し、選択パッドは変わりません。選択中のパッドまたは空のパッドは、ファイルを再生します。</li>
+<li><strong>SHIFT</strong> + <strong>K2</strong> を左に回すと、再び <strong>Preview</strong> になります。</li>
+</ol>
+<p><strong>B3</strong>（<strong>Preview</strong>）は、標準のオートプレビューのオン／オフです。<strong>SHIFT</strong> + <strong>B3</strong> は、SD カード上の標準の <strong>Delete</strong> です。</p>
+<blockquote><p><strong>ヒント:</strong> MPC は <strong>K2</strong> の選択を記憶します（<strong>Settings</strong> &gt; <strong>Sample Select Pads Play</strong>）。<strong>Own Sample</strong> のときにサンプルのあるパッドに読み込むには、<strong>Preview</strong> に設定するか、<strong>SAMPLE SELECT</strong> を押す前にそのパッドを選択しておきます。</p></blockquote>
+<h3 id="new-folder-in-sample-select"><a class="anc" href="#new-folder-in-sample-select" aria-label="この見出しへのリンク">#</a>Sample Select での新規フォルダ</h3>
+<p><img loading="lazy" src="img/fig23.png" alt="新規フォルダの名前入力画面。Cancel と Do It! がある"></p>
+<ol>
+<li><strong>SAMPLE SELECT</strong> を押します。<strong>B2</strong> を押して <strong>External</strong>（SD カード）を選択します。</li>
+<li>新しいフォルダを作りたい場所のフォルダに移動し、その中のフォルダを 1 つ選択します（空のフォルダでは何も選択されません）。<strong>B3</strong> に <strong>New Folder</strong> が表示されます。</li>
+<li><strong>B3</strong> を押します。標準と同じように名前を入力します。</li>
+<li><strong>B3</strong>（<strong>Do It!</strong>）を押します。<strong>B1</strong>（<strong>Cancel</strong>）ではフォルダは作られません。</li>
+</ol>
+<p>同じ名前がある場合、MPC はフォルダを作らず、「A folder with this name already exists」と表示します（<strong>B3</strong> = <strong>OK</strong>）。<strong>Internal</strong> は読み取り専用です。そこでは <strong>B3</strong> に <strong>New Folder</strong> は表示されません。</p>
+<h3 id="browser"><a class="anc" href="#browser" aria-label="この見出しへのリンク">#</a>ブラウザ</h3>
+<ul>
+<li>SAMPLE SELECT と Load Project で、<strong>SHIFT</strong> を押しながら <strong>ENCODER</strong> を回すと、10 行ジャンプします。</li>
+<li>SAMPLE SELECT と Load Project で、<strong>FADER</strong> を動かすとリストをスクロールします（上 = 最初の行）。そこで FADER メニューの機能を使いたい場合は、<strong>Settings &gt; Fader Scrolls List</strong> を <strong>Off</strong> にしてください。</li>
+<li>ブラウザは、各フォルダ内での位置を記憶します。</li>
+<li>Settings の <strong>Start Drive</strong> で、起動時のドライブを設定します: Sample Select は SAMPLE BROWSER、Load Project は PROJECT。</li>
+<li>ブラウザは、ドライブのルートにある <strong>autorun</strong> フォルダ（SampQOL OS）を表示しません。確認するにはコンピューターを使ってください。</li>
+<li>SD カードを Eject（<strong>SHIFT</strong> + <strong>B2</strong>）した後、もう一度挿入すると、カードは同じパスになるため、Home Folder と Export フォルダは正しいまま保たれます。標準では、カードが新しいパスになることがよくありました。</li>
+</ul>
+<h3 id="save-to-a-folder"><a class="anc" href="#save-to-a-folder" aria-label="この見出しへのリンク">#</a>フォルダへの保存</h3>
+<p>Save Sample と Save Project は、選択したフォルダに保存します。</p>
+<ol>
+<li>名前入力画面を開きます: <strong>SHIFT</strong> + <strong>SAMPLE SELECT</strong>（Save Sample）、または <strong>SHIFT</strong> + <strong>PAD 16</strong> と <strong>Save Project</strong>。</li>
+<li>標準と同じように名前を入力します。</li>
+<li><strong>B3</strong>（<strong>Do It!</strong>）を押します。フォルダページが、前回保存したフォルダで開きます。</li>
+<li><strong>ENCODER</strong> を回してフォルダを選択します。<strong>ENCODER</strong> を押すと開きます。<strong>B1</strong>（<strong>Up</strong>）で 1 つ上のフォルダへ（ドライブのルートでは名前入力画面に戻り、保存はされません）。<strong>B2</strong> で <strong>Internal</strong> または <strong>External</strong> を選択します。</li>
+<li><strong>B3</strong>（<strong>Save</strong>）を押します。MPC は、ページに表示されているフォルダに保存します。</li>
+</ol>
+<p>同じ名前がある場合、MPC は「Sample Already Exists」（標準と同じ）または <strong>PROJECT EXISTS</strong>（<strong>B3</strong> = <strong>Overwrite</strong>、<strong>B1</strong> = <strong>Cancel</strong>）と確認します。</p>
+<blockquote><p><strong>ヒント:</strong> 起動後は、フォルダページが、Settings の <strong>Start Drive</strong> にある標準のフォルダ（<strong>Samples/User</strong> または <strong>Projects/User</strong>。SD カードでは <strong>Projects</strong>）で開きます。</p></blockquote>
+<h3 id="home-folder"><a class="anc" href="#home-folder" aria-label="この見出しへのリンク">#</a>Home Folder</h3>
+<p>Sample Select を、常に自分専用のフォルダで開きます。</p>
+<ol>
+<li><a href="#settings">設定</a>で <strong>Home Folder</strong> を選択し、<strong>ENCODER</strong> を押します。フォルダページが開きます。</li>
+<li><a href="#save-to-a-folder">フォルダへの保存</a>（手順 4）と同じようにフォルダを選択します。</li>
+<li><strong>B3</strong>（<strong>Use Folder</strong>）を押します。ドライブのルートで <strong>B1</strong>（<strong>Back</strong>）を押すと、変更せずに戻ります。</li>
+<li><strong>Sample Select Opens</strong> を <strong>Home Folder</strong> に設定します。</li>
+</ol>
+<p><strong>SAMPLE SELECT</strong> を押すたびに、ブラウザは Home Folder で開きます。メッセージや <strong>SHIFT</strong> メニューの後は、ブラウザは直前の場所に留まります。</p>
+<blockquote><p><strong>ヒント:</strong> Home Folder が存在しない場合（削除された、または SD カードがない）、Sample Select は SAMPLE BROWSER の <strong>Start Drive</strong> で開きます。</p></blockquote>
+<h3 id="random-project-name"><a class="anc" href="#random-project-name" aria-label="この見出しへのリンク">#</a>ランダムなプロジェクト名</h3>
+<ol>
+<li><strong>Save Project</strong>（<strong>SHIFT</strong> + <strong>PAD 16</strong>）に移動します。</li>
+<li><strong>SHIFT</strong> を押しながら <strong>B3</strong>（<strong>Random</strong>）を押します。名前欄にランダムな名前が表示されます（例: 「Velvet Alley」）。もう一度押すと別の名前になります。</li>
+<li><strong>B3</strong>（<strong>Do It!</strong>）を押して、フォルダを選択します（<a href="#save-to-a-folder">フォルダへの保存</a>を参照）。</li>
+</ol>
+<h3 id="new-project-with-a-template"><a class="anc" href="#new-project-with-a-template" aria-label="この見出しへのリンク">#</a>テンプレートを使った New Project</h3>
+<ol>
+<li><strong>Settings</strong> を開いて <strong>Default Template</strong> を選択します。<strong>ENCODER</strong> を押します。</li>
+<li>プロジェクト（内部または SD カード）を選択して <strong>ENCODER</strong> を押します。<strong>None</strong> = テンプレートなし。</li>
+</ol>
+<p><strong>New Project</strong> は次のように確認します: <strong>B1</strong> = No、<strong>B2</strong> = <strong>Empty</strong>（標準と同じ）、<strong>B3</strong> = <strong>Template</strong>。テンプレート自体は変更されません。Save Project では「project」という名前が提案されます。</p>
+<h3 id="export-mixdown-and-stems"><a class="anc" href="#export-mixdown-and-stems" aria-label="この見出しへのリンク">#</a>ミックスダウンとステムのエクスポート</h3>
+<p>Export は、シーケンスの WAV ファイル（24 ビット、44.1 kHz）を作成します。</p>
+<p><img loading="lazy" src="img/fig24.png" alt="Export ページ: シーケンス、Start、End、Export Mixdown、Mixdown Master FX、Export Stems"></p>
+<ol>
+<li>プロジェクトを保存し、シーケンスを停止します。</li>
+<li><strong>SHIFT</strong> + <strong>PAD 16</strong> を押し、次に <strong>B3</strong>（<strong>Export</strong>）を押します。</li>
+<li><strong>ENCODER</strong> で行を選択します。<strong>ENCODER</strong> を押すか <strong>K1</strong> を回して、値を変更します。</li>
+<li><strong>B3</strong>（<strong>Export</strong>）を押します。エクスポートは途中で止められません。</li>
+</ol>
+<div class="tbl"><table>
+<thead><tr><th>行</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>Sequence</strong>、<strong>Start</strong>、<strong>End</strong></td><td>シーケンス（イベントのあるシーケンスのみ。例: <strong>S01 Intro (16 bars)</strong>）と小節。</td></tr>
+<tr><td><strong>Export Mixdown</strong></td><td>全体のミックスの WAV を 1 つ。</td></tr>
+<tr><td><strong>Mixdown Master FX</strong></td><td>ミックスダウンにマスターエフェクト（Knob FX も含む）を含めます。ステムには含まれません。</td></tr>
+<tr><td><strong>Export Stems</strong></td><td>各トラックの WAV を 1 つずつ、サブミックスエフェクト付きで書き出します。合わせると、マスターを除いたミックスと同じ音になります。シーケンス内でミュートされているトラックや、そこにノートがないトラックは、ファイルが作られません。</td></tr>
+<tr><td><strong>Tail</strong></td><td>リバーブやディレイのための、終わりの後の余分な時間。</td></tr>
+<tr><td><strong>Folder</strong></td><td>保存先フォルダ（<strong>ENCODER</strong> を押します）。デフォルト: SD カード上の <strong>Samples/User/Export</strong>。</td></tr>
+<tr><td><strong>Stems Folder</strong></td><td><strong>Subfolder</strong>: ステムは <strong>Stems</strong> フォルダに入ります。<strong>Same</strong>: ミックスダウンと同じ場所。</td></tr>
+<tr><td><strong>BPM in Name</strong></td><td>テンポをファイル名に入れない（<strong>Off</strong>）、ミックスダウンの名前に入れる（<strong>Mixdown</strong>）、またはすべての名前に入れる（<strong>Mix + Stems</strong>）。</td></tr>
+<tr><td><strong>Separator</strong></td><td>ファイル名の各部分の間に入れる <strong>「 - 」</strong> または <strong>「_」</strong>。</td></tr>
+</tbody></table></div>
+<ul>
+<li><p>ファイルは、プロジェクト名のフォルダに入ります。ファイル名はプロジェクト名で始まり、ステムにはトラック番号と名前も付きます。「MyTrack」、81 BPM の例:</p>
+<div class="tbl"><table>
+<thead><tr><th>BPM in Name</th><th>Separator</th><th>ミックスダウン</th><th>ステム</th></tr></thead>
+<tbody>
+<tr><td><strong>Off</strong></td><td><strong>「 - 」</strong></td><td>MyTrack.wav</td><td>MyTrack - Tr01 - Drums.wav</td></tr>
+<tr><td><strong>Mix + Stems</strong></td><td><strong>「 - 」</strong></td><td>MyTrack - 81 BPM.wav</td><td>MyTrack - 81 BPM - Tr01 - Drums.wav</td></tr>
+<tr><td><strong>Mix + Stems</strong></td><td><strong>「_」</strong></td><td>MyTrack_81BPM.wav</td><td>MyTrack_81BPM_Tr01_Drums.wav</td></tr>
+</tbody></table></div>
+</li>
+<li><p>一部の小節だけをエクスポートする場合、名前に小節も入ります（例: <strong>MyTrack - b2-5.wav</strong>）。</p></li>
+<li><p>ファイルが既に存在する場合は、<strong>B2</strong>（<strong>Keep Both</strong>）または <strong>B3</strong>（<strong>Replace</strong>）を選択します。</p></li>
+<li><p>空き容量がない場合、MPC は「Not enough space」と表示します。内部ストレージへのエクスポートは、空きが 200 MB を下回ると停止します。</p></li>
+<li><p>カードがファイルを保存できない場合、エクスポートは <strong>EXPORT FAILED</strong>、ファイル、正常に書き出されたファイルの数を表示して停止します。<strong>B3</strong>（<strong>OK</strong>）を押します。コンピューターでカードを確認するか、別のカードを使ってください。</p></li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> プロジェクトのすべてのシーケンスは、同じファイル名になります。各シーケンスのエクスポートを残すには、<strong>Keep Both</strong> を選択するか、シーケンスのテンポが異なる場合は <strong>BPM in Name</strong> を設定してください。</p></blockquote>
+<h3 id="resample-one-pad"><a class="anc" href="#resample-one-pad" aria-label="この見出しへのリンク">#</a>1 つのパッドのリサンプル</h3>
+<p>SampQOL OS は、大型の MPC の <strong>Flatten Pad</strong> のように、1 つのパッドだけをリサンプルすることもできます。</p>
+<p><img loading="lazy" src="img/fig25.png" alt="Resample ウィンドウ: Select pad、B2 Pad と B3 Seq"></p>
+<ol>
+<li>リサンプルしたいパッドを選択します。</li>
+<li><strong>SHIFT</strong> + <strong>PAD 11</strong>（<strong>Resample</strong>）を押します。
+<ul>
+<li><strong>B1</strong> = <strong>Cancel</strong>。</li>
+<li><strong>B2</strong> = <strong>Pad</strong>: 選択したパッドのみ、1 回のヒット、テイル付き。</li>
+<li><strong>B3</strong> = <strong>Seq</strong>: シーケンス全体（標準）。</li>
+</ul>
+</li>
+<li><strong>Pad</strong> の場合、「Select pad」の下の行に、新しいサンプルに含まれるエフェクトが表示されます（例: <strong>Print Knob FX: On Pad FX: Off</strong>。<strong>On</strong> = エフェクトがオンで、そのプリントもオン）。<strong>SHIFT</strong> + <strong>B3</strong>（<strong>Knob FX</strong>）と <strong>SHIFT</strong> + <strong>B2</strong>（<strong>Pad FX</strong>）で、それぞれのプリントを <strong>On</strong>（白いボックス）または <strong>Off</strong>（白い枠）に設定します。MPC は前回の選択を記憶します。</li>
+<li><strong>Pad</strong> の場合、<strong>K1</strong> または <strong>ENCODER</strong>（1 ステップ = 1 秒）を回して <strong>Tail</strong>（0〜10 秒、デフォルト 2）を設定します。テイルが新しいサンプルに入るのは、エフェクト（パッドインサート、Knob FX、Pad FX）が含まれる場合のみです。MPC はこの値を記憶します。KNOB FX バーが表示されているときは、<strong>K1</strong> は標準の Knob FX の機能になります。パッドの<a href="#sample-tail">サンプルテイル</a>は、そのフェードに必要な時間分、常に新しいサンプルに含まれます。</li>
+<li>保存先のパッドを押します。</li>
+</ol>
+<ul>
+<li><strong>新しいサンプルに含まれるもの</strong>（その後、保存先のパッド上ではリセットされます）: チューン、フィルター、エンベロープ、LFO、ワープ、スタート／エンド／ループ、Offset、サンプルテイル、レイヤー、パッドインサート。<strong>保存先のパッドに残るもの:</strong> ルート、センド、ミュートターゲット、Mono/Poly、ミュートグループ、Amp Vel Sens。</li>
+<li><strong>Print On</strong>: オンになっている Knob FX または Pad FX が、<strong>Tail</strong> とともに新しいサンプルに含まれます。Knob FX の場合、新しいサンプルにはソースパッドのボリュームが反映され、保存先のパッドは 0 dB のままです。両方が <strong>Off</strong> の場合、新しいサンプルにエフェクトは含まれず、保存先のパッドにソースパッドのボリュームが設定されます。</li>
+<li><strong>チョップ</strong>: チョップしたサンプルの場合、新しいサンプルにも同じチョップが、音の中の同じ位置に付きます（Tune、Warp、Reverse によって、チョップも音とともに移動します）。Start と End の外にあるチョップは削除されます。保存先のパッドは Chop Type が <strong>Manual</strong> になります。<strong>UNDO</strong> で、チョップを含む古いサンプルが戻ります。古いサンプルの Extract パッドは変わりません。パッドが 1 つのチョップだけを再生している場合や、サンプルを持つレイヤーが複数ある場合は、チョップは付きません。</li>
+<li>トラックやサブミックスのエフェクト、およびその他のマスターエフェクトは、新しいサンプルに含まれません。Hidden の Knob FX または Pad FX は、プリントが <strong>On</strong> であれば含まれます。ほかの Hidden エフェクトは含まれません。そのような場合は、パッドインサートを使うか、<strong>RECALL</strong>（<strong>SHIFT</strong> + <strong>SAMPLE RECORD</strong>）を使います。RECALL は、すべてのマスターエフェクトを含めて、マスター出力の直近 25 秒を録音します。</li>
+</ul>
+<blockquote><p><strong>ヒント:</strong> 新しいパッドも、オンになっている Knob FX と Pad FX を通って再生されます。プリントが <strong>On</strong> の場合、エフェクトが 2 回かかって聞こえます。リサンプルの後でエフェクトをオフにするか、プリントを <strong>Off</strong> にしてください。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> ピッチエンベロープ、ピッチ LFO、ランダムピッチは、音の途中で速度を変えます。そのため、チョップは平均速度で移動し、わずかに早くなったり遅くなったりすることがあります。チョップモードで確認してください。</p></blockquote>
+<blockquote><p><strong>ヒント:</strong> Pad FX を新しいサンプルに含めるには、<strong>SHIFT</strong> + <strong>PAD 11</strong> の前に、<a href="#pad-fx-fixed"><strong>Fixed</strong></a> または標準の <strong>Latch</strong>（パッドを押したまま <strong>B1</strong> を押す）でオンにしてください。指で押さえているエフェクトは、Pad FX 画面を離れると止まります（標準）。フィードバックの多いリバーブやディレイには、2 秒を超える <strong>Tail</strong> が必要です。</p></blockquote>
+<h2 id="undo-and-redo"><a class="anc" href="#undo-and-redo" aria-label="この見出しへのリンク">#</a>アンドゥとリドゥ</h2>
+<h3 id="undo-counter"><a class="anc" href="#undo-counter" aria-label="この見出しへのリンク">#</a>アンドゥカウンター</h3>
+<p><strong>SHIFT</strong> + <strong>-</strong>（Undo）と <strong>SHIFT</strong> + <strong>+</strong>（Redo）は、ステップの名前とカウンターを表示するポップアップを出します（例: <strong>Undo 2/7</strong>）。</p>
+<ul>
+<li>最初の数字は、取り消したステップの数です。</li>
+<li>2 番目の数字は、MPC が保持しているステップの数です。</li>
+</ul>
+<p>例: <strong>Undo</strong> を 3 回押すと <strong>Undo 3/7</strong> と表示されます。続けて <strong>Redo</strong> を 1 回押すと <strong>Redo 2/7</strong> と表示されます。<strong>Redo 0/7</strong> = すべてのステップがやり直された状態です。</p>
+<ul>
+<li>MPC が保持するステップは最大 512 個です。それを超えると、最も古いステップが削除されます。</li>
+<li>Load Project と New Project は、すべてのステップを削除します。</li>
+<li>止めずに回し続けたノブの操作は、1 ステップです。0.5 秒を超えて止まると、新しいステップになります。</li>
+<li>Undo や Redo するステップがない場合、MPC はポップアップを表示しません。</li>
+<li>Undo と Redo は、SAMPLE RECORD でも動作します。</li>
+<li><strong>Normalize</strong>、<strong>Trim</strong>、<strong>Extract</strong>、<strong>Resample</strong> は、それぞれの版を専用のサンプルファイルに保持するため、Undo が古いステップに必要なサンプルを削除することはありません。MPC は、MPC を起動したときやプロジェクトを読み込んだときに、古い版を削除します。</li>
+<li>どのパッドにも割り当てられていないサンプルは、保存されるプロジェクトに含まれません。標準と同様に、MPC は次の起動時にそれを削除します。</li>
+</ul>
+<h3 id="step-names"><a class="anc" href="#step-names" aria-label="この見出しへのリンク">#</a>ステップ名</h3>
+<p>SampQOL OS のステップのポップアップは、何が変わったか（1 行目）と、どこで変わったか（2 行目。14 文字より長い名前の場合）を表示します。例:</p>
+<div class="tbl"><table>
+<thead><tr><th>ポップアップ</th><th>意味</th></tr></thead>
+<tbody>
+<tr><td><strong>Copy A01</strong> / <strong>to T04 A02 +2</strong></td><td>パッド A01 を、トラック 4 の A02 とさらに 2 つのパッドにコピーした</td></tr>
+<tr><td><strong>Extract A01</strong> / <strong>to T02 A01-A16</strong></td><td>A01 のチョップを、新しいトラック 2 に Extract した</td></tr>
+<tr><td><strong>Velocity</strong> / <strong>S01/T01 A05</strong></td><td>Step Edit: K3 でシーケンス 1、トラック 1 のパッド A05 を変更した（<strong>Nudge</strong>、<strong>Length</strong> も同様）</td></tr>
+<tr><td><strong>Erase S01/T01+2</strong></td><td>Step Edit（トラックビュー）: トラック 1 とさらに 2 つのトラック</td></tr>
+<tr><td><strong>Effect Off</strong> / <strong>Slot 1 A01</strong></td><td>Pad Mix: パッド A01 のスロット 1 のエフェクトがオフになった</td></tr>
+</tbody></table></div>
+<p>標準のステップは、標準の名前のままです（例: <strong>Add Event</strong>）。</p>
+<h2 id="compatibility-and-limitations"><a class="anc" href="#compatibility-and-limitations" aria-label="この見出しへのリンク">#</a>互換性と制限事項</h2>
+<p>SampQOL OS は、MPC Sample のファームウェア 1.3.0 でのみ動作します。テストされているのも、MPC Sample 1.3.0 のみです。MPC One、Live、X（MPC OS 3.9.1）上のプロジェクトは、まだテストされていません。</p>
+<p>Mod は、MPC のプロジェクト形式が既に持っているもの（ノート、サンプル、ミュート、ドラムトラック、インサート）を書き込みます。それ以外のデータは、<strong>[ProjectData]</strong> フォルダ内の <strong>.sampqol</strong> ファイルに書き込まれます。このファイルは、標準および MPC One、Live、X では無視されます。プロジェクトをコピーするときは、<strong>[ProjectData]</strong> フォルダ全体をコピーしてください。</p>
+<blockquote><p><strong>ヒント:</strong> SampQOL OS のプロジェクトは、別のフォルダに保存してください。標準の MPC Sample で開く前に、コピーを作成してください。</p></blockquote>
+<h3 id="your-project-on-another-mpc"><a class="anc" href="#your-project-on-another-mpc" aria-label="この見出しへのリンク">#</a>別の MPC でのプロジェクト</h3>
+<div class="tbl"><table>
+<thead><tr><th>機能</th><th>MPC Sample、標準 1.3.0</th><th>MPC One、Live、X（3.9.1）</th></tr></thead>
+<tbody>
+<tr><td>To Seq、Looper、1 つのパッドのリサンプル、KEYS、Scale</td><td>動作します: 通常のノートとサンプル。</td><td>動作します。</td></tr>
+<tr><td>より多くのドラムトラック</td><td>最初のトラックのみ読み込まれます。ほかのトラックは、プロジェクトのセーフティネットが保持します。</td><td>すべてのトラックが読み込まれます。</td></tr>
+<tr><td>Pad EQ</td><td>EQ は聞こえません。</td><td>EQ は聞こえません。<strong>Pad EQ</strong> を <strong>Off</strong> にすると、そちらで聞こえるとおりにプロジェクトを聞けます。</td></tr>
+<tr><td>Stereo（片チャンネル）</td><td>パッドは両チャンネルを再生します。</td><td>パッドは両チャンネルを再生します。</td></tr>
+<tr><td>Kill EQ インサート</td><td>PEQ 2-Band, 2-Shelf として再生されます（キルなし、+18 dB）。</td><td>PEQ 2-Band, 2-Shelf として再生されます（キルなし、+18 dB）。</td></tr>
+<tr><td>AIR Compressor、AIR Stereo Width、Mother Ducker</td><td>SampQOL OS で設定した値で読み込まれ、再生されます。保存してもエフェクトは保持されます。</td><td>おそらく再生されます: これらは標準の MPC エフェクトです。まだテストされていません。</td></tr>
+<tr><td>録音したパッドミュート</td><td>ミュートは再生されません。</td><td>ミュートはおそらく再生されます。</td></tr>
+<tr><td>シーケンスごとのトラックミュート</td><td>すべてのトラックが鳴ります。</td><td>まだテストされていません。</td></tr>
+<tr><td>トラックとサブミックスのミュートグループ</td><td>ミュートは 1 つのトラックまたはサブミックスにのみ作用します。</td><td>まだテストされていません。</td></tr>
+<tr><td><strong>Mute Type</strong> が <strong>Event</strong> のパッドミュート</td><td><strong>Audio</strong> として鳴ります: パッドの音はすぐに止まります。</td><td>おそらく <strong>Audio</strong> として鳴ります。</td></tr>
+<tr><td>すべてのパッドに対する Knob FX</td><td>標準と同じ: Submix 1 上のインサート。Mod で再び開くと、マスターに戻ります。</td><td>マスターインサート 4 として再生されます。</td></tr>
+<tr><td>削除または Hidden のマスターエフェクト</td><td>標準では Pad FX、Flex Beat、Color Comp. が元に戻ります。Hidden のエフェクトは再生されません。</td><td>Hidden のエフェクトは再生されません。</td></tr>
+<tr><td>Track Volume（FADER）</td><td>トラックボリュームは聞こえません。</td><td>おそらくトラックボリュームとして再生されます。</td></tr>
+<tr><td>トラックの MIDI チャンネル</td><td>すべてのパッドが、MIDI Config の <strong>MIDI Out Channel</strong> と <strong>Pad MIDI Out</strong> で送信します。<strong>Off</strong> のトラックも同様です。16 Levels のパッドは元のノートを送信します。</td><td>おそらくトラックのチャンネルで送信します。<strong>Pad MIDI Out</strong> が <strong>Never</strong> でも同様です。<strong>Off</strong> はおそらく何も送信しません。16 Levels のパッドは元のノートを送信します。</td></tr>
+<tr><td>ランダムなプロジェクト名、テンプレート</td><td>通常のプロジェクト。</td><td>通常のプロジェクト。</td></tr>
+<tr><td>Settings、Knob FX List、Insert FX List、Sample Select のプレビュー</td><td>プロジェクトには含まれません。</td><td>プロジェクトには含まれません。</td></tr>
+</tbody></table></div>
+<p>MPC One、Live、X の列は、プロジェクト形式に基づくものです。まだテストされていません。</p>
+<h3 id="limitations"><a class="anc" href="#limitations" aria-label="この見出しへのリンク">#</a>制限事項</h3>
+<p>機能の使い方を変えるような制限事項は、その節のヒントにも記載されています。</p>
+<ul>
+<li><strong>1 つのパッド上のコード。</strong> KEYS や Scale のコードは 1 つのパッド上にあります。標準の MPC では、<strong>Note On</strong> モードのパッド上のコードは、最も短いノートで止まります。<strong>ERASE</strong>、<strong>Mute</strong>、<strong>Solo</strong> は、そのパッドのすべての音に作用します。</li>
+<li><strong>KEYS。</strong> Step Edit では、キーを弾いてもイベントは追加されません（標準と同じ）。キーと、押し続けている <strong>16 LEVELS</strong> パッドで同じノートを鳴らすと、離したときに互いを止めます（標準と同じ）。</li>
+<li><strong>Knob FX。</strong> すべてのパッドがこれを通って再生されます。<a href="#knob-fx-on-all-pads">すべてのパッドに対する Knob FX</a>を参照。</li>
+<li><strong>Automate。</strong> <a href="#automate-write-a-fade">Automate</a> のヒントを参照。</li>
+<li><strong>Stereo。</strong> ほかの環境では、パッドは両チャンネルを再生します。<a href="#stereo-one-channel-of-a-stereo-sample">ステレオ</a>を参照。</li>
+<li><strong>Track Volume。</strong> 出力がそのトラックに設定されているパッドのみが対象です。<a href="#track-volume-on-the-fader">FADER でのトラックボリューム</a>を参照。</li>
+<li><strong>トラックとサブミックスのミュートグループ。</strong> 標準の MPC はこれを認識しません。録音されたミュートは、録音されたとおりに各トラックで再生されます。</li>
+<li><strong>MIDI アウト。</strong> 同じノート・同じチャンネルで 2 つのパッドを押し続けると、1 つのノートとして再生されます。MIDI 設定には Undo がありません。<strong>MIDI Port</strong> は全トラックで 1 つです。<a href="#midi-out-a-track-plays-an-external-synth">MIDI アウト</a>を参照。</li>
+<li><strong>シーケンスの切り替え。</strong> MPC の再生中にシーケンスを切り替えると（Song モードでも）、短い途切れが聞こえることがあります。トラックやエフェクトが多いほど起こりやすくなります。</li>
+<li><strong>標準でのトラックミュート。</strong> 標準の MPC Sample は、シーケンスごとのトラックミュートを再生しません（Song Export の後も同様）。<a href="#record-mutes">ミュートの録音</a>を参照。</li>
+<li><strong>Audio トラックミュートとパッド出力。</strong> <strong>Out</strong> がサブミックスや出力に設定されているパッドは、（標準と同様に）クリックノイズとともにすぐに止まります。<a href="#record-mutes">ミュートの録音</a>を参照。</li>
+<li><strong>Explode と Mute Targets。</strong> <a href="#explode">Explode</a> を参照。</li>
+<li><strong>内部ストレージ。</strong> 内部ストレージは、常に約 400 MB の空きを保ちます。編集や保存でそれ以上が必要になると、MPC は「Insufficient space on drive」と表示します。SD カードのサンプルは内部ストレージにコピーされます。<strong>Normalize</strong> は、ステップごとに次の起動まで保持される、より大きな 2 つ目のコピーを作ります。そのため、長いサンプルはすぐに内部ストレージを埋めます。標準でも、編集、新しいチョップ、チョップモードの終了の後、次の保存または読み込みまで、長いサンプルの古いコピーを保持します。SampQOL OS は、編集の後、また新しいチョップの場合はチョップモードの終了時に、それを削除します。<a href="#insufficient-space-on-drive">トラブルシューティング</a>を参照。</li>
+<li><strong>大きなプロジェクトのメモリ。</strong> Load Project と Load Kit は、空きメモリ（RAM）に対して大きすぎるプロジェクトを読み込みません。大きなプロジェクトを読み込むたびに、次の起動まで一部のメモリが使用されたままになります。そのため、大きなプロジェクトは起動後には読み込めても、ほかのいくつかの読み込みの後には読み込めないことがあります。<a href="#not-enough-memory">トラブルシューティング</a>を参照。</li>
+</ul>
+<h2 id="troubleshooting"><a class="anc" href="#troubleshooting" aria-label="この見出しへのリンク">#</a>トラブルシューティング</h2>
+<h3 id="the-display-does-not-show-the-sampqol-logo-at-start-up"><a class="anc" href="#the-display-does-not-show-the-sampqol-logo-at-start-up" aria-label="この見出しへのリンク">#</a>起動時にディスプレイに SAMPQOL のロゴが表示されない</h3>
+<ul>
+<li><strong>autorun</strong> フォルダは、カード直下になければなりません。</li>
+<li>カードは <strong>exFAT</strong> 形式でなければなりません。フォーマットすると、カード上のすべてのデータが削除されます。
+<ul>
+<li><strong>Mac:</strong> <strong>ディスクユーティリティ</strong> &gt; カードを選択 &gt; <strong>消去</strong> &gt; <strong>ExFAT</strong>。</li>
+<li><strong>Windows:</strong> <strong>エクスプローラー</strong> &gt; カードを右クリック &gt; <strong>フォーマット</strong> &gt; <strong>exFAT</strong> &gt; <strong>開始</strong>。</li>
+</ul>
+</li>
+<li>フォルダ内のファイルを変更したり開いたりしないでください。変更されたフォルダは、MPC に無視されます。zip ファイルから <strong>autorun</strong> フォルダをもう一度コピーしてください。</li>
+<li>ファームウェアは 1.3.0 でなければなりません（<a href="#install">インストール</a>の手順 1）。ほかのファームウェアでは、MPC は標準として起動します。</li>
+</ul>
+<h3 id="the-display-does-not-show-v130"><a class="anc" href="#the-display-does-not-show-v130" aria-label="この見出しへのリンク">#</a>ディスプレイに v1.3.0 が表示されない</h3>
+<p>ディスプレイに v1.3.0 と表示されるのは、正しいファームウェア 1.3.0.12 の場合のみです。</p>
+<ul>
+<li><strong>1.3.0 より低い場合:</strong> <strong>MPC Sample 1.3.0 Updater</strong> で 1.3.0 をインストールしてください。それより高いバージョンはインストールしないでください。</li>
+<li><strong>1.3.0 より高い場合:</strong> このファームウェアでは Mod を使用しないでください。</li>
+</ul>
+<h3 id="with-the-sd-card-in-the-mpc-is-stock"><a class="anc" href="#with-the-sd-card-in-the-mpc-is-stock" aria-label="この見出しへのリンク">#</a>SD カードを挿しても MPC が標準のまま</h3>
+<ul>
+<li>MPC の電源をいったん切って、もう一度入れてください。</li>
+<li>それでも標準のままですか？ ファームウェアのバージョンを確認してください（<a href="#install">インストール</a>の手順 1）。</li>
+</ul>
+<h3 id="the-start-up-stops-at-00"><a class="anc" href="#the-start-up-stops-at-00" aria-label="この見出しへのリンク">#</a>起動が 0.0% で止まる</h3>
+<p><strong>B1</strong> を押してください。MPC は起動を続けます。</p>
+<h3 id="the-mpc-hangs-at-start-up-or-sampqol-os-does-not-work"><a class="anc" href="#the-mpc-hangs-at-start-up-or-sampqol-os-does-not-work" aria-label="この見出しへのリンク">#</a>MPC が起動時にフリーズする、または SampQOL OS が動作しない</h3>
+<p>MPC は起動時に確認をしないため、そこで標準を選択することはできません。次の手順を行ってください。</p>
+<ol>
+<li>MPC の電源が切れるまで、電源ボタンを押し続けます。</li>
+<li>カードを取り外します。MPC の電源を入れます。標準の状態に戻ります。</li>
+<li>もう一度 SampQOL OS を試すには、カードを元に戻します。SampQOL OS がすぐに起動します。問題が解消しない場合は、手順 1 と 2 をもう一度行い、その後手順 4 に進みます。</li>
+<li>コンピューターで、<strong>autorun</strong> フォルダの名前を変更するか移動します（<a href="#go-back-to-stock-or-install-a-new-version">標準に戻す</a>を参照）。カード上のプロジェクトやサンプルは変更されません。</li>
+<li>カードを MPC に戻します。標準がすぐにカードを使用します。</li>
+</ol>
+<p><strong>logs</strong> フォルダ内の <strong>events.log</strong> と <strong>last-exit.log</strong> に、何が起きたかが記録されています。</p>
+<h3 id="the-installation-is-correct-but-sampqol-os-does-not-work"><a class="anc" href="#the-installation-is-correct-but-sampqol-os-does-not-work" aria-label="この見出しへのリンク">#</a>インストールは正しいのに SampQOL OS が動作しない</h3>
+<p>カードがすでに <strong>exFAT</strong> 形式の場合でも:</p>
+<ol>
+<li>カード上のプロジェクトとサンプルを、コンピューターにコピーします。フォーマットすると、カード上のすべてのデータが削除されます。</li>
+<li>カードを <strong>exFAT</strong> でもう一度フォーマットします（<a href="#the-display-does-not-show-the-sampqol-logo-at-start-up">起動時にディスプレイに SAMPQOL のロゴが表示されない</a>を参照）。</li>
+<li><a href="#install">インストール</a>のすべての手順を、もう一度行います。各手順は、書かれているとおりに正確に行ってください。</li>
+</ol>
+<h3 id="insufficient-space-on-drive"><a class="anc" href="#insufficient-space-on-drive" aria-label="この見出しへのリンク">#</a>Insufficient space on drive（ドライブの空き容量不足）</h3>
+<p>このメッセージは SD カードではなく、内部ストレージに関するものです。内部ストレージは、常に約 400 MB の空きを保ちます。</p>
+<ol>
+<li><strong>B1</strong>（<strong>Clear</strong>）を押して、Undo 履歴を削除します。これにより、Undo 履歴だけが使っていたサンプルの容量が戻ります。</li>
+<li>MPC の電源を切って、もう一度入れます。これで残りの容量が戻ります。</li>
+</ol>
+<ul>
+<li>プロジェクトとサンプルは、SD カードに保存してください。</li>
+<li>内部ストレージは、できるだけ標準の状態に保ってください。自分のプロジェクトとサンプルは、内部ストレージから SD カードに移してください。</li>
+</ul>
+<h3 id="not-enough-memory"><a class="anc" href="#not-enough-memory" aria-label="この見出しへのリンク">#</a>Not enough memory（メモリ不足）</h3>
+<p>プロジェクトまたはキットが、空きメモリ（RAM）に対して大きすぎます。MPC は読み込みません。開いているプロジェクトはそのままです。</p>
+<ol>
+<li><strong>B3</strong>（<strong>OK</strong>）を押します。</li>
+<li>プロジェクトを保存します。</li>
+<li>MPC の電源を切って、もう一度入れます。これですべてのメモリが戻ります。</li>
+<li>もう一度プロジェクトを読み込みます。</li>
+</ol>
+<blockquote><p><strong>ヒント:</strong> この手順が必要になるのは、非常に大きなプロジェクトだけです（例: 16 トラックで、約 60 のフルシーケンス）。小さいプロジェクトはメモリの使用量も少なくなります。使っていないシーケンスは削除してください。</p></blockquote>
+<h3 id="the-mpc-goes-back-to-stock-while-you-play"><a class="anc" href="#the-mpc-goes-back-to-stock-while-you-play" aria-label="この見出しへのリンク">#</a>演奏中に MPC が標準に戻る</h3>
+<p>Mod が 2 分以内に 2 回クラッシュしました。MPC の電源を切って入れ直すと、SampQOL OS が戻ります。カード上の <strong>autorun/logs</strong> にある <strong>events.log</strong> と <strong>last-exit.log</strong> に、何が起きたかが記録されています。</p>
+<h3 id="the-computer-lost-the-sd-card"><a class="anc" href="#the-computer-lost-the-sd-card" aria-label="この見出しへのリンク">#</a>コンピューターが SD カードを認識しなくなった</h3>
+<p>SD Card Access 中に SampQOL OS がクラッシュしました。ウォッチドッグは、MPC がカードを再び使う前にコンピューターからカードを切り離すため、両方が同時にカードを使うことはありません。</p>
+<ol>
+<li>SampQOL OS が再び起動するまで待ちます。</li>
+<li><strong>SD Card Access</strong>（<strong>SHIFT</strong> + <strong>PAD 16</strong>）をもう一度開きます。</li>
+<li>コンピューターで、最後にコピーしたファイルを確認します。不完全な場合は、もう一度コピーしてください。</li>
+</ol>
+<p>カード上の <strong>autorun/logs</strong> にある <strong>events.log</strong> ファイルに、「in SD Card Access: USB set back to normal」という行が記録されています。</p>
+<h2 id="copyright-and-trademarks"><a class="anc" href="#copyright-and-trademarks" aria-label="この見出しへのリンク">#</a>著作権と商標</h2>
+<p>SampQOL OS (c) 2026 Snare Bes. All rights reserved. LICENSE.txt を参照してください。</p>
+<p>Akai Professional、MPC、MPC Sample は inMusic Brands, Inc. の商標です。</p>
+<p class="foot">SampQOL OS © 2026 Snare Bes. All rights reserved. Akai Professional または inMusic の製品ではありません。</p>
+
+</main>
+</div>
+<button id="top" type="button" aria-label="ページ先頭へ">↑</button>
+<script>
+(function(){
+  // 「重要」「注意」ブロックの色分け
+  document.querySelectorAll('blockquote').forEach(function(b){
+    var s=b.querySelector('strong');if(!s)return;var t=s.textContent;
+    if(t.indexOf('重要')===0)b.classList.add('imp');else if(t.indexOf('注意')===0)b.classList.add('note');
+  });
+  // 目次リンクを押したら目次を閉じる
+  var toc=document.getElementById('toc');
+  toc.addEventListener('click',function(e){if(e.target.closest('a')&&window.innerWidth<700)toc.open=false});
+  document.querySelector('.bar a').addEventListener('click',function(){toc.open=true});
+  // テーマ切り替え
+  var root=document.documentElement,btn=document.getElementById('theme');
+  try{var st=localStorage.getItem('theme');if(st)root.dataset.theme=st}catch(e){}
+  btn.addEventListener('click',function(){
+    var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme=dark?'light':'dark';
+    try{localStorage.setItem('theme',root.dataset.theme)}catch(e){}
+  });
+  // ページ先頭へ
+  var top=document.getElementById('top');
+  addEventListener('scroll',function(){top.style.display=scrollY>800?'block':'none'},{passive:true});
+  top.addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'})});
+})();
+</script>
+</body>
+</html>
